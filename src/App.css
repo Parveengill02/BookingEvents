@@ -788,7 +788,7 @@ transform: scale(0.7);
     background-color: white;
     padding-top: 19px;
     margin-bottom: 30px;
-    margin-left: -294px;
+    margin-left: -241px;
     overflow: hidden;
     
 }
@@ -801,7 +801,7 @@ transform: scale(0.7);
     background-color: white;
     padding-top: 19px;
     margin-bottom: 30px;
-    margin-left: -69px;
+    margin-left: -96px;
     width: 1016px;
     max-height: 400px; 
     overflow-y: auto; 
@@ -812,4 +812,25 @@ transform: scale(0.7);
 }
 .Details{
   text-align: left;
+}
+.filterhead{
+  padding-bottom: 15px;
+    border-bottom: 4px solid #b8b851;
+    display: flex;
+    gap: 79px;
+}
+.filterhead button{
+  width: 85px;
+    border-radius: 24px;
+}
+.filterhead img
+{
+  padding-top: 4px;
+    margin-left: -70px;
+    height: 25px;
+}
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 5px;
 }
