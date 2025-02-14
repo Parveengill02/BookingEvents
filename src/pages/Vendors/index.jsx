@@ -1,6 +1,18 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Accordion } from 'react-bootstrap';
 function Vendorpage() {
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const categories = [
+    "All", "Event Planner", "Photographer", "Design & Floral",
+    "Caterer", "Rentals", "Entertainment", "Music Bands",
+    "Videographers", "Makeup Artists"
+  ];
+  const events=["Wedding","Birthday Party","Baby Shower","Corporate Events","Holiday Parties","Dinner Parties","Anniversary Parties"];
+  
+    const [selected, setSelected] = useState("All");
+    const [showMore, setShowMore] = useState(false);
+  
+  
   const vendors = [
     {
       id: 1,
@@ -132,7 +144,7 @@ function Vendorpage() {
         <img src="/images/filterss.png"/>
         <button type='clear'>Clear</button>
        </div>
-       <Accordion>
+       <Accordion activeKey={openAccordion} onSelect={(e) => setOpenAccordion(e)}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Loaction</Accordion.Header>
                     <Accordion.Body>
@@ -234,50 +246,107 @@ function Vendorpage() {
                           <label className="form-check-label" htmlFor="Rishikesh">Rishikesh</label>
                         </div>
                       </div>
-                      <button class="btn btn-primary mt-3">Done</button>
+                      <button  class="done" onClick={() => setOpenAccordion(null)}>Done</button>
 
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
-                    <Accordion.Header>Posted by</Accordion.Header>
+                    <Accordion.Header>Vendor Categories</Accordion.Header>
                     <Accordion.Body>
-                      <ul className='buttongap'>
-                        <li> <button> + Owner</button></li>
-                        <li>  <button> + Builder</button></li>
-                        <li><button> + Dealer </button></li>
-                      </ul>
+                    <ul style={{ listStyle: "none", padding: 0 }}>
+        {(showMore ? categories : categories.slice(0, 6)).map((category, index) => (
+          <li 
+            key={index} 
+            onClick={() => setSelected(category)}
+            style={{
+              fontWeight: selected === category ? "bold" : "normal",
+              cursor: "pointer",
+              marginBottom: "5px"
+            }}
+          >
+            {category}
+          </li>
+        ))}
+      </ul>
+      {!showMore ? (
+        <p 
+          onClick={() => setShowMore(true)} 
+          style={{ color: "goldenrod", cursor: "pointer" }}
+        >
+          Show more...
+        </p>
+      ) : (
+        <p 
+          onClick={() => setShowMore(false)} 
+          style={{ color: "red", cursor: "pointer" }}
+        >
+          Show less
+        </p>
+        )
+} 
+<button  class="done" onClick={() => setOpenAccordion(null)}>Done</button>
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="2">
-                    <Accordion.Header>Localities</Accordion.Header>
+                    <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
-                      <ul className='buttongap'>
-                        <li> <button> + West Mumbai </button></li>
-                        <li>  <button> + East Mumbai</button></li>
-                        <li><button> +  Prabhadevi, Mumbai  </button></li>
-                        <li><button> + Chembur East, Mumbai </button></li>
-                        <li><button> + Pirojshanagar, Vikhroli East, Mumbai</button></li>
-                        <li><button> + Juhu, Mumbai </button></li>
-                        <li><button> + Titwala Thane, Mumbai  </button></li>
-                        <li><button> +  Goregaon West, Mumbai  </button></li>
-                        <li><button> +   Parel, Mumbai   </button></li>
-                        <li><button> +   Jogeshwari East, Mumbai   </button></li>
-                        <li><button> +  Byculla, Mumbai </button></li>
-                        <li><button> +  Mahalaxmi, Mumbai   </button></li>
-
-                      </ul>
+                      <div className="form-check">
+                          <input className="form-check-input" type="radio" id="Mumbai" />
+                          <label className="form-check-label" htmlFor="Mumbai"> Rs.0 - Rs.5,000</label>
+                        </div>
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" id="Delhi" />
+                          <label className="form-check-label" htmlFor="Delhi">Rs.5,000 - Rs.10,000</label>
+                        </div>
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" id="Bengaluru" />
+                          <label className="form-check-label" htmlFor="Bengaluru">Rs.10,000 - Rs.25,000</label>
+                        </div>
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" id="Hyderabad" />
+                          <label className="form-check-label" htmlFor="Rs.25,000 - Rs.50,000">Rs.25,000 - Rs.50,000</label>
+                        </div>
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" id="Chennai" />
+                          <label className="form-check-label" htmlFor="Chennai">Rs.50,000+</label>
+                        </div>
+                        <button  class="done" onClick={() => setOpenAccordion(null)}>Done</button>
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="3">
-                    <Accordion.Header>Amenities</Accordion.Header>
+                    <Accordion.Header>Event Type</Accordion.Header>
                     <Accordion.Body>
-                      <ul className='buttongap'>
-                        <li> <button> + Parking</button></li>
-                        <li>  <button> + Park</button></li>
-                        <li><button> + Gas pipeline </button></li>
-                        <li><button> + Power Backup </button></li>
-                        <li><button> + Security Personnel </button></li>
-                      </ul>
+                    <ul style={{ listStyle: "none", padding: 0 }}>
+        {(showMore ? events : events.slice(0, 4)).map((event, index) => (
+          <li 
+            key={index} 
+            onClick={() => setSelected(event)}
+            style={{
+              fontWeight: selected === event ? "bold" : "normal",
+              cursor: "pointer",
+              marginBottom: "5px"
+            }}
+          >
+            {event}
+          </li>
+        ))}
+      </ul>
+      {!showMore ? (
+        <p 
+          onClick={() => setShowMore(true)} 
+          style={{ color: "goldenrod", cursor: "pointer" }}
+        >
+          Show more...
+        </p>
+      ) : (
+        <p 
+          onClick={() => setShowMore(false)} 
+          style={{ color: "red", cursor: "pointer" }}
+        >
+          Show less
+        </p>
+        ) }
+        <button  class="done" onClick={() => setOpenAccordion(null)}>Done</button>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>

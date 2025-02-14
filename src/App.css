@@ -834,3 +834,13 @@ transform: scale(0.7);
   overflow-y: auto;
   border-radius: 5px;
 }
+.done {
+  background-color: #b9bb64;
+  border-style:none;
+  margin-top: 16px;
+    padding-top: 0px;
+    border-radius: 6px;
+    width: 87px;
+    height: 32px;
+
+}
