@@ -75,7 +75,7 @@ header {
   display: flex;
   width: 94%;
   margin-left: 6%;
-  background-color: #b9bb6498;
+  background-color: #91924abf;
   margin-top: 42px;
   border-bottom: 2px solid white;
   /* box-shadow: 0 0 32px rgba(177, 174, 174, 0.2); */
@@ -138,7 +138,7 @@ header {
   margin-right: 25px;
   /* margin-top:-52%; */
   z-index: -1;
-  background-color: #b9bb6498;
+  background-color: #91924abf;
   /* box-shadow: 0 0 32px rgba(0, 0, 0, .2); */
 }
 

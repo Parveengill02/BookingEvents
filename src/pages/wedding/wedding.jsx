@@ -113,7 +113,7 @@ function EventPage() {
             make it uniquely you.
           </p>
           <ul>
-           <Link to={"#wedding-venue"}> <li>Find <span>{name}</span> Venues</li></Link>
+            <li><a href="#wedding-venue">Find <span>{name}</span> Venues</a></li>
             <li><a href="#wedding-team">Build Your <span>{name}</span> Team</a></li>
             <li><a href="#">Browse <span>{name}</span> Ideas</a></li>
           </ul>
