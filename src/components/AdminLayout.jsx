@@ -46,11 +46,6 @@ const AdminLayout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/events">
-                <Calendar className="icon" /> Manage Events
-              </Link>
-            </li>
-            <li>
               <Link to="/admin/users">
                 <Users className="icon" /> Manage Users
               </Link>

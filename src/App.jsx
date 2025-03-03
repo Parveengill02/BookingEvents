@@ -18,6 +18,7 @@ import EventPage from "./pages/wedding/wedding.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import Dashboard from "./pages/admin-temp/dashboard.jsx";
 import ManageVendors from "./pages/admin-temp/adminVendors.jsx";
+import ManageUsers from "./pages/admin-temp/users.jsx";
 
 function Layout() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function Layout() {
         <Route path="/PageIdea" element={<EventIdea />} />
         <Route path="/Detailpageidea/:categories" element={<DetailIdeaPage />} />
         <Route path="/event/:name" element={<EventPage />} />
+        
 
         {/* Admin Routes (Wrapped in AdminLayout) */}
         <Route
@@ -51,6 +53,7 @@ function Layout() {
 
                 <Route path="mainpage" element={<Dashboard />} />
                 <Route path="vendorpage" element={<ManageVendors />}/>
+                <Route path="users" element={<ManageUsers/>}/>
               </Routes>
             </AdminLayout>
           }
