@@ -1,5 +1,8 @@
 import React from 'react';
-
+import facebook from "/images/icons8-facebook-50.png" 
+import instagram from "/images/icons8-instagram-50.png"
+import twitter from "/images/icons8-twitter-bird-24.png"
+import pinterest from "/images/icons8-pinterest-26.png"
 function Footer() {
   console.log('Footer is being rendered!');  // Check if it's rendering
 
@@ -40,22 +43,22 @@ function Footer() {
         <div className="foot2">
           <h6>Follow Us</h6>
           <img
-            src="images/icons8-facebook-50.png"
+            src={facebook}
             style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
             alt="Facebook"
           />
           <img
-            src="images/icons8-instagram-50.png"
+            src={instagram}
             style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
             alt="Instagram"
           />
           <img
-            src="images/icons8-twitter-bird-24.png"
+            src={twitter}
             style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
             alt="Twitter"
           />
           <img
-            src="images/icons8-pinterest-26.png"
+            src={pinterest}
             style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
             alt="Pinterest"
           />

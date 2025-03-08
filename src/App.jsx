@@ -17,12 +17,15 @@ import DetailIdeaPage from "./pages/IdeaDetail/Idetailpage.jsx";
 import EventPage from "./pages/wedding/wedding.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import Dashboard from "./pages/admin-temp/dashboard.jsx";
-import ManageVendors from "./pages/admin-temp/adminVendors.jsx";
+import ManageVendors from "./pages/admin-temp/VendorsAdmin/adminVendors.jsx";
 import ManageUsers from "./pages/admin-temp/users.jsx";
+import AdminEventIdeas from "./pages/admin-temp/IdeasAdmin/adminIdeas.jsx";
+import IdeaDetails from "./pages/admin-temp/IdeasAdmin/AdminIdeasDetail.jsx";
+import AdminVendorDetail from "./pages/admin-temp/VendorsAdmin/adminVendorDetail.jsx";
 
 function Layout() {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith("/admin"); // Check if admin route
+  const isAdmin = location.pathname.startsWith("/admin"); 
 
   return (
     <>
@@ -54,6 +57,9 @@ function Layout() {
                 <Route path="mainpage" element={<Dashboard />} />
                 <Route path="vendorpage" element={<ManageVendors />}/>
                 <Route path="users" element={<ManageUsers/>}/>
+                <Route path="Manageideas" element={<AdminEventIdeas/>}/>
+                <Route path="admindetailIdeas/:title" element={<IdeaDetails />}/>
+                <Route path="adminvendordetail/:name" element={<AdminVendorDetail/>}/>
               </Routes>
             </AdminLayout>
           }

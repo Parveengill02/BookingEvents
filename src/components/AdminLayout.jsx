@@ -51,7 +51,7 @@ const AdminLayout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/ideas">
+              <Link to="/admin/Manageideas">
                 <Lightbulb className="icon" /> Manage Ideas
               </Link>
             </li>

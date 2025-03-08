@@ -12,6 +12,43 @@
   flex-direction: column;
   height: 100vh;
 }
+.admin-add-form {
+  margin-top: 45px;
+    width: 46%;
+  background: linear-gradient(45deg, #6e6d57, transparent);
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 14px black;
+  margin-bottom: 20px;
+}
+
+.admin-add-form h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-add-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-add-form button {
+  margin-left: 222px;
+  background: #4d0505;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-add-form button:hover {
+  background: #023b0e;
+}
 
 /* Admin Header */
 .admin-panel .admin-header {
@@ -260,9 +297,11 @@ color: #1a1a00;
 /* Individual Chart Cards */
 .event-trends-chart-card,
 .revenue-growth-chart-card {
+  margin-top: 43px;
+  background: linear-gradient(74deg, #f7f7f7, #1b1b01);
   flex: 1;
   min-width: 320px;
-  background: white;
+
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -303,6 +342,7 @@ color: #1a1a00;
 
   .event-trends-chart-card,
   .revenue-growth-chart-card {
+    
     width: 100%;
   }
 }
@@ -367,29 +407,35 @@ color: #1a1a00;
   font-family: fangsong;
 }
 /* Table Styling */
-.admin-table {
+.admin-vendor-table {
   width: 99%;
   border-collapse: collapse;
   background: white;
   margin-top: 45px;
 }
-.admin-table thead{
+.admin-vendor-table thead{
   background-color: #555239;
 }
 
-.admin-table th,
-.admin-table td {
+.admin-vendor-table th,
+.admin-vendor-table td {
 
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
 }
-.admin-table th{
+.admin-vendor-table th{
   color:white;
+}
+.admin-vendor-table img{
+  object-fit: cover;
+    height: 113px;
+    width: 213px;
 }
 
 /* Action Buttons */
 .admin-btn-container {
+  padding: 50px!important;
   display: flex;
   gap: 10px;
   justify-content: center;
@@ -533,6 +579,7 @@ color: #1a1a00;
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  white-space: nowrap;
 }
 
 .manage-users-row.suspended {
@@ -584,6 +631,7 @@ color: #1a1a00;
 }
 
 .manage-users-title {
+  padding:30px;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
@@ -659,6 +707,7 @@ color: #1a1a00;
 }
 
 .manage-users-actions {
+  padding: 13px!important;
   display: flex;
   gap: 10px;
 }
@@ -676,4 +725,485 @@ color: #1a1a00;
 .delete-btn:hover {
   color: red;
 }
+.event-ideas-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
+.ideas-title {
+  padding-top: 26px;
+  font-size: 35px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.search-input-field{
+  width:373px;
+}
+.category-filter {
+  color: white;
+  background-color: #044d04;
+}
+.search-input-field, .category-filter {
+  padding-top:10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 2px 14px black;
+}
+
+.new-idea-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.idea-input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-idea-btn {
+  box-shadow: 0px 2px 14px black;
+  margin-left: 478px;
+  width: 17%;
+  background-color: #580808;
+  
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event-ideas-table {
+  margin-top: 42px;
+  width: 100%;
+  border-collapse: collapse;
+}
+.event-ideas-table thead {
+  background: linear-gradient(45deg, #56563d, transparent);
+}
+
+.event-ideas-table th, .event-ideas-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-idea-image {
+  width: 130px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.table-action-buttons button {
+  box-shadow: 0px 2px 14px black;
+  margin: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius:6px;
+}
+
+.edit-idea-btn {
+  box-shadow: 0px 2px 14px black;
+  background-color: #044712;
+  color: white;
+}
+
+.delete-idea-btn {
+  box-shadow: 0px 2px 14px black;
+  background-color: #57030b;
+  color: white;
+}
+
+/* Modal Backdrop - Dimmed with Blur */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px); /* Adds a premium blur effect */
+}
+
+/* Modal Box - Modern Glassmorphism */
+.modal-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  width: 420px;
+  border-radius: 12px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal-box h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #730303;
+  padding-bottom: 8px;
+}
+
+/* Input Fields - Sleek Look */
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease-in-out;
+  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-input:focus {
+  border-color: #007bff;
+  outline: none;
+  background: white;
+  box-shadow: 0px 0px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Button Container */
+.modal-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* Cancel Button */
+.modal-cancel-btn {
+  background: linear-gradient(135deg, #6c757d, #570303);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-cancel-btn:hover {
+  background: linear-gradient(135deg, #6a0a0a, #4e0303);
+}
+
+.modal-cancel-btn:active {
+  transform: scale(0.95);
+}
+
+/* Save Button */
+.modal-save-btn {
+  background: linear-gradient(135deg, #28a745, #03370f);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal-save-btn:hover {
+  background: linear-gradient(135deg, #06280d, #155724);
+}
+
+.modal-save-btn:active {
+  transform: scale(0.95);
+}
+.event-ideas-table a{
+color: rgb(7 72 6);
+    text-decoration: underline!important;
+}
+.admin-idea-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.admin-idea-details-container h1 {
+  margin-top: 23px;
+    font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.admin-idea-details-container p {
+  font-size: 25px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.admin-idea-images-table {
+  background: linear-gradient(45deg, #56563d, transparent);
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.admin-idea-images-table th, 
+.admin-idea-images-table td {
+  background: linear-gradient(45deg, #56563d, transparent);
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.admin-idea-images-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.table-image {
+  box-shadow: 0px 2px 14px black;
+    object-fit: cover;
+    width: 280px;
+    height: 171px;
+    border-radius: 19px;
+  border-radius: 8px;
+}
+.idea-edit-button ,.idea-delete-button {
+  font-size: 20px!important;
+    border-radius: 32px!important;
+    width: 111px!important;
+    height: 57px!important;
+    
+  padding: 6px 12px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.idea-edit-button {
+  background-color: #074d0a;
+  
+  color: white;
+}
+
+.idea-delete-button {
+  background-color: #3c0d02;
+  color: white;
+}
+
+/* .add-image-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+} */
+
+/* .add-image-container input {
+  padding: 8px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+} */
+.admin-idea-images-table th:first-child,
+.admin-idea-images-table td:first-child {
+  width: 30%;
+}
+/* .add-image-container button {
+  padding: 8px 12px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+/* .add-image-container button:hover {
+  background-color: #0056b3;
+} */
+
+
+
+.end-buttons{
+  margin-top: 22px;
+  display:flex;
+  justify-content: space-between;
+}
+.end-buttons button{
+  font-size: 18px;
+    padding: 12px;
+    width: 240px;
+  
+  box-shadow: 0px 2px 14px black;
+  background: linear-gradient(45deg, #72725082, #2f3902f7);
+}
+/* General Page Styling */
+.admin-vendor-detail {
+  font-family: 'Arial', sans-serif;
+
+  padding: 20px;
+}
+
+.admin-vendor-detail__section {
+  
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Headings */
+.admin-vendor-detail h2 {
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+/* Tables */
+.admin-vendor-detail__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.admin-vendor-detail__table th, 
+.admin-vendor-detail__table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+.admin-vendor-detail__table thead{
+  background: linear-gradient(45deg, #56563d, #0000001c);
+}
+.admin-vendor-detail__table th {
+
+  color: white;
+  text-transform: uppercase;
+}
+
+.admin-vendor-detail__table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.admin-vendor-detail__portfolio-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Unique Button Styles */
+.admin-vendor-detail__edit-btn,
+.admin-vendor-detail__delete-btn,
+.admin-vendor-detail__add-btn {
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  margin-right: 5px;
+}
+
+.admin-vendor-detail__edit-btn {
+  background-color: #28a745;
+}
+
+.admin-vendor-detail__edit-btn:hover {
+  background-color: #218838;
+}
+
+.admin-vendor-detail__delete-btn {
+  background-color: #dc3545;
+}
+
+.admin-vendor-detail__delete-btn:hover {
+  background-color: #c82333;
+}
+
+.admin-vendor-detail__add-btn {
+  background-color: #007bff;
+}
+
+.admin-vendor-detail__add-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Modal Styling */
+.admin-vendor-detail__modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-vendor-detail__modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.admin-vendor-detail__modal-content h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.admin-vendor-detail__modal-content input,
+.admin-vendor-detail__modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-vendor-detail__close {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}
+
+.admin-vendor-detail__close:hover {
+  color: darkred;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-vendor-detail__modal-content {
+      width: 90%;
+  }
+}

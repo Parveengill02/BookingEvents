@@ -114,9 +114,10 @@ function VenueBooking() {
         </h1>
       </div>
       <div className='venue-container' >
-        <video className='venue-video' autoPlay muted loop>
+        <img src="/images/tajphoto.jpg"/>
+        {/* <video className='venue-video' autoPlay muted loop>
           <source src="#" type="video/mp4" />
-        </video>
+        </video> */}
       </div>
       <div className="venue-details">
         <h2>The Taj Mahal Palace, Mumbai</h2>
