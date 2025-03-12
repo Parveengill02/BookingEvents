@@ -63,7 +63,13 @@
   top: 0;
   z-index: 1000;
 }
-
+.admin-profile-container{
+  display: flex;
+  gap:10px;
+}
+.admin-profile-container a{
+  color:white;
+}
 .admin-panel .panel-title {
   color: white;
 }
@@ -77,13 +83,67 @@
   margin-right: 10px;
   color: white;
 }
+/*.admin-profile */
+/* Profile Dropdown Container */
+.admin-profile-dropdown-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Dropdown Hidden by Default */
+.admin-profile-dropdown {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: white;
+  color: black;
+  width: 150px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  opacity: 0;  /* Initially invisible */
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+/* Show Dropdown When Hovering on Profile Container */
+.admin-profile-dropdown-container:hover .admin-profile-dropdown {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ensure Dropdown Stays Open When Hovering Over It */
+.admin-profile-dropdown:hover {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dropdown Options */
+.admin-profile-option {
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  color: black!important;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.admin-profile-option:hover {
+  background: #f0f0f0;
+}
 
 /* Sidebar */
 .admin-panel .admin-sidebar {
   background: linear-gradient(135deg, #161600, #403e01);
   color: white;
   padding-top: 59px;
-  width: 250px;
+  width:272px;
   min-height: 100vh;
   position: fixed;
   top: 60px;
@@ -96,7 +156,7 @@
   list-style: none;
   padding: 10px 0;
   margin: 0;
-  width: 253px;
+
 }
 
 /* Sidebar Items */
@@ -153,9 +213,9 @@ color: #1a1a00;
 .admin-panel .admin-content {
   background: linear-gradient(45deg, #e9e9e9, #6c6d64);
   padding-top: 68px;
-  margin-left: 250px;
   overflow-y: auto;
   transition: margin-left 0.3s ease-in-out;
+  flex-grow: 1;
 }
 
 /* Dashboard */
@@ -178,19 +238,19 @@ color: #1a1a00;
   display: inline-block;
 }
 
-/* Statistics Grid */
-.admin-panel .stats-grid {
+
+ .admin-panel .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-bottom: 20px;
-}
+} 
 
 /* Stat Cards */
 .admin-panel .stat-card {
   box-shadow: -10px 2px 14px #9192528a;
   background: #eaeaea;
-  padding: 40px;
+  padding: 53px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -209,6 +269,37 @@ color: #1a1a00;
   height: 40px;
   width: 40px;
   color: #8f0b0b;
+}
+
+
+/*Pie*/
+/* Pie Chart Container */
+.pie-chart-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+/* Tooltip Styling */
+.recharts-tooltip-wrapper {
+  
+  color: #fff !important;
+  padding: 8px !important;
+  border-radius: 5px !important;
+}
+
+/* Animation for Pie Chart */
+.recharts-pie-sector {
+  transition: all 0.3s ease-in-out;
+}
+
+.recharts-pie-sector:hover {
+  transform: scale(1.05);
 }
 
 /* Recent Activities Section */
@@ -1205,5 +1296,515 @@ color: rgb(7 72 6);
 @media (max-width: 768px) {
   .admin-vendor-detail__modal-content {
       width: 90%;
+  }
+}
+.admin-venue-container {
+  padding: 20px;
+
+}
+
+.admin-venue-title {
+  font-size: 37px;
+  margin-bottom: 15px;
+}
+
+.admin-venue-add-btn {
+  border-radius: 9px;
+    background: #410303;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-venue-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 15px;
+}
+
+.admin-venue-table th,
+.admin-venue-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+.admin-venue-table thead{
+  background: linear-gradient(45deg, #56563d, #0000001c);
+}
+.admin-venue-table img{
+  height: 50px;
+}
+.admin-venue-active {
+  color: rgb(1, 51, 1);
+}
+
+.admin-venue-inactive {
+  color: rgb(58, 1, 1);
+}
+
+.admin-venue-edit-btn {
+  border-radius: 9px;
+  background: #053b01;
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  margin-right: 5px;
+  color:white;
+}
+
+.admin-venue-delete-btn {
+  border-radius: 9px;
+  background: #3e0208;
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.admin-venue-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-venue-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-venue-modal-content input,
+.admin-venue-modal-content select {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.admin-venue-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-venue-save-btn {
+  background: #28a745;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-venue-close-btn {
+  background: #6c757d;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.admin-venues-button{
+  display: flex;
+}
+
+.admin-venue-detail-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  
+}
+.admin-venue-detail-page h1{
+  padding-top:22px;
+  text-align: center;
+}
+.admin-venue-detail-page h1, h2 {
+  color: #333;
+}
+.admin-venue-detail-page h2{
+  font-size: 26px;
+}
+.admin-venue-detail-page table {
+  box-shadow: 0px 2px 14px black;
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-bottom: 20px;
+}
+
+.admin-venue-detail-page table, th, td {
+  border: 1px solid #ddd;
+}
+
+.admin-venue-detail-page th, td {
+  padding: 10px;
+  
+}
+
+.admin-venue-detail-page th {
+  background-color: #4c5b43;
+  color: white;
+}
+
+.admin-venue-detail-page button {
+  box-shadow: 0px 2px 14px black;
+  background: green;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  color:white;
+}
+.admin-venue-detail-page button:hover {
+  opacity: 0.8;
+}
+
+.admin-venue-detail__delete-btn {
+  background-color: #570404!important;
+  color: white;
+}
+
+.admin-venue-detail__delete-btn:hover {
+  background-color: #5a040d;
+}
+
+.admin-venue-detail__status-dropdown {
+  padding: 6px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background: #13320296
+}
+
+.admin-venue-detail__status-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+}
+.adminvenue-highlights{
+  padding-top:22px;
+}
+.adminvenue-booking{
+  padding-top:22px;
+}
+.admin-venue-detail-page section{
+  padding-top: 27px !important;
+}
+.admin-notifications-container {
+  
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  
+}
+
+.admin-notifications-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.admin-notifications-list {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.admin-notification-item.admin-unread {
+  background: #e0f7fa;
+  font-weight: bold;
+}
+
+.admin-notification-message {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.admin-delete-button {
+  background: #5d0202;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.admin-delete-button:hover {
+  background: #d43f3f;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px); 
+}
+
+.admin-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-modal-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.admin-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.admin-modal-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.admin-close-button {
+  background: #ccc;
+}
+
+.admin-approve-button {
+  background: #065718;
+  color: white;
+}
+
+.admin-approve-button:hover {
+  background: #218838;
+}
+
+.admin-deny-button {
+  background: #332f30;
+  color: white;
+}
+
+.admin-deny-button:hover {
+  background: #4c0209;
+}
+
+.admin-account-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  background-color: #f5f6fa;
+  font-family: 'Arial', sans-serif;
+  width: 100%;
+}
+
+.admin-account-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.admin-profile-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+/* Profile Header */
+.admin-profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.admin-profile-photo-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.admin-profile-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #5a0303;
+}
+
+.admin-edit-photo-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: #00b894;
+  color: white;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-hidden-input {
+  display: none;
+}
+
+.admin-profile-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2d3436;
+  margin-top: 10px;
+}
+
+/* Form Section */
+.admin-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-profile-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-profile-label {
+  font-size: 14px;
+  color: #636e72;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.admin-info-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Profile Section */
+.admin-profile-section {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.admin-profile-section-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.admin-profile-edit-btn {
+  background-color: #5d0505;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-profile-edit-btn:hover {
+  background-color: #4a0202;
+}
+
+/* Grid Layout */
+.admin-profile-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* Info Item */
+.admin-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-profile-value {
+  font-size: 16px;
+  color: #2d3436;
+}
+
+/* Save Button */
+.admin-profile-save-button {
+  width: 100%;
+  background-color: #5b0606;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-profile-save-button:hover {
+  background-color: #980000;
+}
+.admin-error-message {
+  font-size: 14px;
+  color: red;
+  margin-top: 5px;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-profile-section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-profile-header {
+    flex-direction: column;
+    text-align: center;
   }
 }

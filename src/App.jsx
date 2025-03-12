@@ -22,7 +22,10 @@ import ManageUsers from "./pages/admin-temp/users.jsx";
 import AdminEventIdeas from "./pages/admin-temp/IdeasAdmin/adminIdeas.jsx";
 import IdeaDetails from "./pages/admin-temp/IdeasAdmin/AdminIdeasDetail.jsx";
 import AdminVendorDetail from "./pages/admin-temp/VendorsAdmin/adminVendorDetail.jsx";
-
+import ManageVenuePage from "./pages/admin-temp/AdminVenues/VeneusAdmin.jsx";
+import AdminVenueDetail from "./pages/admin-temp/AdminVenues/VenuesAdminDetail.jsx";
+import AdminNotifications from "./pages/admin-temp/adminNotifications.jsx";
+import AdminProfilePage from "./pages/admin-temp/AdminHeaderIcons/profile.jsx";
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin"); 
@@ -60,6 +63,10 @@ function Layout() {
                 <Route path="Manageideas" element={<AdminEventIdeas/>}/>
                 <Route path="admindetailIdeas/:title" element={<IdeaDetails />}/>
                 <Route path="adminvendordetail/:name" element={<AdminVendorDetail/>}/>
+                <Route path="adminVenues" element={<ManageVenuePage/>}/>
+                <Route path="detailvenue/:name" element={<AdminVenueDetail/>}/>
+                <Route path="notificationsAdmin" element={<AdminNotifications/>}/>
+                <Route path="adminProfile" element={<AdminProfilePage/>}/>
               </Routes>
             </AdminLayout>
           }

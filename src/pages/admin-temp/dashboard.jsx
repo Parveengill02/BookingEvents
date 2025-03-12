@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Calendar, Users, BarChart, Building } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import "./admin.css"; 
 
 const Dashboard = () => {
@@ -16,7 +17,18 @@ const Dashboard = () => {
   const [revenueCount, setRevenueCount] = useState(0);
   const [venueCount, setVenueCount] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState("Monthly");
+   
 
+
+  //pie chart
+  const eventCategoryData = [
+    { name: "Weddings", value: 40 },
+    { name: "Birthdays", value: 25 },
+    { name: "Corporate Events", value: 20 },
+    { name: "Others", value: 15 },
+  ];
+
+  const COLORS = ["#800000"," #0c3f03", "#2e745c", "#8f6817"];
   // Function to animate numbers
   const animateCounter = (setState, total, speed, step = 1) => {
     let count = 0;
@@ -63,7 +75,10 @@ const Dashboard = () => {
       <h2 className="title">Admin Dashboard</h2>
 
       {/* Stats Section */}
-      <div className="stats-grid">
+       <div className="container">
+        <div className="row">
+          <div className="col-md-7">
+          <div className="stats-grid">
         <div className="stat-card">
           <h3><Calendar className="icon" /> Total Events</h3>
           <p>{eventCount}</p>
@@ -81,6 +96,44 @@ const Dashboard = () => {
           <p>{venueCount}</p>
         </div>
       </div>
+          </div>
+          <div className="col-md-5">
+          <div className="event-performance-container">
+
+      {/* Events by Category - Pie Chart */}
+      <div className="chart-card pie-chart-container">
+      
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={eventCategoryData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={110}
+              innerRadius={60}
+              label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+              labelLine={false}
+              stroke="white"
+              strokeWidth={2}
+            >
+              {eventCategoryData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            
+          </PieChart>
+          <h4>Event Performance Insights</h4>
+
+        </ResponsiveContainer>
+      </div>
+    </div>
+        </div>
+      </div> 
+      </div>
+     
       
       {/* Charts Section */}
       <div className="event-dashboard-charts">
