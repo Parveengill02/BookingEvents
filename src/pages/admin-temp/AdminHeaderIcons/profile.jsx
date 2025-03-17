@@ -5,8 +5,8 @@ export default function AdminProfile() {
   const [admin, setAdmin] = useState({
     email: "parveenkaur@example.com",
     password: "",
-    confirmPassword: "",
-    profilePic: "https://via.placeholder.com/150",
+    confirmPassword: "",    
+    profilePic: "/images/parveengill.jpg",
     personalInfo: {
       FirstName: "Parveen",
       LastName: "Kaur",

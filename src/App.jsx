@@ -18,7 +18,7 @@ import EventPage from "./pages/wedding/wedding.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import Dashboard from "./pages/admin-temp/dashboard.jsx";
 import ManageVendors from "./pages/admin-temp/VendorsAdmin/adminVendors.jsx";
-import ManageUsers from "./pages/admin-temp/users.jsx";
+import ManageUsers from "./pages/admin-temp/ManageUsers/users.jsx";
 import AdminEventIdeas from "./pages/admin-temp/IdeasAdmin/adminIdeas.jsx";
 import IdeaDetails from "./pages/admin-temp/IdeasAdmin/AdminIdeasDetail.jsx";
 import AdminVendorDetail from "./pages/admin-temp/VendorsAdmin/adminVendorDetail.jsx";
@@ -26,6 +26,10 @@ import ManageVenuePage from "./pages/admin-temp/AdminVenues/VeneusAdmin.jsx";
 import AdminVenueDetail from "./pages/admin-temp/AdminVenues/VenuesAdminDetail.jsx";
 import AdminNotifications from "./pages/admin-temp/adminNotifications.jsx";
 import AdminProfilePage from "./pages/admin-temp/AdminHeaderIcons/profile.jsx";
+import AdminLogin from "./pages/admin-temp/AdminHeaderIcons/AdminLogin.jsx";
+import ManageUsersDetails from "./pages/admin-temp/ManageUsers/userdetails.jsx";
+import FavoritesPage from "./components/Header/favourites.jsx";
+import ContactUs from "./pages/contact-us/contact.jsx";
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin"); 
@@ -47,7 +51,9 @@ function Layout() {
         <Route path="/PageIdea" element={<EventIdea />} />
         <Route path="/Detailpageidea/:categories" element={<DetailIdeaPage />} />
         <Route path="/event/:name" element={<EventPage />} />
-        
+        <Route path="/likedpage" element={<FavoritesPage/>} />
+        <Route path="/contactPage" element={<ContactUs/>}/>
+
 
         {/* Admin Routes (Wrapped in AdminLayout) */}
         <Route
@@ -67,6 +73,8 @@ function Layout() {
                 <Route path="detailvenue/:name" element={<AdminVenueDetail/>}/>
                 <Route path="notificationsAdmin" element={<AdminNotifications/>}/>
                 <Route path="adminProfile" element={<AdminProfilePage/>}/>
+                <Route path="loginAdmin" element={<AdminLogin/>}/>
+                <Route path="detailuser/:id" element={<ManageUsersDetails/>}/>
               </Routes>
             </AdminLayout>
           }

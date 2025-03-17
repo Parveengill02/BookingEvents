@@ -1,8 +1,18 @@
 import React,{useState} from 'react'
 import { Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+
 import VendorBooking from '../vendorbooking/vendorbook';
 function Vendorpage() {
+   const [likedVenues, setLikedVenues] = useState({});
+   const toggleLike = (id) => {
+    setLikedVenues((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   const [openAccordion, setOpenAccordion] = useState(null);
   const categories = [
     "All", "Event Planner", "Photographer", "Design & Floral",
@@ -367,6 +377,13 @@ function Vendorpage() {
                 <img src=  {Vendor.image}/>        
 </div>
               <div class="col-md-7 Details">
+                  <button className="fav-buttons-vendors" onClick={() => toggleLike(Vendor.id)}>
+                                          {likedVenues[Vendor.id] ? (
+                                            <FaHeart size={24} color="#ba0b0b" className="heart-icon" />
+                                          ) : (
+                                            <FaRegHeart size={24} color="gray" className="heart-icon" />
+                                          )}
+                                        </button>
                 <h3>{Vendor.name}</h3>
                 <p>{Vendor.category}</p>
                 <p>{Vendor.location}</p>

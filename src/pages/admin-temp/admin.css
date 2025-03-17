@@ -641,7 +641,14 @@ color: #1a1a00;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
+.manage-users-add-btn{
+   color: white;
+    background-color: #650404;
+    border-radius: 9px;
+    margin-bottom: 18px;
+    margin-top: 18px;
+    padding: 9px;
+}
 .manage-users-stats {
   display: flex;
   justify-content: space-around;
@@ -802,6 +809,11 @@ color: #1a1a00;
   display: flex;
   gap: 10px;
 }
+.view-btn{
+  border: none;
+    color: #056d05;
+    background: none;
+}
 
 .edit-btn, .delete-btn {
   border: none;
@@ -816,6 +828,9 @@ color: #1a1a00;
 .delete-btn:hover {
   color: red;
 }
+
+
+
 .event-ideas-wrapper {
   max-width: 1200px;
   margin: auto;
@@ -1500,7 +1515,7 @@ color: rgb(7 72 6);
   
   margin: 20px auto;
   padding: 20px;
-  background: white;
+  
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   
@@ -1621,7 +1636,6 @@ color: rgb(7 72 6);
   justify-content: center;
   align-items: center;
   padding: 50px 20px;
-  background-color: #f5f6fa;
   font-family: 'Arial', sans-serif;
   width: 100%;
 }
@@ -1670,7 +1684,7 @@ color: rgb(7 72 6);
   position: absolute;
   bottom: 5px;
   right: 5px;
-  background: #00b894;
+  background: #440202;
   color: white;
   width: 30px;
   height: 30px;
@@ -1807,4 +1821,252 @@ color: rgb(7 72 6);
     flex-direction: column;
     text-align: center;
   }
+}
+
+
+
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
+
+.admin-login-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.admin-login-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+/* Input Field Container */
+.admin-login-field {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.admin-login-input {
+  width: 100%;
+  padding: 10px 40px; /* Left padding for icon */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.admin-login-input:focus {
+  border: 1px solid #00b894;
+}
+
+/* Icon Inside the Input Box */
+.admin-login-field i {
+  position: absolute;
+  left: 10px;
+  top: 52%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #7d7d7d;
+}
+
+/* Forgot Password */
+.admin-forgot-password {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.admin-forgot-link {
+  text-decoration: none;
+  color: #065e14;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.admin-forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Login Button */
+.admin-login-button {
+  background-color: #4f0202;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.admin-login-button:hover {
+  background-color: #b30505;
+}
+
+.admin-error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 500px) {
+  .admin-login-card {
+    padding: 30px;
+  }
+
+  .admin-login-title {
+    font-size: 20px;
+  }
+}
+/* Container */
+.admin-user-detail-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
+.admin-user-detail-back-button {
+  background: #014412;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.admin-user-detail-back-button:hover {
+  background: #5a6268;
+}
+
+/* Headings */
+.admin-user-detail-title, .admin-user-detail-subtitle {
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Table Styles */
+.admin-user-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.admin-user-detail-table th, 
+.admin-user-detail-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-user-detail-table th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Edit Buttons */
+.admin-user-detail-edit-button {
+  display: block;
+  width: fit-content;
+  padding: 8px 12px;
+  margin: 10px 0;
+  background: #540101;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin-user-detail-edit-button:hover {
+  background: #610202;
+}
+
+/* Modal Overlay */
+.admin-user-detail-modal-overlay {
+  position: fixed;
+  top: 25px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+
+/* Modal Box */
+.admin-user-detail-modal {
+  top:10px;
+  backdrop-filter: blur(6px);
+  background: white;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  text-align: center;
+  position: relative;
+}
+
+/* Modal Inputs */
+.admin-user-detail-modal label {
+  display: block;
+  margin: 10px 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+.admin-user-detail-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Modal Buttons */
+.admin-user-detail-modal button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-user-detail-modal-save {
+  background: #014a12;
+  color: white;
+}
+
+.admin-user-detail-modal-save:hover {
+  background: #015613;
+}
+
+.admin-user-detail-modal-cancel {
+  background: #4a0109;
+  color: white;
+  margin-left: 10px;
+}
+
+.admin-user-detail-modal-cancel:hover {
+  background: #75030f;
 }

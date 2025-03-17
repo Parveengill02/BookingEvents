@@ -5,8 +5,8 @@ function CustomModal({ open, setOpen, children }) {
  
     return (
 
-        <div class={`modal fade ${open ? "show" : ""}`}
-            style={{ display: `${open ? "block" : "none"}` }}
+        <div class={`modal fade ${open ? "show" : ""} CustomModal`} 
+            style={{ display: `${open ? "block" : "none"}`} }
             id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">

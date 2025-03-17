@@ -53,7 +53,7 @@ const AdminLayout = ({ children }) => {
             {isDropdownOpen && (
               <div className="admin-profile-dropdown">
                 <Link to="/admin/adminProfile" className="admin-profile-option">Profile</Link>
-                <Link to="/logout" className="admin-profile-option">Logout</Link>
+                <Link to="/admin/loginAdmin" className="admin-profile-option">Logout</Link>
               </div>
             )}
           </div>

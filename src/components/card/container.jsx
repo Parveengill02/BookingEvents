@@ -13,7 +13,7 @@ function Container() {
     <div>
       <div className="contain">
         <h4>Plan Your Dream Event</h4>
-        <p>Weddings, galas, birthdays, and more, PartySlate helps you find venues, vendors, and ideas you can't find anywhere else.</p>
+        <p>Weddings, galas, birthdays, and more, Gill's Event Elegance helps you find venues, vendors, and ideas you can't find anywhere else.</p>
         <button  onClick={() => setOpen(true)}>Start Planning</button>
       </div>
       <CustomModal open={open} setOpen={setOpen} >

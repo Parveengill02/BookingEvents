@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { FaEnvelope } from "react-icons/fa";
 import CustomModal from "../Modal";
 
-function Login({ open, setOpen }) {
-  const [ropen, setRopen] = useState(false);
+function Login({ open, setOpen, ropen, setropen }) {
+  // State for Registration Modal
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   // Validation Schema for Registration
   const validationSchema = Yup.object({
@@ -39,109 +41,117 @@ function Login({ open, setOpen }) {
     resolver: yupResolver(validationSchema),
   });
 
+  // Separate Form for Login
+  const {
+    register: loginRegister,
+    handleSubmit: handleLoginSubmit,
+    formState: { errors: loginErrors },
+  } = useForm();
+
   const onRegisterSubmit = (data) => {
     alert("Registration Successful!");
     console.log("Registration Data:", data);
   };
 
-  // Validation Schema for Login
-  const loginSchema = Yup.object({
-    loginEmail: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    loginPassword: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
-
-  const {
-    register: loginRegister,
-    handleSubmit: handleLoginSubmit,
-    formState: { errors: loginErrors },
-  } = useForm({
-    resolver: yupResolver(loginSchema),
-  });
-
   const onLoginSubmit = (data) => {
     console.log("Login Data:", data);
   };
 
-  const handleSignUpClick = () => setRopen(true);
-  const handleLoginClick = () => setRopen(false);
-
   return (
-    <div>
-      <CustomModal open={open} setOpen={setOpen}>
-        {ropen ? (
-          <div className="form-container">
-            <h2>Registration</h2>
-            <p>
-              Already have an account?{" "}
-              <button type="button" style={{ color: "burlywood" }} onClick={handleLoginClick}>
-                Log In
-              </button>
-            </p>
-            <form onSubmit={handleSubmit(onRegisterSubmit)}>
-              {["fullName", "username", "email", "phone", "password", "confirmPassword"].map((field) => (
-                <div key={field} className="form-group">
-                  <label>{field.replace(/([A-Z])/g, ' $1').trim()}:</label>
-                  <input type={field.includes("password") ? "password" : "text"} {...register(field)} className="form-input" />
-                  {errors[field] && <span className="error-text">{errors[field].message}</span>}
-                </div>
-              ))}
-              <button type="submit" className="form-button">Register</button>
-            </form>
-          </div>
-        ) : (
-          <div className="login-container">
-            <h2>LOG IN</h2>
-            <p>
-              Don't have an account?{" "}
-              <button type="button" style={{ color: "burlywood" }} onClick={handleSignUpClick}>
-                Sign Up
-              </button>
-            </p>
-            <button className="social-button-facebook">
-              <img src="images/icons8-facebook-logo-48.png" alt="Facebook" style={{ height: "29px" }} />
-              CONTINUE WITH FACEBOOK
+    <CustomModal open={open} setOpen={setOpen} className="CustomModal">
+      {ropen ? (
+        // Registration Choice Section
+        <div className="form-container">
+          <h2>Start your celebrations here...</h2>
+          <p>
+            Already have an account?{" "}
+            <button type="button" className="signup-button" onClick={() => setropen(false)}>
+              Log In...
             </button>
-            <br />
-            <button className="social-button-google">
-              <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
-              CONTINUE WITH GOOGLE
+          </p>
+          <button className="social-button-facebook">
+            <img src="images/icons8-facebook-logo-48.png" alt="Facebook" style={{ height: "29px" }} />
+            CONTINUE WITH FACEBOOK
+          </button>
+          <button className="social-button-google">
+            <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
+            CONTINUE WITH GOOGLE
+          </button>
+          <button className="social-button-email" onClick={() => setRegisterOpen(true)}>
+            <FaEnvelope style={{ marginRight: "8px" }} /> SIGN UP WITH EMAIL
+          </button>
+        </div>
+      ) : (
+        // Login Form Section
+        <div className="login-container">
+          <h2>LOG IN</h2>
+          <p>
+            Don't have an account?{" "}
+            <button type="button" className="signup-button" onClick={() => setropen(true)}>
+              Sign Up...
             </button>
-            <br />
-            <form onSubmit={handleLoginSubmit(onLoginSubmit)}>
+          </p>
+          <button className="social-button-facebook">
+            <img src="images/icons8-facebook-logo-48.png" alt="Facebook" style={{ height: "29px" }} />
+            CONTINUE WITH FACEBOOK
+          </button>
+          <button className="social-button-google">
+            <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
+            CONTINUE WITH GOOGLE
+          </button>
+          
+          <form onSubmit={handleLoginSubmit(onLoginSubmit)}>
+            <div className="form-group">
               <input
-                type="email"
+                type="text"
                 className="inputbox"
                 placeholder="Email"
-                {...loginRegister("loginEmail")}
+                {...loginRegister("loginEmail", { required: "Email is required" })}
               />
-              <p>
-              {loginErrors.loginEmail && <span className="error-text">{loginErrors.loginEmail.message}</span>}
-              </p>
-              <br />
+              <span className="error-text">{loginErrors.loginEmail?.message}</span>
+            </div>
 
+            <div className="form-group">
               <input
                 type="password"
                 className="inputbox"
                 placeholder="Password"
-                {...loginRegister("loginPassword")}
+                {...loginRegister("loginPassword", { required: "Password is required" })}
               />
-              <p>
-              {loginErrors.loginPassword && <span className="error-text">{loginErrors.loginPassword.message}</span>}
-              </p>
-              <br />
+              <span className="error-text">{loginErrors.loginPassword?.message}</span>
+            </div>
 
-              <button type="submit" className="primary-button">LOG IN</button>
-              <br />
-              <a href="#" style={{ color: "burlywood" }}>Forgot Password?</a>
-            </form>
-          </div>
-        )}
+            <button type="submit" className="primary-button">LOG IN</button>
+          </form>
+          
+          {/* Forgot Password Link */}
+          <a href="#" className="forgot-password">Forgot Password?</a>
+        </div>
+      )}
+
+      {/* Registration Form Modal */}
+      <CustomModal open={registerOpen} setOpen={setRegisterOpen} className="CustomModal">
+      <div className="auth-register-container">
+  <h2 className="auth-register-title">Create an Account</h2>
+  <form onSubmit={handleSubmit(onRegisterSubmit)} className="auth-register-form">
+    {["FullName", "Username", "Email", "Phone", "Password", "ConfirmPassword"].map((field) => (
+      <div key={field} className="auth-register-group">
+        <input
+          type={field.includes("password") ? "password" : "text"}
+          {...register(field)}
+          className="auth-register-input"
+          placeholder=" " // Keeps input empty but allows floating label effect
+        />
+        <label className="auth-register-label">{field.replace(/([A-Z])/g, " $1").trim()}</label>
+        <span className="auth-register-error">{errors[field]?.message}</span>
+      </div>
+    ))}
+    <button type="submit" className="auth-register-button">Register</button>
+  </form>
+</div>
+
       </CustomModal>
-    </div>
+    </CustomModal>
   );
 }
 
