@@ -30,6 +30,7 @@ import AdminLogin from "./pages/admin-temp/AdminHeaderIcons/AdminLogin.jsx";
 import ManageUsersDetails from "./pages/admin-temp/ManageUsers/userdetails.jsx";
 import FavoritesPage from "./components/Header/favourites.jsx";
 import ContactUs from "./pages/contact-us/contact.jsx";
+import EventPlanning from "./pages/Planning/planningPage.jsx";
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin"); 
@@ -53,6 +54,7 @@ function Layout() {
         <Route path="/event/:name" element={<EventPage />} />
         <Route path="/likedpage" element={<FavoritesPage/>} />
         <Route path="/contactPage" element={<ContactUs/>}/>
+        <Route path="/planningPage" element={<EventPlanning/>}/>
 
 
         {/* Admin Routes (Wrapped in AdminLayout) */}

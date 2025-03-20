@@ -348,6 +348,9 @@ header {
 }
 
 .content1 h4 {
+  font-size: 29px;
+  font-family: fangsong;
+
   color: black;
   text-align: center;
   margin-top: 120px;
@@ -2769,4 +2772,90 @@ background-color: white;
 
 .contact-page-btn:hover {
   background: #766a42;
+}
+   
+
+
+/* planning-Page */
+.event-planning-container {
+  background-color: black;
+  z-index:1;
+  position:absolute;
+  padding-top:198px;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  
+}
+
+.event-planning-header {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.event-planning-edit-btn {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.event-planning-content {
+  max-width: 40rem;
+  margin: 0 auto;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.event-planning-task {
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+}
+
+.event-planning-task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-planning-task-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.event-planning-task-title.completed {
+  text-decoration: line-through;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.event-planning-toggle-btn {
+  font-size: 0.875rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.event-planning-details {
+  margin-top: 0.5rem;
+  padding-left: 1.75rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.event-planning-details li {
+  list-style-type: disc;
+}
+.planning-image{
+  position: relative;
+  /* background: url('/images/flower3.avif'); */
 }
