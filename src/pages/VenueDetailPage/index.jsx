@@ -6,11 +6,13 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Accordion } from "react-bootstrap";
 
 function VenueDetailPage() {
   const [likedVenues, setLikedVenues] = useState({});
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Toggle like state for a specific venue
   const toggleLike = (id) => {
     setLikedVenues((prev) => ({
       ...prev,
@@ -106,111 +108,100 @@ function VenueDetailPage() {
     <div>
       <div className="filterpage">
         <h1>TOP MUMBAI WEDDING VENUES</h1>
+        <div className="border"></div>
         <p>984 results near MUMBAI</p>
 
-        {/* Filters Section */}
-        <div className="filterbox">
-          <input className="citybox" type="text" placeholder="Mumbai" />
-          <select className="Price">
-            <option value="">Price</option>
-            <option value="">2000/person</option>
-            <option value="">2500/person</option>
-            <option value="">3000/person</option>
-            <option value="">3500/person</option>
-          </select>
-          <select className="Guests">
-            <option value="">Guests</option>
-            <option value="">Under 25</option>
-            <option value="">25-50</option>
-            <option value="">50-100</option>
-            <option value="">100-150</option>
-            <option value="">150-200</option>
-            <option value="">200-260</option>
-            <option value="">250-500</option>
-            <option value="">500-1000</option>
-            <option value="">1000+</option>
-          </select>
-          <select className="VTYPES">
-            <option value="">Venue Type</option>
-            <option value="">Restaurant</option>
-            <option value="">Bar</option>
-            <option value="">Outdoor</option>
-            <option value="">Barn</option>
-            <option value="">Country Club</option>
-            <option value="">Retail Space</option>
-          </select>
-          <select className="EventType">
-            <option value="">Event Type</option>
-            <option value="">Wedding</option>
-            <option value="">Conference</option>
-            <option value="">Birthday</option>
-            <option value="">Engagement</option>
-          </select>
-          <button className="filterbtn">
-            <img src="/images/filterss.png" alt="Filter Icon" />
-            <h6>Filters</h6>
-          </button>
-        </div>
+        {/* Search Box */}
+        <div className="venue-search-container">
+  <input type="text" placeholder="Search Venues..." className="venue-search-input" />
+  <button className="venue-search-button">Search</button>
+</div>
 
-        {/* Venue Listings */}
+
         <div className="container">
           <div className="row">
-            {/* Sidebar (if needed) */}
+            {/* Sidebar (Filters in Accordion) */}
             <div className="col-md-4">
               <div className="Map">
+                
                 <h5>Find a venue</h5>
+                <Accordion activeKey={openAccordion} onSelect={(e) => setOpenAccordion(e)}>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Location</Accordion.Header>
+                    <Accordion.Body>
+                      {["Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai"].map((city) => (
+                        <div className="form-check" key={city}>
+                          <input className="form-check-input" type="checkbox" id={city} />
+                          <label className="form-check-label" htmlFor={city}>{city}</label>
+                        </div>
+                      ))}
+                    </Accordion.Body>
+                  </Accordion.Item>
+
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>Price</Accordion.Header>
+                    <Accordion.Body>
+                      {["2000/person", "2500/person", "3000/person"].map((price) => (
+                        <div className="form-check" key={price}>
+                          <input className="form-check-input" type="checkbox" id={price} />
+                          <label className="form-check-label" htmlFor={price}>{price}</label>
+                        </div>
+                      ))}
+                    </Accordion.Body>
+                  </Accordion.Item>
+
+                  <Accordion.Item eventKey="2">
+                    <Accordion.Header>Guests</Accordion.Header>
+                    <Accordion.Body>
+                      {["Under 25", "25-50", "50-100", "100-150", "150-200", "250-500"].map((guest) => (
+                        <div className="form-check" key={guest}>
+                          <input className="form-check-input" type="checkbox" id={guest} />
+                          <label className="form-check-label" htmlFor={guest}>{guest}</label>
+                        </div>
+                      ))}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
               </div>
             </div>
 
-            {/* Venue Results */}
+            {/* Venue Listings */}
             <div className="col-md-8">
               <div className="Results">
-                {mockVenues.map((venue) => (
-                  <div key={venue.id} className="container Vendorbox">
-                    <div className="row">
-                      {/* Image Slider */}
-                      <div className="col-md-5">
-                        <Swiper
-                          modules={[Navigation, Pagination, Autoplay]}
-                          spaceBetween={10}
-                          slidesPerView={1}
-                          navigation
-                          pagination={{ clickable: true }}
-                          loop
-                          className="h-40"
-                        >
-                          {venue.image.map((image, index) => (
-                            <SwiperSlide key={index}>
-                              <img src={image} alt={`Slide ${index}`} className="w-full h-40 object-cover" />
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
-                      </div>
+                {mockVenues
+                  .filter((venue) => venue.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  .map((venue) => (
+                    <div key={venue.id} className="container Vendorbox">
+                      <div className="row">
+                        {/* Image Slider */}
+                        <div className="col-md-5">
+                          <Swiper modules={[Navigation, Pagination, Autoplay]} spaceBetween={10} slidesPerView={1} navigation pagination={{ clickable: true }} loop>
+                            {venue.image.map((image, index) => (
+                              <SwiperSlide key={index}>
+                                <img src={image} alt={`Slide ${index}`} className="w-full h-40 object-cover" />
+                              </SwiperSlide>
+                            ))}
+                          </Swiper>
+                        </div>
 
-                      {/* Venue Details */}
-                      <div className="col-md-7">
-                        {/* Heart Button (Favorite Toggle) */}
-                        <button className="fav-buttons" onClick={() => toggleLike(venue.id)}>
-                          {likedVenues[venue.id] ? (
-                            <FaHeart size={24} color="#ba0b0b" className="heart-icon" />
-                          ) : (
-                            <FaRegHeart size={24} color="gray" className="heart-icon" />
-                          )}
-                        </button>
+                        {/* Venue Details */}
+                        <div className="col-md-7">
+                          <button className="fav-buttons" onClick={() => toggleLike(venue.id)}>
+                            {likedVenues[venue.id] ? <FaHeart size={24} color="#ba0b0b" className="heart-icon" /> : <FaRegHeart size={24} color="gray" className="heart-icon" />}
+                          </button>
 
-                        <h3>{venue.name}</h3>
-                        <p>{venue.details}</p>
-                        <p>{venue.address}</p>
-                        <p>{venue.responseTime}</p>
+                          <h3>{venue.name}</h3>
+                          <p>{venue.details}</p>
+                          <p>{venue.address}</p>
+                          <p>{venue.responseTime}</p>
 
-                        {/* View Details Button */}
-                        <Link to={`/booking/${venue.name}`}>
-                          <button>VIEW DETAILS</button>
-                        </Link>
+                          <Link to={`/booking/${venue.name}`}>
+                            <button>VIEW DETAILS</button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div> 
             </div> 
           </div> 

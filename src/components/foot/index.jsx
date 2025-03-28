@@ -3,6 +3,7 @@ import facebook from "/images/icons8-facebook-50.png"
 import instagram from "/images/icons8-instagram-50.png"
 import twitter from "/images/icons8-twitter-bird-24.png"
 import pinterest from "/images/icons8-pinterest-26.png"
+import { FaFacebookF, FaInstagram, FaTwitter,FaPinterest } from "react-icons/fa";
 function Footer() {
   console.log('Footer is being rendered!');  // Check if it's rendering
 
@@ -42,26 +43,13 @@ function Footer() {
         </div>
         <div className="foot2">
           <h6>Follow Us</h6>
-          <img
-            src={facebook}
-            style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
-            alt="Facebook"
-          />
-          <img
-            src={instagram}
-            style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
-            alt="Instagram"
-          />
-          <img
-            src={twitter}
-            style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
-            alt="Twitter"
-          />
-          <img
-            src={pinterest}
-            style={{ backgroundColor: 'white', borderRadius: '40%', height: '18%' }}
-            alt="Pinterest"
-          />
+          <div className='foot-img'>
+          <a href="#" className="contact-page-icon"><FaFacebookF /></a>
+              <a href="#" className="contact-page-icon"><FaInstagram /></a>
+              <a href="#" className="contact-page-icon"><FaTwitter /></a>
+              <a href="#" className="contact-page-icon"><FaPinterest /></a>
+          </div>
+         
         </div>
       </div>
   

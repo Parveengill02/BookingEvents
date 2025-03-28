@@ -812,7 +812,7 @@ ul {
 }
 
 .auth-register-label {
-  position: absolute;
+  /* position: absolute; */
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
@@ -872,7 +872,7 @@ ul {
 }
 
 .Venuepage {
-  margin-left: 593px;
+  margin-left: 697px;
   border-bottom: 5px solid;
   width: 21%;
   border-bottom: 5px solid rgba(164, 143, 9, 0.842);
@@ -1027,6 +1027,7 @@ ul {
   background-color: rgba(227, 226, 226, 0.79)
 }
 .filterpage h1{
+  text-align:center;
   font-family: fangsong;
 }
 .citybox {
@@ -1035,6 +1036,38 @@ ul {
   height: 32px;
   width: 411px;
 }
+.venue-search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.venue-search-input {
+  box-shadow:0px 2px 14px black;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.venue-search-button {
+  box-shadow:0px 2px 14px black;
+  background-color:#959460;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.venue-search-button:hover {
+  background-color: #0056b3;
+}
+
 
 .VTYPES {
   border-radius: 6px;
@@ -1094,7 +1127,7 @@ ul {
   background-color: white;
   padding-top: 19px;
   margin-bottom: 30px;
-  margin-left: -90px;
+  margin-left: -183px;
   overflow: hidden;
 
 }
@@ -2778,13 +2811,14 @@ background-color: white;
 
 /* planning-Page */
 .event-planning-container {
-  background-color: black;
-  z-index:1;
-  position:absolute;
+  background-image: url(images/flower3.avif);
+  padding-bottom: 46px;
   padding-top:198px;
   min-height: 100vh;
   background-size: cover;
   background-position: center;
+  margin-bottom:-67px;
+  
   
 }
 

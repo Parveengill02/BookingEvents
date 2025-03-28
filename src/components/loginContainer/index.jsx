@@ -4,6 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { FaEnvelope } from "react-icons/fa";
 import CustomModal from "../Modal";
+import LoginComponent from "./login";
+import SignUpComponent from "./register";
 
 function Login({ open, setOpen, ropen, setropen }) {
   // State for Registration Modal
@@ -99,31 +101,7 @@ function Login({ open, setOpen, ropen, setropen }) {
             <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
             CONTINUE WITH GOOGLE
           </button>
-          
-          <form onSubmit={handleLoginSubmit(onLoginSubmit)}>
-            <div className="form-group">
-              <input
-                type="text"
-                className="inputbox"
-                placeholder="Email"
-                {...loginRegister("loginEmail", { required: "Email is required" })}
-              />
-              <span className="error-text">{loginErrors.loginEmail?.message}</span>
-            </div>
-
-            <div className="form-group">
-              <input
-                type="password"
-                className="inputbox"
-                placeholder="Password"
-                {...loginRegister("loginPassword", { required: "Password is required" })}
-              />
-              <span className="error-text">{loginErrors.loginPassword?.message}</span>
-            </div>
-
-            <button type="submit" className="primary-button">LOG IN</button>
-          </form>
-          
+          <LoginComponent />
           {/* Forgot Password Link */}
           <a href="#" className="forgot-password">Forgot Password?</a>
         </div>
@@ -131,24 +109,10 @@ function Login({ open, setOpen, ropen, setropen }) {
 
       {/* Registration Form Modal */}
       <CustomModal open={registerOpen} setOpen={setRegisterOpen} className="CustomModal">
-      <div className="auth-register-container">
-  <h2 className="auth-register-title">Create an Account</h2>
-  <form onSubmit={handleSubmit(onRegisterSubmit)} className="auth-register-form">
-    {["FullName", "Username", "Email", "Phone", "Password", "ConfirmPassword"].map((field) => (
-      <div key={field} className="auth-register-group">
-        <input
-          type={field.includes("password") ? "password" : "text"}
-          {...register(field)}
-          className="auth-register-input"
-          placeholder=" " // Keeps input empty but allows floating label effect
-        />
-        <label className="auth-register-label">{field.replace(/([A-Z])/g, " $1").trim()}</label>
-        <span className="auth-register-error">{errors[field]?.message}</span>
-      </div>
-    ))}
-    <button type="submit" className="auth-register-button">Register</button>
-  </form>
-</div>
+        <div className="auth-register-container">
+          <h2 className="auth-register-title">Create an Account</h2>
+          <SignUpComponent />
+        </div>
 
       </CustomModal>
     </CustomModal>

@@ -41,7 +41,7 @@ export default function EventPlanning() {
 
   return (
     <div className="planning-image">
-     <img src="/images/flower3.avif"/>
+    
     <div
       className="event-planning-container"
     >
