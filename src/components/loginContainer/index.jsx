@@ -53,10 +53,12 @@ function Login({ open, setOpen, ropen, setropen }) {
   const onRegisterSubmit = (data) => {
     alert("Registration Successful!");
     console.log("Registration Data:", data);
+    setOpen(false); // Close the modal after successful registration
   };
 
   const onLoginSubmit = (data) => {
     console.log("Login Data:", data);
+    setOpen(false); // Close the modal after successful registration
   };
 
   return (
@@ -101,7 +103,7 @@ function Login({ open, setOpen, ropen, setropen }) {
             <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
             CONTINUE WITH GOOGLE
           </button>
-          <LoginComponent />
+          <LoginComponent setOpen={setOpen}/>
           {/* Forgot Password Link */}
           <a href="#" className="forgot-password">Forgot Password?</a>
         </div>

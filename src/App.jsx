@@ -31,6 +31,7 @@ import ManageUsersDetails from "./pages/admin-temp/ManageUsers/userdetails.jsx";
 import FavoritesPage from "./components/Header/favourites.jsx";
 import ContactUs from "./pages/contact-us/contact.jsx";
 import EventPlanning from "./pages/Planning/planningPage.jsx";
+import VerifyEmail from "./verify/email.jsx";
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin"); 
@@ -43,6 +44,7 @@ function Layout() {
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verify/:token" element={<VerifyEmail />} />
         <Route path="/citypage" element={<VenuePage />} />
         <Route path="/venues/:name" element={<VenueDetailPage />} />
         <Route path="/vendors" element={<Vendorpage />} />

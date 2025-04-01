@@ -1,16 +1,36 @@
-import { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { FaFacebookF, FaInstagram, FaTwitter,FaPinterest } from "react-icons/fa";
 
 export default function ContactUs() {
-  const [messageSent, setMessageSent] = useState(false);
+  
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setMessageSent(true);
-    setTimeout(() => setMessageSent(false), 3000);
-    event.target.reset();
-  };
-
+  
+const validationSchema = Yup.object({
+        fullName: Yup.string()
+            .matches(/^[A-Za-z\s]+$/, "Only alphabets are allowed")
+            .required("Full Name is required"),
+            email: Yup.string()
+                        .email("Invalid email format")
+                        .required("Email is required"),
+                        message: Yup.string()
+                        .trim()
+                        .min(5, 'Message must be at least 5 characters long')
+                        .max(500, 'Message cannot exceed 500 characters')
+                        .required('Message is required'),
+                    });
+                    const {
+                            register,
+                            handleSubmit,
+                            formState: { errors },
+                        } = useForm({
+                            resolver: yupResolver(validationSchema),
+                        });
+                        const onRegisterSubmit = (e) => {
+                            alert("Message sent! We will reach out to you soon.")
+                        }
   return (
     <div className="contact-page-container">
       <div className="contact-page-box">
@@ -19,13 +39,6 @@ export default function ContactUs() {
           <div>
             <h3 className="contact-page-subtitle">Contact Information</h3>
             <p className="contact-page-text">"Are you a vendor looking to showcase your services or a venue owner wanting to list your space? Or do you have questions about planning your next event? Get in touch with us today!"
-
-
-
-
-
-
-
 </p>
             <div className="contact-page-info">
               <p className="contact-page-item">📍 Gill's Event Elegance,Sector-63, Mohali</p>
@@ -41,21 +54,24 @@ export default function ContactUs() {
           </div>
           <div>
             <h3 className="contact-page-subtitle">Send Us a Message</h3>
-            <form className="contact-page-form" onSubmit={handleSubmit}>
+            <form className="contact-page-form" onSubmit={handleSubmit(onRegisterSubmit)}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" required />
+                <input   {...register("fullname")} type="text" id="name" required />
+                <span className="auth-register-error">{errors?.fullName?.message}</span>
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" required />
+                <input {...register("email")} type="email" id="email" required />
+                <span className="auth-register-error">{errors?.email?.message}</span>
               </div>
               <div className="form-group">
                 <label htmlFor="message">Message</label>
-                <textarea id="message" rows="4" required></textarea>
+                <textarea {...register("message")}id="message" rows="4" required></textarea>
+                <span className="auth-register-error">{errors?.message?.message}</span>
               </div>
               <button type="submit" className="contact-page-btn">Send Message</button>
-              {messageSent && <p className="success-message">Message sent! We will reach out to you soon.</p>}
+              
             </form>
           </div>
         </div>
