@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import Login from "../loginContainer";
 
 const FavoritesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("favorites");
+  const token = localStorage.getItem("acess_token")
+  const [open, setOpen] = useState(false)
+  const [ropen, setropen] = useState(false)
   const [myFavorites, setMyFavorites] = useState([
     {
       id: 1,
@@ -117,6 +121,7 @@ const FavoritesPage = () => {
 <div>
           <div className="myfavorites-container">
             <h2>My Favorites</h2>
+            {token ?
             <div className="vendors-grid-fav">
               {myFavorites.map((fav) => (
                 
@@ -138,10 +143,13 @@ const FavoritesPage = () => {
                 </div>
               ))}
             </div>
+            : <button onClick={() => setOpen(true)} >Log in</button>}
           </div>
        </div> 
        </div>
        </div>
+       <Login open={open} setOpen={setOpen} ropen={ropen} setropen={setropen}/>
+
     </div>
   );
 };

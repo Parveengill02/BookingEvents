@@ -32,14 +32,26 @@ import FavoritesPage from "./components/Header/favourites.jsx";
 import ContactUs from "./pages/contact-us/contact.jsx";
 import EventPlanning from "./pages/Planning/planningPage.jsx";
 import VerifyEmail from "./verify/email.jsx";
+import Profile from "./pages/user_profile/profile.jsx";
+
 function Layout() {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith("/admin"); 
-
+  const isAdmin = location.pathname.startsWith("/admin");
+  const token = localStorage.getItem("acess_token")
   return (
     <>
       {!isAdmin && <Header />}
+      {/* {
+        token ? (<Routes>
 
+        </Routes>
+
+        ) : (
+          <Routes>
+
+          </Routes>
+        )
+      } */}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
@@ -54,10 +66,10 @@ function Layout() {
         <Route path="/PageIdea" element={<EventIdea />} />
         <Route path="/Detailpageidea/:categories" element={<DetailIdeaPage />} />
         <Route path="/event/:name" element={<EventPage />} />
-        <Route path="/likedpage" element={<FavoritesPage/>} />
-        <Route path="/contactPage" element={<ContactUs/>}/>
-        <Route path="/planningPage" element={<EventPlanning/>}/>
-
+        <Route path="/likedpage" element={<FavoritesPage />} />
+        <Route path="/contactPage" element={<ContactUs />} />
+        <Route path="/planningPage" element={token ? <EventPlanning /> : < Login />} />
+        <Route path="/profilePage" element={<Profile/>}/>
 
         {/* Admin Routes (Wrapped in AdminLayout) */}
         <Route
@@ -65,20 +77,20 @@ function Layout() {
           element={
             <AdminLayout>
               <Routes>
-              <Route index element={<Dashboard />} />
+                <Route index element={<Dashboard />} />
 
                 <Route path="mainpage" element={<Dashboard />} />
-                <Route path="vendorpage" element={<ManageVendors />}/>
-                <Route path="users" element={<ManageUsers/>}/>
-                <Route path="Manageideas" element={<AdminEventIdeas/>}/>
-                <Route path="admindetailIdeas/:title" element={<IdeaDetails />}/>
-                <Route path="adminvendordetail/:name" element={<AdminVendorDetail/>}/>
-                <Route path="adminVenues" element={<ManageVenuePage/>}/>
-                <Route path="detailvenue/:name" element={<AdminVenueDetail/>}/>
-                <Route path="notificationsAdmin" element={<AdminNotifications/>}/>
-                <Route path="adminProfile" element={<AdminProfilePage/>}/>
-                <Route path="loginAdmin" element={<AdminLogin/>}/>
-                <Route path="detailuser/:id" element={<ManageUsersDetails/>}/>
+                <Route path="vendorpage" element={<ManageVendors />} />
+                <Route path="users" element={<ManageUsers />} />
+                <Route path="Manageideas" element={<AdminEventIdeas />} />
+                <Route path="admindetailIdeas/:title" element={<IdeaDetails />} />
+                <Route path="adminvendordetail/:name" element={<AdminVendorDetail />} />
+                <Route path="adminVenues" element={<ManageVenuePage />} />
+                <Route path="detailvenue/:name" element={<AdminVenueDetail />} />
+                <Route path="notificationsAdmin" element={<AdminNotifications />} />
+                <Route path="adminProfile" element={<AdminProfilePage />} />
+                <Route path="loginAdmin" element={<AdminLogin />} />
+                <Route path="detailuser/:id" element={<ManageUsersDetails />} />
               </Routes>
             </AdminLayout>
           }

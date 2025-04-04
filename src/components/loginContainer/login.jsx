@@ -64,7 +64,7 @@ function LoginComponent({ setOpen }) {
                     placeholder="Email"
 
                 />
-                <span className="error-text">{errors?.email?.message}</span>
+                <span className="error-text">{errors?.Email?.message}</span>
             </div>
 
             <div className="form-group">
@@ -74,7 +74,7 @@ function LoginComponent({ setOpen }) {
                     className="inputbox"
                     placeholder="Password"
                 />
-                <span className="error-text">{errors.password?.message}</span>
+                <span className="error-text">{errors.Password?.message}</span>
             </div>
 
             <button type="submit" className="primary-button">LOG IN</button>

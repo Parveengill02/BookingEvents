@@ -261,12 +261,12 @@ header {
 
 .Secondarynav {
   width: 100%;
-  position: absolute;
+  position: relative;
   bottom: 63px;
   margin-left: 76px;
   margin-right: 25px;
   /* margin-top:-52%; */
-  z-index: -1;
+  z-index: -2;
   background-color: #91924abf;
   /* box-shadow: 0 0 32px rgba(0, 0, 0, .2); */
 }
@@ -2892,4 +2892,178 @@ background-color: white;
 .planning-image{
   position: relative;
   /* background: url('/images/flower3.avif'); */
+}
+/* Background styling */
+.email-verified-container {
+  margin-bottom: -69px;
+  bottom: 0px;
+  padding-bottom: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f7f7f7, #c3c3a9);
+  padding-top: 223px;
+}
+
+/* Card styling */
+.email-verified-box {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Check icon */
+.email-verified-icon {
+  color: #22c55e;
+  margin-bottom: 15px;
+}
+
+/* Title text */
+.email-verified-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Description text */
+.email-verified-text {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Button styling */
+.email-verified-button {
+  background: #22c55e;
+  color: white;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.email-verified-button:hover {
+  background: #1e9b50;
+  transform: scale(1.05);
+}
+
+.nav-item {
+  position: relative; /* Makes the dropdown position relative to this container */
+}
+
+/* Initially hide the dropdown */
+.nav-item .dropdown {
+  border-radius:10px;
+
+  display: none; /* Hidden by default */
+  position: absolute; /* Position the dropdown relative to the parent .nav-item */
+  top: 100%; /* Places the dropdown just below the nav item */
+  left: 0; /* Align it to the left of the parent */
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(16, 16, 16, 0.278);
+  z-index: 9999; /* Make sure the dropdown is on top of other elements */
+}
+.dropdown a{
+  color: black !important;
+}
+.user-menu a{
+  color:white;
+}
+.dropdown button{
+  border: none !important;
+  background: none!important;
+}
+.dropdown button:hover{
+  color:rgb(133, 5, 5)
+}
+
+.nav-item:hover .dropdown {
+  display: block;
+}
+.user-menu{
+  padding-left:52px;
+  border: none !important;
+  box-shadow:none!important;
+  background: none!important;
+  padding-top:6px;
+}
+
+/* Ensure the parent nav-item has relative positioning */
+
+
+/* user_profile */
+.user-profile-container {
+  padding-top: 178px;
+  max-width: 600px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+ 
+  margin: 0 544px; 
+}
+
+.user-profile-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.user-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-profile-label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.user-profile-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.user-profile-password-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.user-profile-password-box {
+  flex: 1;
+}
+
+.user-profile-hint {
+  font-size: 12px;
+  color: gray;
+  display: block;
+  margin-top: 5px;
+}
+
+.user-profile-update-button {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.user-profile-update-button:hover {
+  background-color: #333;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CustomModal from '../../components/Modal';
+import axios from 'axios';
 
 function Booking({ Bopen, setBopen }) {
 
@@ -18,8 +19,21 @@ function Booking({ Bopen, setBopen }) {
   };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async() => {
     e.preventDefault();
+
+const payload = {
+data:formData
+}
+
+await axios.post(`http://localhost:9000/api/user/venue-book`,payload,{
+  headers:{
+    access_token:"dbkjsdfhkjdshfkjdshfkdshfkjdshfkjdshfkjhdskfjhdskjfhskjfhskjfhkjdsfh"
+  }
+})
+
+
+
   };
 
   return (

@@ -6,8 +6,10 @@ import { FaEnvelope } from "react-icons/fa";
 import CustomModal from "../Modal";
 import LoginComponent from "./login";
 import SignUpComponent from "./register";
+import { FRONTEND_URL } from "../config/endpoints";
 
 function Login({ open, setOpen, ropen, setropen }) {
+
   // State for Registration Modal
   const [registerOpen, setRegisterOpen] = useState(false);
 
@@ -63,6 +65,7 @@ function Login({ open, setOpen, ropen, setropen }) {
 
   return (
     <CustomModal open={open} setOpen={setOpen} className="CustomModal">
+
       {ropen ? (
         // Registration Choice Section
         <div className="form-container">
@@ -74,14 +77,20 @@ function Login({ open, setOpen, ropen, setropen }) {
             </button>
           </p>
           <button className="social-button-facebook">
-            <img src="images/icons8-facebook-logo-48.png" alt="Facebook" style={{ height: "29px" }} />
+            <img src={`${FRONTEND_URL}/images/icons8-facebook-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
+
             CONTINUE WITH FACEBOOK
           </button>
           <button className="social-button-google">
-            <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
+            <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
+
             CONTINUE WITH GOOGLE
           </button>
-          <button className="social-button-email" onClick={() => setRegisterOpen(true)}>
+          <button className="social-button-email"  onClick={() => {
+             setropen(false);
+    setRegisterOpen(true);
+    
+  }}>
             <FaEnvelope style={{ marginRight: "8px" }} /> SIGN UP WITH EMAIL
           </button>
         </div>
@@ -96,14 +105,15 @@ function Login({ open, setOpen, ropen, setropen }) {
             </button>
           </p>
           <button className="social-button-facebook">
-            <img src="images/icons8-facebook-logo-48.png" alt="Facebook" style={{ height: "29px" }} />
+            <img src={`${FRONTEND_URL}/images/icons8-facebook-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
             CONTINUE WITH FACEBOOK
           </button>
           <button className="social-button-google">
-            <img src="images/icons8-google-logo-48.png" alt="Google" style={{ height: "25px" }} />
+            <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
+
             CONTINUE WITH GOOGLE
           </button>
-          <LoginComponent setOpen={setOpen}/>
+          <LoginComponent setOpen={setOpen} />
           {/* Forgot Password Link */}
           <a href="#" className="forgot-password">Forgot Password?</a>
         </div>
