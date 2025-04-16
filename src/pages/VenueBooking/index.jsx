@@ -1,128 +1,101 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Booking from './booking';
-
-
-
-const data = [
-  {
-    heading: "Hotels",
-    categories: [
-      "Accessibility for differently-abled",
-      "Baby-sitter on premises",
-      "Car Rental",
-      "Concierge",
-      "Currency Exchange",
-      "Doctor on Call",
-      "Earth check certified",
-      "EV charging stations",
-      "Evening entertainment",
-      "Indoor banquet spaces",
-      "IPTV",
-      "Khazana for shopping",
-      "Laundry and Drycleaning",
-      "Library",
-      "Limousine transfers available on charge basis",
-      "Multi-lingual Staff",
-      "Onsite Shopping",
-      "Outdoor banquet spaces",
-      "Shuttle service to/from city centre",
-      "Smoking Lounge",
-      "Standard & premium Wi-Fi",
-      "Taj Club lounge",
-      "The Chambers Lounge",
-      "Travel Desk",
-      "Vehicle parking",
-      "24/7 business centre"
-    ]
-  }, {
-    heading: "Wellness",
-    categories: [
-      "Accessibility for differently-abled",
-      "Baby-sitter on premises",
-      "Car Rental",
-      "Concierge",
-      "Currency Exchange",
-      "Doctor on Call",
-      "Earth check certified",
-      "EV charging stations",
-      "Evening entertainment",
-      "Indoor banquet spaces",
-      "IPTV",
-      "Khazana for shopping",
-      "Laundry and Drycleaning",
-      "Library",
-      "Limousine transfers available on charge basis",
-      "Multi-lingual Staff",
-      "Onsite Shopping",
-      "Outdoor banquet spaces",
-      "Shuttle service to/from city centre",
-      "Smoking Lounge",
-      "Standard & premium Wi-Fi",
-      "Taj Club lounge",
-      "The Chambers Lounge",
-      "Travel Desk",
-      "Vehicle parking",
-      "24/7 business centre"
-    ]
-  }, {
-    heading: "Dining",
-    categories: ["Wasabi by Morimoto (Japanese)",
-      "Golden Dragon (Sichuan & Cantonese)",
-      "Souk (Mediterranean)",
-      "Shamiana (24-hour international dining)",
-    ]
-  },
-  {
-    heading: "Rooms",
-    categories: [
-      "Butler service",
-      "Interconnecting rooms (subject to availability)",
-      "Mini-Bar",
-      "Sea-facing rooms/ City View Rooms",
-      "Smoking and non-smoking rooms (subject to availability)",
-      "Taj Club rooms",
-      "24/7 in-room dining",
-      "543 Rooms & 54 Suites",
-    ]
-  }
-]
-const images = [
-  { src: "/images/taj1.jpg", alt: "First Image" },
-  { src: "/images/taj2.jpg", alt: "First Image" },
-  { src: "/images/taj3.jpg", alt: "First Image" },
-  { src: "/images/taj4.jpg", alt: "First Image" },
-  { src: "/images/taj5.jpg", alt: "First Image" },
-  { src: "/images/taj6.jpg", alt: "First Image" },
-  { src: "/images/taj7.jpg", alt: "First Image" },
-  { src: "/images/taj8.jpg", alt: "Second Image" },
-  { src: "/images/taj9.jpg", alt: "Third Image" },
-];
+import Login from '../../components/loginContainer';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { MEDIA_URL } from '../../components/config/endpoints';
 
 
 function VenueBooking() {
-   const [Bopen, setBopen] = useState(false)
+  const [venueDetails, setVenueDetails] = useState({});
+  const [facilities, setFacilitiesDetails] = useState({
+    hotels: [],
+    rooms: [],
+    dining: [],
+    wellness: []
+  });
+  const [gallery, setGallery] = useState([]);
+
+  const token = localStorage.getItem("acess_token")
+  const [Bopen, setBopen] = useState(false)
   const [showMore, setShowMore] = useState(null);
+  const [open, setOpen] = useState(false);
   console.log(showMore, "checkblue")
 
 
+  const { id } = useParams()
 
+  console.log(id, "i am her id")
+
+  const handleBookingClick = () => {
+    if (token) {
+      setBopen(true);
+    } else {
+      setOpen(true); // trigger login modal
+    }
+  }
+
+
+
+  const getvenueDetails = async (id) => {
+    try {
+      console.log(id, "venuuer id")
+      const result = await axios.get(`${'http://localhost:9000/api/user/single-venue-detail'}/${id}`)
+      console.log(result.data, "resultttt")
+      setVenueDetails({
+        ...result.data.data,
+        highlights: result.data.data.highlights?.[0] || {} // flatten the array to a single object
+      });
+
+      console.log(result.data.data.venue_facilities, "resultchecksdsdhererer")
+      const rooms = result?.data?.data?.venue_facilities?.filter((e) => e.category === "Rooms")
+      const dining = result?.data?.data?.venue_facilities?.filter((e) => e.category === "Dining")
+      const wellness = result?.data?.data?.venue_facilities?.filter((e) => e.category === "Wellness")
+      const hotels = result?.data?.data?.venue_facilities?.filter((e) => e.category === "Hotels")
+
+      setFacilitiesDetails({ ...facilities, rooms: rooms, hotels: hotels, wellness: wellness, dining: dining })
+
+      setGallery(result.data.data.venue_galleries || []);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  console.log(gallery, "checkbenuerere")
+
+
+  useEffect(() => {
+    getvenueDetails(id)
+  }, [id])
+
+  useEffect(() => {
+    if (!token) {
+      setBopen(false); // Close booking if no token
+    }
+  }, [token]);
+
+
+
+  console.log(venueDetails, "checikign venuerer detaisls")
   return (
     <div>
       <div className='Bookinghead'>
         <h1>
-          Hotel Taj Mahal Palace
+          {venueDetails?.name}
         </h1>
       </div>
       <div className='venue-container' >
-        <img src="/images/tajphoto.jpg"/>
+        <img 
+        className='w-100'
+          src={`${MEDIA_URL}${venueDetails?.image}`}
+
+        />
         {/* <video className='venue-video' autoPlay muted loop>
           <source src="#" type="video/mp4" />
         </video> */}
       </div>
       <div className="venue-details">
-        <h2>The Taj Mahal Palace, Mumbai</h2>
-        <p>⭐ 4.7 (31,926 users)</p>
-        <p>📍 Apollo Bandar, Colaba, Mumbai, Maharashtra</p>
+        <h2>{venueDetails?.name}</h2>
+        <p>📍{venueDetails?.address}</p>
 
       </div>
       <div className="venue-card">
@@ -134,31 +107,31 @@ function VenueBooking() {
               <div className="highlight  ">
                 <span className="icon">💰</span>
                 <h4>PER PLATE</h4>
-                <p>₹3000 - ₹4000</p>
+                <p>{venueDetails?.highlights?.per_plate || "N/A"}</p>
               </div>
 
               <div className="highlight">
                 <span className="icon">🪑</span>
                 <h4>SEATING</h4>
-                <p>60 - 650</p>
+                <p>{venueDetails?.highlights?.sitting || "N/A"}</p>
               </div>
 
               <div className="highlight">
                 <span className="icon">🛏️</span>
                 <h4>ROOMS</h4>
-                <p>10 - 538</p>
+                <p>{venueDetails?.highlights?.rooms || "N/A"}</p>
               </div>
 
               <div className="highlight">
                 <span className="icon">🅿️</span>
                 <h4>PARKING</h4>
-                <p>Approx 100</p>
+                <p>{venueDetails?.highlights?.parking || "N/A"}</p>
               </div>
 
               <div className="highlight">
                 <span className="icon">🏷️</span>
                 <h4>PER DAY</h4>
-                <p>₹3000 - ₹3500</p>
+                <p>{venueDetails?.highlights?.per_day || "N/A"}</p>
               </div>
             </div>
 
@@ -170,34 +143,12 @@ function VenueBooking() {
                 <div className='text-center'>
                   <h3 >Unlock Best Price for this Venue</h3>
                 </div>
-                <form>
-                  <div className='mt-4'>
-                    <label>
-                      <p>Name</p>
-                    </label>
-                    <input type="text" placeholder="Enter your name" />
+                <p>
+                  "Make your event unforgettable by booking the perfect venue! Whether it's a wedding, a birthday, or a corporate gathering, our venues offer the ideal setting for your special occasion. Simply click the button below to reserve your spot and start planning your dream event today. Let us help you create lasting memories!"
+                </p>
+                <button type="button" onClick={handleBookingClick}>BOOK VENUE</button>
 
 
-                  </div>
-
-
-                  <div className='mt-4'>
-                    <label >
-                      <p>Phone Number</p></label>
-                    <div className='phone-input'>
-                      <span>+91</span>
-
-                      <input type="tel" placeholder="Enter phone number" />
-                    </div>
-
-
-
-                  </div>
-
-                  <p className='mt-4'>We will send an OTP to verify your number</p>
-                 <button type="button" onClick={() => setBopen(true)}>BOOK VENUE</button>
-
-                </form>
               </div>
 
             </div>
@@ -208,10 +159,10 @@ function VenueBooking() {
         <h2 className="title">FACILITIES</h2>
         <div className='facility-border'></div>
         <div className="facilities-grid">
-          {data.map((item, index) => (
+          {/* {data.map((item, index) => (
             <div key={index} className="facility-card">
 
-              <h3 className="facility-title">{item.heading}</h3>
+              <h3 className="facility-title">Hotels</h3>
               <ul className="facility-list">
                 {(showMore === index ? item.categories : item.categories.slice(0, 6)).map((item, index) => (
                   <li key={index} className="facility-item">{item}</li>
@@ -220,7 +171,7 @@ function VenueBooking() {
               {showMore !== index ? (
                 <p className='showMore'
                   onClick={() => setShowMore(index)}
-                  
+
                 >
                   Show more...
                 </p>
@@ -234,21 +185,126 @@ function VenueBooking() {
               )
               }
             </div>
-          ))}
+          ))} */}
+         
+
+<div className="facility-card">
+  <h3 className="facility-title">Hotels</h3>
+  <ul className="facility-list">
+    {(showMore === "hotels" ? facilities.hotels : facilities.hotels?.slice(0, 6))?.map((item, index) => (
+      <li key={index} className="facility-item">{item?.name}</li>
+    ))}
+  </ul>
+
+  {facilities.hotels && facilities.hotels.length > 6 && (
+    <p
+      onClick={() =>
+        setShowMore(showMore === "hotels" ? null : "hotels")
+      }
+      style={{
+        color: showMore === "hotels" ? "red" : "burlywood",
+        fontWeight: "500",
+        cursor: "pointer",
+        marginTop: "8px",
+      }}
+    >
+      {showMore === "hotels" ? "Show less" : "Show more..."}
+    </p>
+  )}
+</div>
+
+
+<div className="facility-card">
+  <h3 className="facility-title">Dining</h3>
+  <ul className="facility-list">
+    {(showMore === "dining" ? facilities.dining : facilities.dining?.slice(0, 6))?.map((item, index) => (
+      <li key={index} className="facility-item">{item?.name}</li>
+    ))}
+  </ul>
+
+  {facilities.dining && facilities.dining.length > 6 && (
+    <p
+      onClick={() =>
+        setShowMore(showMore === "dining" ? null : "dining")
+      }
+      style={{
+        color: showMore === "dining" ? "red" : "burlywood",
+        fontWeight: "500",
+        cursor: "pointer",
+        marginTop: "8px",
+      }}
+    >
+      {showMore === "dining" ? "Show less" : "Show more..."}
+    </p>
+  )}
+</div>
+
+<div className="facility-card">
+  <h3 className="facility-title">Wellness</h3>
+  <ul className="facility-list">
+    {(showMore === "wellness" ? facilities.wellness : facilities.wellness?.slice(0, 6))?.map((item, index) => (
+      <li key={index} className="facility-item">{item?.name}</li>
+    ))}
+  </ul>
+
+  {facilities.wellness && facilities.wellness.length > 6 && (
+    <p
+      onClick={() =>
+        setShowMore(showMore === "wellness" ? null : "wellness")
+      }
+      style={{
+        color: showMore === "wellness" ? "red" : "burlywood",
+        fontWeight: "500",
+        cursor: "pointer",
+        marginTop: "8px",
+      }}
+    >
+      {showMore === "wellness" ? "Show less" : "Show more..."}
+    </p>
+  )}
+</div>
+
+
+<div className="facility-card">
+  <h3 className="facility-title">Rooms</h3>
+  <ul className="facility-list">
+    {(showMore === "rooms" ? facilities.rooms : facilities.rooms?.slice(0, 6))?.map((item, index) => (
+      <li key={index} className="facility-item">{item?.name}</li>
+    ))}
+  </ul>
+
+  {facilities.rooms && facilities.rooms.length > 6 && (
+  <p
+    onClick={() =>
+      setShowMore(showMore === "rooms" ? null : "rooms")
+    }
+    style={{
+      color: showMore === "rooms" ? "red" : "burlywood",
+      fontWeight: "500",
+      cursor: "pointer",
+      marginTop: "8px",
+    }}
+  >
+    {showMore === "rooms" ? "Show less" : "Show more..."}
+  </p>
+)}
+</div>
+
+
         </div>
       </div>
       <div className="Gallery">
         <h2 className="title">GALLERY</h2>
         <div className='facility-border'></div>
-        
-     <div className='Scrollable-gallery container'>{images.map((image, index) => (
-  <img key={index} src={image.src} alt={image.alt} />
-))}</div> 
 
-  </div>
-  <Booking Bopen={Bopen} setBopen={setBopen} />
+        <div className='Scrollable-gallery container'>{gallery.map((image, index) => (
+          <img key={index} src={`http://localhost:9000/uploads/${image.image_url}`} alt={''} />
+        ))}</div>
 
-  </div>
+      </div>
+      {token && <Booking Bopen={Bopen} setBopen={setBopen} />}
+      <Login open={open} setOpen={setOpen} />
+    </div >
 
 
   )

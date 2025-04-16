@@ -25,32 +25,32 @@ function LoginComponent({ setOpen }) {
         register,
         handleSubmit,
         formState: { errors },
-        reset 
+        reset
     } = useForm({
         resolver: yupResolver(validationSchema),
     });
-    const onLoginSubmit =  async (data) => {
+    const onLoginSubmit = async (data) => {
         console.log(data, "check")
-    
-    const payload={
-        Email: data.Email,
-        Password: data.Password,
-        
+
+        const payload = {
+            Email: data.Email,
+            Password: data.Password,
+
+        }
+        try {
+            const res = await axios.post(`${USER.LOGIN}`, payload)
+            localStorage.setItem("acess_token", res?.data?.data?.token);
+            localStorage.setItem("user_details", JSON.stringify(res?.data?.data?.details));
+            toast.success(`Login Successfully`)
+            setOpen(false);
+            reset();
+            navigate("/");
+        }
+        catch (error) {
+            console.log(error)
+        }
+
     }
-    try{
-        const res= await axios.post(`${USER.LOGIN}`,payload)
-        localStorage.setItem("acess_token",res?.data?.data?.token);
-        localStorage.setItem("user_details",JSON.stringify(res?.data?.data?.user_details));
-        toast.success(`Login Successfully`)
-        setOpen(false);
-        reset(); 
-        navigate("/"); 
-    }
-    catch(error){
-    console.log(error)
-    }
-    
-}
 
 
     return (

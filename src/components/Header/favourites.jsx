@@ -1,31 +1,91 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import Login from "../loginContainer";
-
+import axios from "axios";
+import { MEDIA_URL } from "../../components/config/endpoints";
+import { useNavigate } from "react-router-dom";
 const FavoritesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("favorites");
   const token = localStorage.getItem("acess_token")
   const [open, setOpen] = useState(false)
   const [ropen, setropen] = useState(false)
+  const navigate = useNavigate();
   const [myFavorites, setMyFavorites] = useState([
-    {
-      id: 1,
-      name: "Centerpieces & tablespaces",
-      image: "/images/idc.avif",
-    },
-    {
-      id: 2,
-      name: "Mg Makeovers",
-      image: "/images/bride.webp",
-    },
+    // {
+    //   id: 1,
+    //   name: "Centerpieces & tablespaces",
+    //   image: "/images/idc.avif",
+    // },
+    // {
+    //   id: 2,
+    //   name: "Mg Makeovers",
+    //   image: "/images/bride.webp",
+    // },
   ]);
 
-  const handleRemoveFavorite = (id) => {
-    const confirmRemove = window.confirm("Do you really want to remove this item from favorites?");
-    if (confirmRemove) {
-      setMyFavorites(myFavorites.filter(fav => fav.id !== id));
+  // const handleRemoveFavorite = (id) => {
+  //   const confirmRemove = window.confirm("Do you really want to remove this item from favorites?");
+  //   if (confirmRemove) {
+  //     setMyFavorites(myFavorites.filter(fav => fav.id !== id));
+  //   }
+  // };
+ 
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchFavorites = async () => {
+      try {
+        const res = await axios.get("http://localhost:9000/api/user/getFav", {
+          headers: {
+            acess_token: token,
+          },
+        });
+
+        setMyFavorites(res.data.data.favorites); // Assuming res.data is an array of fav items
+      } catch (error) {
+        console.error("Error fetching favorites:", error.response?.data || error);
+      }
+    };
+
+    fetchFavorites();
+  }, [token]);
+
+
+  const handleViewDetails = (item_id, item_type) => {
+    if (item_type === 'venue') {
+      navigate(`/booking/${item_id}`); // Navigate to venue detail page
+    } else if (item_type === 'vendor') {
+      navigate(`/Venbook/${item_id}`); // Navigate to vendor detail page
     }
   };
+  const handleRemoveFavorite = async (item_id, item_type) => {
+    const confirmRemove = window.confirm("Do you really want to remove this item from favorites?");
+    if (!confirmRemove) return;
+  
+    try {
+      await axios.post(
+        "http://localhost:9000/api/user/removeFav",
+        {
+          item_id,
+          item_type,
+        },
+        {
+          headers: {
+            acess_token: token,
+          },
+        }
+      );
+  
+      // Remove from UI
+      setMyFavorites((prev) =>
+        prev.filter((fav) => fav.item_id !== item_id || fav.item_type !== item_type)
+      );
+    } catch (err) {
+      console.error("Error removing favorite:", err.response?.data || err);
+    }
+  };
+  
 
   return (
     <div>
@@ -121,29 +181,43 @@ const FavoritesPage = () => {
 <div>
           <div className="myfavorites-container">
             <h2>My Favorites</h2>
-            {token ?
-            <div className="vendors-grid-fav">
-              {myFavorites.map((fav) => (
-                
+            {token ? (
+          <div className="vendors-grid-fav">
+            {myFavorites.length > 0 ? (
+              myFavorites.map((fav) => (
                 <div key={fav.id} className="vendor-item-fav">
                   <FaHeart
-                    className="myfav-icon"
-                    onClick={() => handleRemoveFavorite(fav.id)}
-                    
-                  />
-                  <img src={fav.image} alt={fav.name} className="vendor-image-fav" />
-                  <h3>{fav.name}</h3>
-                  <button
-                    className="view-details-fav"
-                    onClick={() => alert("Navigating to Vendor Detail Page")}
-                  >
-                    View Details
-                  </button>
+  className="myfav-icon"
+  onClick={() => handleRemoveFavorite(fav.item_id, fav.item_type)}
+/>
+
+<img
+  src={
+    fav.image?.startsWith("http")
+      ? fav.image
+      : `${MEDIA_URL}${fav.image}`
+  } className="vendor-image-fav" 
+  alt={fav.name}
+/>
+
                   
+                  <h3>{fav.name || "No Name Available"}</h3>
+
+                  <button
+  className="view-details-fav"
+  onClick={() => handleViewDetails(fav.item_id, fav.item_type)} // Pass item_id and item_type
+>
+  View Details
+</button>
                 </div>
-              ))}
-            </div>
-            : <button onClick={() => setOpen(true)} >Log in</button>}
+              ))
+            ) : (
+              <p>No favorites yet.</p>
+            )}
+          </div>
+        ) : (
+          <button onClick={() => setOpen(true)}>Log in</button>
+        )}
           </div>
        </div> 
        </div>

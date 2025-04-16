@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 
 const AdminEventIdeas = () => {
   const [ideas, setIdeas] = useState([
@@ -22,13 +22,47 @@ const AdminEventIdeas = () => {
   const [editingIdea, setEditingIdea] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   
-  const handleAddIdea = () => {
+  const handleAddIdea = async () => {
     if (newIdea.title && newIdea.image && newIdea.category) {
-      setIdeas([...ideas, { id: Date.now(), ...newIdea }]);
-      setNewIdea({ title: "", image: "", category: "" });
-      setIsAddModalOpen(false);
+      try {
+        const formData = new FormData();
+        formData.append("title", newIdea.title);
+        formData.append("category", newIdea.category);
+  
+        // Use "file" instead of "image" to match backend expectations
+        if (newIdea.image instanceof File) {
+          formData.append("file", newIdea.image);  // Now appending as "file"
+        } else {
+          alert("Please upload a valid image file.");
+          return;
+        }
+  
+        const token = localStorage.getItem("acess_token");
+  
+        const res = await axios.post(
+          "http://localhost:9000/api/admin/add-ideas",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              acess_token: token,
+            },
+          }
+        );
+  
+        setIdeas([...ideas, res.data.data]);
+        setNewIdea({ title: "", image: "", category: "" });
+        setIsAddModalOpen(false);
+      } catch (error) {
+        console.error("Error adding idea:", error);
+        alert("Failed to add idea.");
+      }
+    } else {
+      alert("Please fill all fields.");
     }
   };
+  
+  
 
   const handleDeleteIdea = (id) => {
     setIdeas(ideas.filter((idea) => idea.id !== id));
@@ -50,6 +84,9 @@ const AdminEventIdeas = () => {
       idea.title.toLowerCase().includes(search.toLowerCase()) &&
       (filter ? idea.category === filter : true)
   );
+
+
+
 
   return (
     <div className="event-ideas-wrapper">
@@ -124,13 +161,13 @@ const AdminEventIdeas = () => {
               value={newIdea.title}
               onChange={(e) => setNewIdea({ ...newIdea, title: e.target.value })}
             />
-            <input
-              type="text"
-              className="modal-input"
-              placeholder="Image URL"
-              value={newIdea.image}
-              onChange={(e) => setNewIdea({ ...newIdea, image: e.target.value })}
-            />
+           <input
+  type="file"
+  className="modal-input"
+  accept="image/*"
+  onChange={(e) => setNewIdea({ ...newIdea, image: e.target.files[0] })}
+/>
+
             <input
               type="text"
               className="modal-input"
@@ -158,11 +195,12 @@ const AdminEventIdeas = () => {
               onChange={(e) => setEditingIdea({ ...editingIdea, title: e.target.value })}
             />
             <input
-              type="text"
-              className="modal-input"
-              value={editingIdea.image}
-              onChange={(e) => setEditingIdea({ ...editingIdea, image: e.target.value })}
-            />
+  type="file"
+  className="modal-input"
+  accept="image/*"
+  onChange={(e) => setNewIdea({ ...newIdea, image: e.target.files[0] })}
+/>
+
             <input
               type="text"
               className="modal-input"

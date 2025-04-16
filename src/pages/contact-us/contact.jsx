@@ -3,13 +3,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { FaFacebookF, FaInstagram, FaTwitter,FaPinterest } from "react-icons/fa";
+import axios from "axios";
+import { USER } from "../../components/config/endpoints";
+import toast from "react-hot-toast";
 
 export default function ContactUs() {
   
 
   
 const validationSchema = Yup.object({
-        fullName: Yup.string()
+        name: Yup.string()
             .matches(/^[A-Za-z\s]+$/, "Only alphabets are allowed")
             .required("Full Name is required"),
             email: Yup.string()
@@ -22,15 +25,35 @@ const validationSchema = Yup.object({
                         .required('Message is required'),
                     });
                     const {
-                            register,
-                            handleSubmit,
-                            formState: { errors },
-                        } = useForm({
-                            resolver: yupResolver(validationSchema),
-                        });
-                        const onRegisterSubmit = (e) => {
-                            alert("Message sent! We will reach out to you soon.")
+                      register,
+                      handleSubmit,
+                      formState: { errors },
+                      reset, 
+                  } = useForm({
+                      resolver: yupResolver(validationSchema),
+                  });
+                        const onRegisterSubmit = async (data) => {
+                          console.log(data, "check");
+                        
+                        const payload={
+                          name: data.name,
+                          email: data.email,
+                          
+                          message:data.message,
                         }
+                        console.log(payload, "check");
+                        try{
+                          const res= await axios.post(`${USER.CONTACT}`,payload)
+                          toast.success(`Message sent successfully`)
+                          alert("Message has been seend successfully. We will reach you soon !")
+                          reset();
+                      }
+                      catch(error){
+                      console.log(error)
+                  // toast.error(`${error.response.data.message}`)
+                      }
+                    }
+                  
   return (
     <div className="contact-page-container">
       <div className="contact-page-box">
@@ -57,8 +80,8 @@ const validationSchema = Yup.object({
             <form className="contact-page-form" onSubmit={handleSubmit(onRegisterSubmit)}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
-                <input   {...register("fullname")} type="text" id="name" required />
-                <span className="auth-register-error">{errors?.fullName?.message}</span>
+                <input   {...register("name")} type="text" id="name" required />
+                <span className="auth-register-error">{errors?.name?.message}</span>
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>

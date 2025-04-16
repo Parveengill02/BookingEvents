@@ -72,7 +72,7 @@ export default function AdminProfile() {
         <div className="admin-profile-header">
           <div className="admin-profile-photo-wrapper">
             <img src={admin.profilePic} alt="Profile" className="admin-profile-photo" />
-            <input type="file" accept="image/*" onChange={handleFileChange} className="admin-hidden-input" id="upload-photo" />
+            <input type="file" accept="image/*"  onChange={handleFileChange} className="admin-hidden-input" id="upload-photo" />
             <label htmlFor="upload-photo" className="admin-edit-photo-btn">
               <i className="fa-solid fa-camera"></i>
             </label>

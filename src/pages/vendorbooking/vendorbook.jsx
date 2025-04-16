@@ -1,42 +1,118 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { USER } from '../../components/config/endpoints';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { MEDIA_URL } from '../../components/config/endpoints';
 
-
-const VendorDetail = () => {
+const VendorDetail = ({ open, setOpen }) => {
+    const [vendorDetails, setVendorDetails] = useState({});
+    const [services, setVendorservices] = useState([]);
+    const [gallery, setGallery] = useState([]);
     const [quoteModal, setQuoteModal] = useState(false);
-
+    let token = localStorage.getItem('acess_token')
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        number: '',
+        details: '',
+       
+      });
+      const { id } = useParams()
+      console.log(id, "i am her id")
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+    
+    
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const payload = {
+            name: formData.name,
+            email: formData.email,
+            number: formData.number,
+            details: formData.details,
+            vendor_id:id
+        };
+        
+        console.log('Payload being sent:', payload);
+        try {
+          const response = await axios.post(`${USER.VENDORQUOTE}`, payload, {
+            headers: {
+              acess_token: token,
+            },
+          });
+    
+          if (response.status === 200) {
+            toast.success('Your request has been sent');
+            setFormData({
+                name: 'name',
+        email: 'email',
+        number: 'number',
+        details: 'details',
+            });
+            setQuoteModal(false);
+          }
+        } catch (error) {
+          toast.error('There was an error with your request.');
+          console.error(error);
+        }
+      };
+    
+    //get-vendordetails
+      
+      const getvendorDetails = async (id) => {
+        try {
+          console.log(id, "vendor id")
+          const result = await axios.get(`${'http://localhost:9000/api/user/single-vendor-detail'}/${id}`)
+          console.log(result.data, "resultttt")
+          setVendorDetails({
+            ...result.data.data,
+             
+          });
+    
+          setVendorservices(result.data.data.vendor_services|| []);
+         
+          setGallery(result.data.data.vendor_portfolios|| []);
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      console.log(gallery, "checkbenuerere")
+    
+    
+      useEffect(() => {
+        getvendorDetails(id)
+      }, [id])
     return (
         <div className="vendor-detail">
             <div className="vendor-detail__header">
-                <img src="/images/bride.webp" alt="Vendor" />
+                <img src={`${MEDIA_URL}${vendorDetails?.image}`}/>
             
             <div className="vendor-detail__info">
-                <h1>MG Makeovers</h1>
-                <p><strong>📍Location:</strong> Gurugram, Haryana</p>
-                <p><strong>🏷️Category:</strong> Bridal Makeup Artists</p>
-                <p><strong>📅 Available Dates:</strong> March 2025 - June 2025</p>
+                <h1>{vendorDetails?.name}</h1>
+                <p><strong>📍Location:</strong> {vendorDetails?.location}</p>
+                <p><strong>🏷️Category:</strong> {vendorDetails?.category}</p>
+                <p><strong>📅Available_dates:</strong> { vendorDetails?.available_dates}</p>
             </div>
             </div>
             <div className="vendor-detail__section1">
                 
-                <p>MG Makeovers is your ultimate destination for all your makeover needs in Gurgaon! With a passion for beauty and makeup, MG Makeovers has been providing top-class services to clients since 2017. Their goal is to understand the unique needs and desires of their clients and work diligently to transform their dreams into reality.<br/> <br/>Products Used at MG Makeovers
-                At MG Makeovers, they believe in using only the finest and most reputable makeup products to ensure a flawless and long-lasting look. They take pride in offering an impressive lineup of premium makeup brands, including NARS, Dior, Huda Beauty, Sephora, MAC, Fenty Beauty, Bobbi Brown, and Makeup Forever. Their carefully curated selection of products ensures that you receive nothing but the best for your special occasion.</p>
+                <p>{vendorDetails?.about}</p>
             </div>
             
             <div className="vendor-detail__section">
                 <h2>PORTFOLIO</h2>
                 <div className='highlight-border'></div>
                 <div className='Portfolio-gallery container'>
-                
-                    <img src="/images/br1.jpg" alt="Vendor Work 1" />
-                    <img src="/images/br2.jpeg" alt="Vendor Work 2" />
-                    <img src="/images/br3.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br4.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br5.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br6.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br7.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br8.jpg" alt="Vendor Work 3" />
-                    <img src="/images/br9.jpg" alt="Vendor Work 3" />
+                {gallery.map((image, index) => (
+          <img key={index} src={`http://localhost:9000/uploads/${image.portfolio_image}`} alt={''} />
+        ))}
                 
                 </div>
             </div>
@@ -44,14 +120,14 @@ const VendorDetail = () => {
                 <h2>Services </h2>
                 <div className='highlight-border'></div>
                 <p><ul>
-                    <li><b>Party Makeup:</b> Get ready to dazzle at any celebration with our exquisite party makeup. Our skilled artists will create a look that perfectly matches the tone and theme of the event, leaving you looking radiant and confident.</li><br/>
-<li><b>Bridal Makeup:</b> Your wedding day is a once-in-a-lifetime event, and we are committed to making it truly unforgettable. MG Makeovers' bridal makeup service is tailored to reflect your individuality, ensuring you feel like the most beautiful bride on your special day.</li><br/>
-<li><b>Engagement Makeup:</b>The engagement ceremony is a prelude to your wedding day, and our team will make sure you look breathtaking for this significant event. Our engagement makeup service focuses on highlighting your best features and giving you a radiant glow.</li><br/>
-<li><b>Airbrush Makeup:</b> Experience the magic of airbrush makeup, known for its flawless finish and lightweight feel. MG Makeovers' expert artists are skilled in this technique, delivering a seamless and natural look that will last throughout the event.</li><br/>
-<li><b>Pre-Bridal Packages:</b> Get ready to shine on your big day with MG Makeovers' exquisite Pre-Bridal Packages. They offer a comprehensive range of services to pamper and enhance your natural beauty from head to toe. Whether it's your nails that need a perfect finish, your hair that deserves a mesmerizing transformation, or your skin that calls for a radiant glow, their expert team of professionals is here to cater to all your needs. The services include Nails, Hair, Skin Microblading, and other Basic Salon Services.</li><br/>
+  {services.map((service, index) => (
+    <li key={index}>
+      <b>{service.vendor_service}:</b> {service.description}
+    </li>
+  ))}
 </ul>
 </p>
-             <div className='Price-banner'>STARTING PRICE ~ ₹20,000</div>
+             <div className='Price-banner'>STARTING PRICE ~ ₹{vendorDetails?.price}</div>
                 <p>If you want to book this vendor, click on "Get a Quote" to receive pricing details.Our team will get back to you with the best pricing and package options tailored to your needs!<br/>
                 <button className="vendor-detail__button" onClick={() => setQuoteModal(true)}>Get a Quote</button></p>
                 
@@ -95,11 +171,16 @@ const VendorDetail = () => {
                     <div className="vendor-detail__modal-content">
                         <span className="vendor-detail__close" onClick={() => setQuoteModal(false)}>&times;</span>
                         <h2>Request a Quote</h2>
-                        <form>
-                            <input type="text" className="vendor-detail__input" placeholder="Your Name" required />
-                            <input type="email" className="vendor-detail__input" placeholder="Your Email" required />
-                            <input type="tel" className="vendor-detail__input" placeholder="Your Phone" required />
-                            <textarea className="vendor-detail__textarea" placeholder="Additional Details"></textarea>
+                        <form onSubmit={handleSubmit}>
+                            <input type="text" name="name" className="vendor-detail__input" placeholder="Your Name" value={formData.name}
+                onChange={handleChange}
+                 required />
+                            <input type="email"  name="email" className="vendor-detail__input" placeholder="Your Email" value={formData.email}
+                onChange={handleChange}required />
+                            <input type="tel"  name="number" className="vendor-detail__input" placeholder="Your Phone" value={formData.number}
+                onChange={handleChange} required />
+                            <textarea className="vendor-detail__textarea"  name="details" placeholder="Additional Details" value={formData.details}
+                onChange={handleChange}></textarea>
                             <button type="submit" className="vendor-detail__submit-button">Submit</button>
                         </form>
                     </div>

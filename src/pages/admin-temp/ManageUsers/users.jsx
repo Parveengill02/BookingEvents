@@ -1,30 +1,40 @@
-import React, { useState } from "react";
-import { Pencil, Trash, CheckCircle, XCircle, PlusCircle,Eye} from "lucide-react";
+import { Pencil, Trash, CheckCircle, XCircle, PlusCircle, Eye } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
-const initialUsers = [
-  { id: 1, username: "john_doe", email: "user1@example.com", role: "User", status: "Active", lastLogin: "2025-03-01 10:30 AM" },
-  { id: 2, username: "jane_smith", email: "user2@example.com", role: "User", status: "Suspended", lastLogin: "2025-02-28 03:45 PM" },
-  { id: 3, username: "mike_jordan", email: "user3@example.com", role: "Admin", status: "Active", lastLogin: "2025-03-02 08:15 AM" },
-  { id: 4, username: "sarah_lee", email: "user4@example.com", role: "User", status: "Active", lastLogin: "2025-02-27 09:00 PM" },
-  { id: 5, username: "david_clark", email: "user5@example.com", role: "Admin", status: "Suspended", lastLogin: "2025-02-25 02:10 PM" },
-  { id: 6, username: "linda_moore", email: "user6@example.com", role: "User", status: "Active", lastLogin: "2025-03-01 11:45 AM" },
-  { id: 7, username: "peter_wilson", email: "user7@example.com", role: "User", status: "Active", lastLogin: "2025-02-26 07:30 AM" },
-  { id: 8, username: "emma_jones", email: "user8@example.com", role: "Admin", status: "Suspended", lastLogin: "2025-02-20 06:20 PM" },
-  { id: 9, username: "robert_brown", email: "user9@example.com", role: "User", status: "Active", lastLogin: "2025-03-02 12:00 PM" },
-  { id: 10, username: "olivia_taylor", email: "user10@example.com", role: "User", status: "Suspended", lastLogin: "2025-02-18 04:50 PM" }
-];
-
-
 const ManageUsers = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState(null);
   const [formData, setFormData] = useState({});
 
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  const fetchUserList = async () => {
+    try {
+      const token = localStorage.getItem("acess_token");
+      const response = await axios.get("http://localhost:9000/api/admin/userlist", {
+        headers: {
+          acess_token: token,
+        },
+      });
+      console.log(response.data.data)
+      setUsers(response.data.data);
+    } catch (error) {
+      console.error("Error fetching user list:", error);
+    }
+  };
+
   const openModal = (type, data = {}) => {
     setModal(type);
-    setFormData(data);
+    setFormData({
+      id: data.id || null,
+      fullName: data?.user_detail?.fullName || "",
+      Email: data.Email || "",
+    });
   };
 
   const closeModal = () => {
@@ -32,32 +42,78 @@ const ManageUsers = () => {
     setFormData({});
   };
 
-  const handleSaveUser = () => {
-    if (modal === "editUser") {
-      setUsers(users.map((u) => (u.id === formData.id ? formData : u)));
-    } else if (modal === "addUser") {
-      const newUser = { ...formData, id: Date.now(), role: "User", status: "Active", lastLogin: "Never" };
-      setUsers([...users, newUser]);
+  const handleSaveUser = async () => {
+    try {
+      const token = localStorage.getItem("acess_token");
+
+      if (modal === "editUser") {
+        await axios.put(`http://localhost:9000/api/admin/updateuser/${formData.id}`, formData, {
+          headers: { acess_token: token },
+        });
+      } else if (modal === "addUser") {
+        await axios.post("http://localhost:9000/api/admin/createuser", formData, {
+          headers: { acess_token: token },
+        });
+      }
+
+      fetchUserList();
+      closeModal();
+    } catch (error) {
+      console.error("Error saving user:", error);
     }
-    closeModal();
   };
 
-  const toggleStatus = (id) => {
-    setUsers(users.map((user) => (user.id === id ? { ...user, status: user.status === "Active" ? "Suspended" : "Active" } : user)));
+  const toggleStatus = async (id, currentStatus) => {
+    try {
+      const token = localStorage.getItem("acess_token");
+      const newStatus = currentStatus === "Active" ? "Suspended" : "Active";
+
+      await axios.patch(`http://localhost:9000/api/admin/updatestatus/${id}`, { status: newStatus }, {
+        headers: { acess_token: token },
+      });
+
+      fetchUserList();
+    } catch (error) {
+      console.error("Error toggling user status:", error);
+    }
   };
 
-  const handleDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("acess_token");
+
+      await axios.delete(`http://localhost:9000/api/admin/deleteuser/${id}`, {
+        headers: { acess_token: token },
+      });
+
+      setUsers(users.filter((user) => user.id !== id));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
+
+  const filteredUsers = users.filter((user) => {
+    const fullName = user?.user_detail?.fullName?.toLowerCase() || '';
+    const Email = user?.Email?.toLowerCase() || '';
+    const searchTerm = search.toLowerCase();
+  
+    return fullName.includes(searchTerm) || Email.includes(searchTerm);
+  });
+  
 
   return (
     <div className="manage-users-container">
       <h2 className="manage-users-title">Manage Users</h2>
-      
+
       <div className="manage-users-controls">
-        <input className="manage-users-search" placeholder="Search users..." value={search} onChange={(e) => setSearch(e.target.value)} />
+        <input
+          className="manage-users-search"
+          placeholder="Search users..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
-      
+
       <button className="manage-users-add-btn" onClick={() => openModal("addUser")}>
         <PlusCircle size={20} /> Add New User
       </button>
@@ -76,36 +132,41 @@ const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users
-              .filter((user) => user.username.toLowerCase().includes(search.toLowerCase()))
-              .map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <button className="manage-users-status-btn" onClick={() => toggleStatus(user.id)}>
-                      {user.status === "Active" ? <CheckCircle className="status-active" size={20} /> : <XCircle className="status-suspended" size={20} />}
-                      <span>{user.status}</span>
-                    </button>
-                  </td>
-                  <td>{user.lastLogin}</td>
-                  <td className="manage-users-actions">
-                    <button className="edit-btn" onClick={() => openModal("editUser", user)}>
-                      <Pencil size={16} />
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDelete(user.id)}>
-                      <Trash size={16} />
-                    </button>
-                    <Link to={`/admin/detailuser/${user.id}`}>
-                    <button className="view-btn" >
+            {filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user?.user_detail?.fullname}</td>
+                <td>{user.Email}</td>
+                <td>{user?.role?.role}</td>
+                <td>
+                  <button
+                    className="manage-users-status-btn"
+                    onClick={() => toggleStatus(user.id, user.status)}
+                  >
+                    {user.status === "Active" ? (
+                      <CheckCircle className="status-active" size={20} />
+                    ) : (
+                      <XCircle className="status-suspended" size={20} />
+                    )}
+                    <span>{user.status}</span>
+                  </button>
+                </td>
+                <td>{user.lastLogin || "Never"}</td>
+                <td className="manage-users-actions">
+                  <button className="edit-btn" onClick={() => openModal("editUser", user)}>
+                    <Pencil size={16} />
+                  </button>
+                  <button className="delete-btn" onClick={() => handleDelete(user.id)}>
+                    <Trash size={16} />
+                  </button>
+                  <Link to={`/admin/detailuser/${user.id}`}>
+                    <button className="view-btn">
                       <Eye size={16} /> View Details
                     </button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -114,17 +175,29 @@ const ManageUsers = () => {
       {modal && (
         <div className="modal-backdrop">
           <div className="modal-box">
-            <span className="modal-close" onClick={closeModal}>&times;</span>
+            <span className="modal-close" onClick={closeModal}>
+              &times;
+            </span>
             <h2>{modal === "editUser" ? "Edit User" : "Add User"}</h2>
             <label>
-              Username:
-              <input className="modal-input" value={formData.username || ""} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
+              Full Name:
+              <input
+                className="modal-input"
+                value={formData.fullName || ""}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              />
             </label>
             <label>
               Email:
-              <input className="modal-input" value={formData.email || ""} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <input
+                className="modal-input"
+                value={formData.email || ""}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
             </label>
-            <button className="modal-save-btn" onClick={handleSaveUser}>{modal === "editUser" ? "Save Changes" : "Add User"}</button>
+            <button className="modal-save-btn" onClick={handleSaveUser}>
+              {modal === "editUser" ? "Save Changes" : "Add User"}
+            </button>
           </div>
         </div>
       )}

@@ -6,8 +6,11 @@ import { FaEnvelope } from "react-icons/fa";
 import CustomModal from "../Modal";
 import LoginComponent from "./login";
 import SignUpComponent from "./register";
-import { FRONTEND_URL } from "../config/endpoints";
-
+import { FRONTEND_URL, USER } from "../config/endpoints";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { Toaster, toast } from 'react-hot-toast';
+import { Link } from "react-router-dom";
 function Login({ open, setOpen, ropen, setropen }) {
 
   // State for Registration Modal
@@ -63,6 +66,36 @@ function Login({ open, setOpen, ropen, setropen }) {
     setOpen(false); // Close the modal after successful registration
   };
 
+
+
+  const loginButton = useGoogleLogin({
+    onSuccess: tokenResponse => {
+    
+      console.log(tokenResponse,tokenResponse?.access_token);
+      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${tokenResponse?.access_token}`
+        }
+      })
+      .then(res => res.json())
+                .then(async userInfo => {
+                    console.log("User Info:", userInfo);
+                    try {
+                      const res = await axios.post(`${USER.GOOGLE_LOGIN}`, userInfo)
+                      localStorage.setItem("acess_token", res?.data?.data?.token);
+                      localStorage.setItem("user_details", JSON.stringify(res?.data?.data?.user_details));
+                      toast.success(`Login Successfully`)
+                      setOpen(false);
+                      reset();
+                      navigate("/");
+                  }
+                  catch (error) {
+                      console.log(error)
+                  }
+          
+              });
+    }
+  })
   return (
     <CustomModal open={open} setOpen={setOpen} className="CustomModal">
 
@@ -81,16 +114,17 @@ function Login({ open, setOpen, ropen, setropen }) {
 
             CONTINUE WITH FACEBOOK
           </button>
-          <button className="social-button-google">
+          <button type="button" onClick={() => loginButton()} className="social-button-google">
             <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
-
             CONTINUE WITH GOOGLE
           </button>
-          <button className="social-button-email"  onClick={() => {
-             setropen(false);
-    setRegisterOpen(true);
-    
-  }}>
+          <button className="social-button-email" onClick={() => {
+
+            setropen(false);
+            setRegisterOpen(true);
+
+
+          }}>
             <FaEnvelope style={{ marginRight: "8px" }} /> SIGN UP WITH EMAIL
           </button>
         </div>
@@ -108,14 +142,15 @@ function Login({ open, setOpen, ropen, setropen }) {
             <img src={`${FRONTEND_URL}/images/icons8-facebook-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
             CONTINUE WITH FACEBOOK
           </button>
-          <button className="social-button-google">
+          <button type="button" onClick={() => loginButton()} className="social-button-google">
             <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
 
             CONTINUE WITH GOOGLE
           </button>
           <LoginComponent setOpen={setOpen} />
           {/* Forgot Password Link */}
-          <a href="#" className="forgot-password">Forgot Password?</a>
+          <Link to="/password" className="forgot-password"
+          onClick={() => setOpen(false)}>Forgot Password?</Link>
         </div>
       )}
 
@@ -123,7 +158,7 @@ function Login({ open, setOpen, ropen, setropen }) {
       <CustomModal open={registerOpen} setOpen={setRegisterOpen} className="CustomModal">
         <div className="auth-register-container">
           <h2 className="auth-register-title">Create an Account</h2>
-          <SignUpComponent />
+          <SignUpComponent setOpen={setRegisterOpen} />
         </div>
 
       </CustomModal>

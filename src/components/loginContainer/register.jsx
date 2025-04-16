@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
 import { USER } from '../config/endpoints';
-function SignUpComponent() {
+function SignUpComponent({setOpen}) {
 
     // Validation Schema for Registration
     const validationSchema = Yup.object({
@@ -52,6 +52,8 @@ function SignUpComponent() {
     try{
         const res= await axios.post(`${USER.SIGN_UP}`,payload)
         toast.success(`signup Successfully`)
+        setOpen(false);
+        alert("Please verify your email to complete registration.");
     }
     catch(error){
     console.log(error)

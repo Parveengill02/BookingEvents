@@ -92,9 +92,16 @@ const AdminLayout = ({ children }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/admin/reports">
-                    <FileText className="icon" /> Reports & Analytics
+                  <Link to="/admin/AdminContact">
+                    <FileText className="icon" /> View Contacts
                   </Link>
+
+                </li>
+                <li>
+                  <Link to="/admin/userbookings">
+                    <FileText className="icon" /> View Bookings
+                  </Link>
+                  
                 </li>
               </ul>
             </nav>

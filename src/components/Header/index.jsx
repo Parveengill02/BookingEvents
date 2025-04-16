@@ -15,7 +15,7 @@ function Header() {
     const navigate = useNavigate();
 
     const token = localStorage.getItem("acess_token");
-
+    const userDeatils = JSON.parse(localStorage.getItem("user_details"));
     useEffect(() => {
         if (token) {
 
@@ -98,20 +98,30 @@ function Header() {
 
                                     {isAuthenticated ? (
                                         <>
-                                                <li className="nav-item user-menu">
-                                                <Link to="/my-bookings">
-                                                <i class="fa-regular fa-calendar "style={{ fontSize: "2.2rem" }}></i>
 
-                                                </Link>
-                                            </li>
-                                    
-                                        <li className="nav-item user-menu">
-                                       <i class="fa-solid fa-circle-user "style={{ fontSize: "2.2rem" }}></i>
-                                            <div className="dropdown">
-                                                <Link to="/profilePage">Profile</Link>
-                                                <button onClick={handleLogout}>Logout</button>
-                                            </div>
-                                        </li>
+<li className="nav-item user-menu">
+  <Link to="/bookings">
+    <i className="fa-solid fa-calendar-check" style={{ fontSize: "1.5rem" }}></i>
+  </Link>
+</li>
+
+<li className="nav-item user-menu">
+  <i className="fa-solid fa-user-gear" style={{ fontSize: "1.5rem" }}></i>
+  <div className="dropdown">
+    <Link to="/profilePage">Profile</Link>
+    <button onClick={handleLogout}>Logout</button>
+  </div>
+</li>
+
+{userDeatils?.role_id === 1 && (
+  <li className="nav-item user-menu">
+    <Link to="/admin">
+      <i className="fas fa-user-shield" style={{ fontSize: "1.5rem" }}></i>
+      <h6 style={{fontSize:"13px"}}>Admin</h6>
+    </Link>
+  </li>
+)}
+
                                         </>
                                     ) : (
                                         <>
@@ -157,7 +167,7 @@ function Header() {
                                 <Link className="nav-link active text-white" aria-current="page" to="/event/Birthday Party">Birthday Party</Link>
                                 <Link className="nav-link active text-white" aria-current="page" to="/event/Baby Showers">Baby Showers</Link>
                                 <Link className="nav-link active text-white" aria-current="page" to="/event/Corporate Events">Corporate Events</Link>
-                                <Link className="nav-link active text-white" aria-current="page" to="/event/More Celebrations">More Celebrations</Link>
+                                {/* <Link className="nav-link active text-white" aria-current="page" to="/event/More Celebrations">More Celebrations</Link> */}
                                 <Link className="nav-link active text-white" aria-current="page" to="/contactPage">Contact Us</Link>
                             </div>
                         </div>

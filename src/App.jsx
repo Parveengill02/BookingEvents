@@ -33,11 +33,21 @@ import ContactUs from "./pages/contact-us/contact.jsx";
 import EventPlanning from "./pages/Planning/planningPage.jsx";
 import VerifyEmail from "./verify/email.jsx";
 import Profile from "./pages/user_profile/profile.jsx";
+import MyBookings from "./pages/mybookings/mybook.jsx";
+import LoginComponent from "./components/loginContainer/login.jsx";
+import { Toaster } from "react-hot-toast";
+import AdminContact from "./pages/admin-temp/Viewcontacts.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import ForgotPassword from "./pages/forget-password/password.jsx";
+import ResetPassword from "./pages/forget-password/resetPassword.jsx";
 
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
-  const token = localStorage.getItem("acess_token")
+  const token = localStorage.getItem("acess_token");
+  useEffect(() => {
+    window.scrollTo(0, 0); // values are x,y-offset
+  }, [location])
   return (
     <>
       {!isAdmin && <Header />}
@@ -61,16 +71,18 @@ function Layout() {
         <Route path="/venues/:name" element={<VenueDetailPage />} />
         <Route path="/vendors" element={<Vendorpage />} />
         <Route path="/homepage" element={<Homepage />} />
-        <Route path="/booking/:name" element={<VenueBooking />} />
-        <Route path="/Venbook/:name" element={<VendorDetail />} />
+        <Route path="/booking/:id" element={<VenueBooking />} />
+        <Route path="/Venbook/:id" element={<VendorDetail />} />
         <Route path="/PageIdea" element={<EventIdea />} />
         <Route path="/Detailpageidea/:categories" element={<DetailIdeaPage />} />
         <Route path="/event/:name" element={<EventPage />} />
         <Route path="/likedpage" element={<FavoritesPage />} />
         <Route path="/contactPage" element={<ContactUs />} />
-        <Route path="/planningPage" element={token ? <EventPlanning /> : < Login />} />
-        <Route path="/profilePage" element={<Profile/>}/>
-
+        <Route path="/planningPage" element={token ? <EventPlanning /> : < LoginComponent />} />
+        <Route path="/profilePage" element={<Profile />} />
+        <Route path="/bookings" element={<MyBookings />} />
+        <Route path="/password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         {/* Admin Routes (Wrapped in AdminLayout) */}
         <Route
           path="/admin/*"
@@ -84,13 +96,14 @@ function Layout() {
                 <Route path="users" element={<ManageUsers />} />
                 <Route path="Manageideas" element={<AdminEventIdeas />} />
                 <Route path="admindetailIdeas/:title" element={<IdeaDetails />} />
-                <Route path="adminvendordetail/:name" element={<AdminVendorDetail />} />
+                <Route path="adminvendordetail/:id" element={<AdminVendorDetail />} />
                 <Route path="adminVenues" element={<ManageVenuePage />} />
-                <Route path="detailvenue/:name" element={<AdminVenueDetail />} />
+                <Route path="detailvenue/:id" element={<AdminVenueDetail />} />
                 <Route path="notificationsAdmin" element={<AdminNotifications />} />
                 <Route path="adminProfile" element={<AdminProfilePage />} />
                 <Route path="loginAdmin" element={<AdminLogin />} />
                 <Route path="detailuser/:id" element={<ManageUsersDetails />} />
+                <Route path="AdminContact" element={<AdminContact />} />
               </Routes>
             </AdminLayout>
           }
@@ -103,10 +116,15 @@ function Layout() {
 }
 
 function App() {
+  const googleClientID = import.meta.env.VITE_APP_CLIENT_ID;
+
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <GoogleOAuthProvider clientId={googleClientID}>
+      <Router>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Layout />
+      </Router>
+    </GoogleOAuthProvider>
   );
 }
 
