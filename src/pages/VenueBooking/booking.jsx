@@ -67,8 +67,6 @@ function Booking({ Bopen, setBopen }) {
       email: profileData?.Email,
     })
   }, [profileData])
-  console.log(user, "userProfiledata")
-  console.log(profileData)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
