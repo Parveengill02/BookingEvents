@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import BannerImage from './sections/BannerImage';
-import Intro from './sections/Intro';
+
 import Container from '../../components/card/container';
 import Childbanner from './sections/Childbanner';
 import Service from './sections/Service';
 import Venues from './sections/venues';
 import Footer from '../../components/foot';
 import { Dropdown } from 'react-bootstrap';
+import Intro from './sections/Intro';
 function Homepage() {
   const [isOpen, setIsOPen] = useState(false)
 
@@ -48,8 +49,8 @@ function Homepage() {
     <div>
       <BannerImage />
       <Container />
-      <Intro />
-      <Childbanner />
+      <Intro/>
+      <Childbanner/>
       <Service services={servicesData} />
 
       <Venues />
