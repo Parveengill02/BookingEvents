@@ -83,7 +83,7 @@ function Login({ open, setOpen, ropen, setropen }) {
                     try {
                       const res = await axios.post(`${USER.GOOGLE_LOGIN}`, userInfo)
                       localStorage.setItem("acess_token", res?.data?.data?.token);
-                      localStorage.setItem("user_details", JSON.stringify(res?.data?.data?.user_details));
+                      localStorage.setItem("user_details", JSON.stringify(res?.data?.data?.details));
                       toast.success(`Login Successfully`)
                       setOpen(false);
                       reset();
@@ -109,11 +109,11 @@ function Login({ open, setOpen, ropen, setropen }) {
               Log In...
             </button>
           </p>
-          <button className="social-button-facebook">
+          {/* <button className="social-button-facebook">
             <img src={`${FRONTEND_URL}/images/icons8-facebook-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
 
             CONTINUE WITH FACEBOOK
-          </button>
+          </button> */}
           <button type="button" onClick={() => loginButton()} className="social-button-google">
             <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
             CONTINUE WITH GOOGLE
@@ -138,10 +138,10 @@ function Login({ open, setOpen, ropen, setropen }) {
               Sign Up...
             </button>
           </p>
-          <button className="social-button-facebook">
+          {/* <button className="social-button-facebook">
             <img src={`${FRONTEND_URL}/images/icons8-facebook-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
             CONTINUE WITH FACEBOOK
-          </button>
+          </button> */}
           <button type="button" onClick={() => loginButton()} className="social-button-google">
             <img src={`${FRONTEND_URL}/images/icons8-google-logo-48.png`} alt="Facebook" style={{ height: "29px" }} />
 

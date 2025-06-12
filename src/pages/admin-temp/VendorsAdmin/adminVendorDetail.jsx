@@ -127,7 +127,7 @@ const AdminVendorDetail = () => {
                         {/* ))} */}
                     </tbody>
                 </table>
-                <button className="edit-idea-btn" onClick={() => openModal("editBasic", basicDetails)}>Edit</button>
+                {/* <button className="edit-idea-btn" onClick={() => openModal("editBasic", basicDetails)}>Edit</button> */}
             </div>
 
             {/* Services in Table */}
@@ -138,7 +138,7 @@ const AdminVendorDetail = () => {
                         <tr>
                             <th>Service</th>
                             <th>Description</th>
-                            <th>Actions</th>
+                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -146,7 +146,7 @@ const AdminVendorDetail = () => {
     <tr key={service.id}>
       <td>{service.vendor_service}</td>
       <td>{service.description}</td>    
-      <td className="table-action-buttons">
+      {/* <td className="table-action-buttons">
         <button
           className="edit-idea-btn"
           onClick={() => openModal("editService", service)}
@@ -159,7 +159,7 @@ const AdminVendorDetail = () => {
         >
           Delete
         </button>
-      </td>
+      </td> */}
     </tr>
   ))}
 </tbody>
@@ -175,7 +175,7 @@ const AdminVendorDetail = () => {
                     <thead>
                         <tr>
                             <th>Image</th>
-                            <th>Actions</th>
+                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -189,7 +189,7 @@ const AdminVendorDetail = () => {
         />
       </td>
       
-      <td className="table-action-buttons">
+      {/* <td className="table-action-buttons">
         <button
           className="edit-idea-btn"
           onClick={() => openModal("editPortfolio", item)}
@@ -204,7 +204,7 @@ const AdminVendorDetail = () => {
         >
           Delete
         </button>
-      </td>
+      </td> */}
     </tr>
   ))}
 </tbody>
@@ -213,34 +213,7 @@ const AdminVendorDetail = () => {
                 <button className="edit-idea-btn" onClick={() => openModal("addPortfolio")}>Add Portfolio</button>
             </div>
 
-            {/* Customer Reviews */}
-            <div className="admin-vendor-detail__section">
-                <h2>Customer Reviews</h2>
-                <table className="admin-vendor-detail__table">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Rating</th>
-                            <th>Review</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map((review) => (
-                            <tr key={review.id}>
-                                <td>{review.user}</td>
-                                <td>{review.rating}</td>
-                                <td>{review.review}</td>
-                                <td>
-                                    <button className="delete-idea-btn" onClick={() => setReviews(reviews.filter((r) => r.id !== review.id))}>
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            
 
             {/* Modals */}
             {modal && (

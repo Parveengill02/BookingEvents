@@ -25,7 +25,8 @@ function Service({ services }) {
                 <h4>OUR SERVICES</h4>
                 {/* <section className="services-section">
             <h2 className="section-title">Our Services</h2> */}
-                <div className="container services-grid_change">
+              <div className="container services-grid_change" style={{ paddingTop: '20px' }}>
+
                     <Swiper
                         slidesPerView={4}
                         spaceBetween={20}

@@ -105,18 +105,18 @@ const ManageUsers = () => {
     <div className="manage-users-container">
       <h2 className="manage-users-title">Manage Users</h2>
 
-      <div className="manage-users-controls">
+      {/* <div className="manage-users-controls">
         <input
           className="manage-users-search"
           placeholder="Search users..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-      </div>
+      </div> */}
 
-      <button className="manage-users-add-btn" onClick={() => openModal("addUser")}>
+      {/* <button className="manage-users-add-btn" onClick={() => openModal("addUser")}>
         <PlusCircle size={20} /> Add New User
-      </button>
+      </button> */}
 
       <div className="manage-users-table-container">
         <table className="manage-users-table">
@@ -126,9 +126,9 @@ const ManageUsers = () => {
               <th>Username</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Status</th>
+              {/* <th>Status</th>
               <th>Last Login</th>
-              <th>Actions</th>
+              <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -138,7 +138,7 @@ const ManageUsers = () => {
                 <td>{user?.user_detail?.fullname}</td>
                 <td>{user.Email}</td>
                 <td>{user?.role?.role}</td>
-                <td>
+                {/* <td>
                   <button
                     className="manage-users-status-btn"
                     onClick={() => toggleStatus(user.id, user.status)}
@@ -164,7 +164,7 @@ const ManageUsers = () => {
                       <Eye size={16} /> View Details
                     </button>
                   </Link>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

@@ -501,17 +501,19 @@ header {
 
 .parent {
   background-image: url('images/opp.avif');
-  background-size: 1600px 500px;
+  background-size: cover;           /* Make the background cover full width and height */
+  background-position: top center;  
+  object-fit: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgb(251, 251, 251);
-  height: 45vh;
+  height: 40vh;
   background-repeat: no-repeat;
   margin-top: 589px;
   position: relative;
   width: 100%;
-  z-index: -1;
+  /* z-index: -1;   ❌ REMOVE THIS */
 }
 
 .child h4 {
@@ -552,23 +554,31 @@ header {
 
 
 .book {
-  height: 38px;
-  background: #000;
-  color: #fff;
+  display: flex;       /* flex to align icon + text */
+  align-items: center; /* vertically center */
+  justify-content: center;
+  gap: 5px;             /* small space between icon and text */
+  
+  height: 45px;
+  background: black;
+  color: white;
   margin: 10px 0;
-  border: 1px solid #464646;
-  width: 153px;
+  border: none;
+  width: 260px;
   left: 0;
   right: 70px;
   margin-left: 72px;
   position: absolute;
-  margin-top: 33px;
-  padding-top: 3px;
-  padding-left: 10px;
-  border-radius: 7px;
-  box-shadow: 6px 6px 19px rgba(144, 57, 57, 0.768);
-  z-index: 1;
+  top: 220px;
+  padding: 10px;
+  border-radius: 25px;
+  box-shadow: 6px 6px 19px #b2a130;;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  z-index: 10;
 }
+
 
 
 .service h4 {
@@ -603,6 +613,7 @@ header {
 
 
 .service-card img {
+  object-fit: cover;
   border-radius: 8px;
   width: 243px;
   height: 284px;
@@ -638,12 +649,13 @@ header {
   padding-left: 36px;
   margin-left: 32px;
   width: 97%;
-  height: 462px;
+  height: 418px;
 }
 
 .venues img {
+  object-fit:cover;
   border-radius: 8px;
-  height: 374px;
+  height: 329px;
   width: 315px;
   text-align: center;
 }
@@ -723,7 +735,9 @@ header {
 
 }
 
-
+.endbanner a{
+  color: black !important;
+}
 .endbanner p {
 
   margin-left: 61%;
@@ -1404,7 +1418,7 @@ ul {
 
 
 .filterpage {
-  padding-top: 159px;
+
   padding-left: 36px;
   background-color: rgba(227, 226, 226, 0.79)
 }
@@ -1606,6 +1620,7 @@ ul {
 }
 
 .Vendorbox img {
+  object-fit: cover;
   width: 317px;
   height: 210px
 }
@@ -3549,4 +3564,136 @@ background-color: white;
   color: #555;
   word-wrap: break-word;
   max-width: 250px;
+}
+
+
+/* about-us page */
+.aboutus-container {
+  margin-bottom:-68px;
+  padding: 175px 20px;
+  background: url('/images/about.jpg') no-repeat center center/cover;
+  min-height: 100vh;
+}
+
+.aboutus-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.aboutus-title {
+  text-align: center;
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  color: #697c53;
+}
+
+.aboutus-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  margin-bottom: 40px;
+}
+
+.aboutus-section {
+  margin-bottom: 30px;
+}
+
+.aboutus-heading {
+  font-size: 1.8rem;
+  color: #697c53;
+  margin-bottom: 10px;
+}
+
+.aboutus-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.aboutus-list {
+  list-style: disc inside;
+  color: #555;
+  padding-left: 20px;
+}
+
+.aboutus-list li {
+  margin-bottom: 8px;
+}
+
+
+/* Privacy-Policy */
+.privacy-container {
+  padding: 172px 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.privacy-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #4b2e83;
+}
+
+.privacy-subtitle {
+  font-size: 1.5rem;
+  color: #4b2e83;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.privacy-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+
+/* Terms of Service */
+.terms-container {
+  padding: 172px 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.terms-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.terms-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #4b2e83;
+}
+
+.terms-subtitle {
+  font-size: 1.5rem;
+  color: #4b2e83;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.terms-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
 }

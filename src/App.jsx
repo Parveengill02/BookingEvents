@@ -40,14 +40,25 @@ import AdminContact from "./pages/admin-temp/Viewcontacts.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ForgotPassword from "./pages/forget-password/password.jsx";
 import ResetPassword from "./pages/forget-password/resetPassword.jsx";
-
+import AboutUs from "./pages/aboutUs.jsx";
+import PrivacyPolicy from "./pages/privacyPolicy.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import { Navigate } from "react-router-dom";
 function Layout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
   const token = localStorage.getItem("acess_token");
+  const userDetails = JSON.parse(localStorage.getItem("user_details")); 
   useEffect(() => {
     window.scrollTo(0, 0); // values are x,y-offset
   }, [location])
+
+  if (isAdmin) {
+    if (!token || !userDetails || userDetails.role_id !== 1) {
+      // Not logged in or not an admin user
+      return <Navigate to="/" replace />;
+    }
+  }
   return (
     <>
       {!isAdmin && <Header />}
@@ -68,7 +79,7 @@ function Layout() {
         <Route path="/login" element={<Login />} />
         <Route path="/verify/:token" element={<VerifyEmail />} />
         <Route path="/citypage" element={<VenuePage />} />
-        <Route path="/venues/:name" element={<VenueDetailPage />} />
+        <Route path="/venues" element={<VenueDetailPage />} />
         <Route path="/vendors" element={<Vendorpage />} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/booking/:id" element={<VenueBooking />} />
@@ -83,6 +94,11 @@ function Layout() {
         <Route path="/bookings" element={<MyBookings />} />
         <Route path="/password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+<Route path="/terms-of-service" element={<TermsOfService />} />
+
+
         {/* Admin Routes (Wrapped in AdminLayout) */}
         <Route
           path="/admin/*"

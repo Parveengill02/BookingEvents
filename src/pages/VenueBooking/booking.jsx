@@ -20,7 +20,7 @@ function Booking({ Bopen, setBopen }) {
     date: '',
     guest_count: '',
     duration: '',
-    payment_method: '',
+   
     message: '',
   });
   console.log('Form Data:', formData);  // Log form data to check if event_type and guest_count have values
@@ -58,7 +58,9 @@ function Booking({ Bopen, setBopen }) {
     }
   }
   useEffect(() => {
-    getUserDetails()
+    getUserDetails();
+    const userdetails = JSON.parse(localStorage.getItem('user_details'))
+    SetprofileData(userdetails)
   }, [])
 
   useEffect(() => {
@@ -74,7 +76,6 @@ function Booking({ Bopen, setBopen }) {
 
 
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,8 +88,8 @@ function Booking({ Bopen, setBopen }) {
       guest_count: formData.guest_count, // Send guest count
       duration: formData.duration, // Send duration
       message: formData.message, // Send personal message
-      payment_method: formData.payment_method, // Send payment method
-      venue_id:id
+     
+      venue_id: id
 
     };
     console.log('Payload being sent:', payload);
@@ -108,7 +109,7 @@ function Booking({ Bopen, setBopen }) {
           guest_count: '',
           duration: '',
           message: '',
-          payment_method: '',
+         
         });
         setBopen(false);
       }
@@ -154,6 +155,7 @@ function Booking({ Bopen, setBopen }) {
                 <option>Wedding</option>
                 <option>Birthday</option>
                 <option>Corporate Event</option>
+                <option>Baby shower</option>
               </select>
             </div>
 
@@ -192,7 +194,7 @@ function Booking({ Bopen, setBopen }) {
                 required
               />
             </div>
-            <div className="Bookingform-group">
+            {/* <div className="Bookingform-group">
               <label>Payment Method</label>
               <select name="payment_method" value={formData.payment_method} onChange={handleChange} required>
                 <option value="">Select Payment Method</option>
@@ -201,7 +203,7 @@ function Booking({ Bopen, setBopen }) {
                 <option value="net_banking">Net Banking</option>
                 <option value="wallet">Wallet</option>
               </select>
-            </div>
+            </div> */}
           </div>
 
 

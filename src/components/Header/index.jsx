@@ -7,6 +7,25 @@ import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaRegHeart } from "react-icons/fa";
 import { User } from "lucide-react";
+import axios from 'axios'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+
+// In your search handler
+try {
+  const res = await axios.get(`/api/global-search?query=${searchInput}`);
+  if (res.data && res.data.id) {
+    navigate(`/Venbook/${res.data.id}`);
+  }
+} catch (err) {
+    if (err.response && err.response.status === 404) {
+        toast.error("No vendor found with that name.");
+      } else {
+        toast.error("Search failed. Please try again.");
+      }
+}
 
 function Header() {
     const [open, setOpen] = useState(false)
@@ -30,6 +49,39 @@ function Header() {
     };
 
     console.log(open, "operoerenrerjbkjbfdkbfkd")
+  
+//GLOBAL search
+const [searchInput, setSearchInput] = useState('');
+
+
+const [searchType, setSearchType] = useState('vendor'); // default
+
+const handleSearch = async () => {
+  if (!searchInput.trim()) return;
+
+  try {
+    const res = await axios.get(`http://localhost:9000/api/user/global-search`, {
+      params: { query: searchInput, type: searchType }
+    });
+
+    const { id, type } = res.data;
+
+    if (type === "vendor") {
+      navigate(`/Venbook/${id}`);
+    } else if (type === "venue") {
+      navigate(`/booking/${id}`);
+    }
+  } catch (err) {
+    if (err.response?.status === 404) {
+      toast.error(`No ${searchType} found`);
+    } else {
+      console.error('Search failed:', err.message);
+      toast.error('Search failed');
+    }
+  }
+};
+  
+
 
     return (
         <>
@@ -55,7 +107,7 @@ function Header() {
 
                                     </li>
                                     <li className="nav-item ">
-                                        <Link className="nav-link active text-white " aria-current="page" to="/citypage">Venues</Link>
+                                        <Link className="nav-link active text-white " aria-current="page" to="/venues">Venues</Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link active text-white" aria-current="page" to="/vendors">Vendors</Link>
@@ -71,17 +123,31 @@ function Header() {
                                     <FaSearch />
                                 </div>
                                 <input
-                                    type="text"
-                                    placeholder="Try 'Rafanelli Events'"
-                                    className="search-input"
-                                />
-                                <div className="search-select-container">
-                                    <select className="search-select">
-                                        <option value="Venues"> Venues</option>
-                                        <option value="Vendors">Vendors</option>
-                                        <option value="Ideas"> Ideas</option>
+        type="text"
+        placeholder="Search for a vendor"
+        className="search-input"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)} // Update search input
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch(); // Trigger search when Enter is pressed
+          }
+        }}
+      />
+     
 
-                                    </select>
+
+
+                                <div className="search-select-container">
+                                <select
+  className="search-select"
+  value={searchType}
+  onChange={(e) => setSearchType(e.target.value)}
+>
+  <option value="venue">Venues</option>
+  <option value="vendor">Vendors</option>
+</select>
+
                                     <IoIosArrowDown className="dropdown-icon" />
                                 </div>
                             </div>
@@ -175,6 +241,7 @@ function Header() {
                 </nav>
             </header >
             <Login open={open} setOpen={setOpen} ropen={ropen} setropen={setropen} />
+            <ToastContainer position="top-center" autoClose={3000} />
         </>
 
     )

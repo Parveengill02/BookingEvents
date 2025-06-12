@@ -17,6 +17,9 @@ const Dashboard = () => {
   const [vendorCount, setVendorCount] = useState(0);
   const [revenueCount, setRevenueCount] = useState(0);
   const [venueCount, setVenueCount] = useState(0);
+  const [monthlyBookings, setMonthlyBookings] = useState([]);
+  const [totalBookings, setTotalBookings] = useState(0);
+
   const [selectedFilter, setSelectedFilter] = useState("Monthly");
 const [counts,setCounts]=useState([])
 
@@ -55,6 +58,16 @@ const [counts,setCounts]=useState([])
   
         setCounts(formattedCounts);
       }
+      const rawMonthly = data?.data?.monthlyBookings || [];
+      const transformedMonthly = rawMonthly.map(item => ({
+        month: item.month,
+        events: parseInt(item.totalEvents)
+      }));
+      setMonthlyBookings(transformedMonthly);
+      
+
+      const total = transformedMonthly.reduce((acc, item) => acc + item.events, 0);
+setTotalBookings(total);
     } catch (err) {
       console.log(err);
     }
@@ -83,14 +96,7 @@ const [counts,setCounts]=useState([])
   // }, []);
 
   // Event Booking Trends Data
-  const eventBookingData = [
-    { month: "Jan", events: 10 },
-    { month: "Feb", events: 14 },
-    { month: "Mar", events: 20 },
-    { month: "Apr", events: 18 },
-    { month: "May", events: 22 },
-    { month: "Jun", events: 25 },
-  ];
+  const eventBookingData = monthlyBookings;
 
   // Revenue Growth Data
   const revenueGrowthData = [
@@ -127,9 +133,10 @@ const [counts,setCounts]=useState([])
                 <CountUp className="counter" start={0} end={vendorCount} duration={2} />
               </div>
               <div className="stat-card">
-                <h3><BarChart className="icon" /> Total Revenue</h3>
-                <CountUp className="counter" start={0} end={revenueCount} duration={2} prefix="₹" />
-              </div>
+  <h3><BarChart className="icon" /> Total Bookings</h3>
+  <CountUp className="counter" start={0} end={totalBookings} duration={2} />
+</div>
+
               <div className="stat-card">
                 <h3><Building className="icon" /> Total Venues</h3>
                 <CountUp className="counter" start={0} end={venueCount} duration={2} />
@@ -193,7 +200,7 @@ const [counts,setCounts]=useState([])
         </div>
 
         {/* Revenue Growth Chart */}
-        <div className="revenue-growth-chart-card">
+        {/* <div className="revenue-growth-chart-card">
           <h3 className="revenue-growth-chart-title">Revenue Growth (₹ INR)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueGrowthData}>
@@ -204,18 +211,18 @@ const [counts,setCounts]=useState([])
               <Line type="monotone" dataKey="revenue" stroke="#E63946" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </div> */}
       </div>
 
       {/* Recent Activities */}
-      <div className="recent-activities">
+      {/* <div className="recent-activities">
         <h3 className="subtitle">Recent Activities</h3>
         <ul className="activity-list">
           <li>New event booked: "Corporate Gala"</li>
           <li>Vendor "Luxury Catering" registered</li>
           <li>Customer inquiry received for wedding planning</li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };

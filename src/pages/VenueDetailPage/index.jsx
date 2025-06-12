@@ -257,14 +257,10 @@ function VenueDetailPage() {
   return (
     <div>
       <div className="filterpage">
-        <h1>TOP MUMBAI WEDDING VENUES</h1>
-        <div className="border"></div>
-        <p>984 results near MUMBAI</p>
-
-        {/* Search Box */}
-        <div className="venue-search-container">
-          <input type="text" placeholder="Search Venues..." className="venue-search-input" />
-          <button className="venue-search-button">Search</button>
+      <div class="vendorheading">
+        <h2>TOP EVENT VENUES NEAR ME</h2>
+        <p>Explore a curated collection of breathtaking venues perfect for every occasion—from elegant weddings and professional corporate events to lively fundraisers, Bar or Bat Mitzvahs, and milestone birthday celebrations. Whether you're dreaming of a grand ballroom, a scenic outdoor garden, a chic urban loft, or a cozy banquet hall, our platform connects you with the ideal setting to match your vision and style.</p>
+      
         </div>
 
 
@@ -280,7 +276,7 @@ function VenueDetailPage() {
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Location</Accordion.Header>
                     <Accordion.Body>
-                      {["Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai"].map((city) => (
+                      {["Mumbai", "Delhi", "Bangalore", "Goa","Jaipur","Lucknow","Hyderabad", "Chennai"].map((city) => (
                         <div className="form-check" key={city}>
                           <input
                             className="form-check-input"
@@ -305,7 +301,7 @@ function VenueDetailPage() {
                   <Accordion.Item eventKey="1">
                     <Accordion.Header>Price</Accordion.Header>
                     <Accordion.Body>
-                      {["2000-5000", "5000-10000", "10000-20000"].map((price) => (
+                      {["1000-2000", "2000-3000", "3000-4000", "4000-5000", "5000-6000"].map((price) => (
                         <div className="form-check" key={price}>
                           <input
                             className="form-check-input"
@@ -327,7 +323,17 @@ function VenueDetailPage() {
                   <Accordion.Item eventKey="2">
                     <Accordion.Header>Guests</Accordion.Header>
                     <Accordion.Body>
-                      {["Under 25", "25-50", "50-100", "100-150", "150-200", "250-500"].map((guest) => (
+                      {["Under 50",
+
+"50-100",
+
+"100-200",
+
+"200-500",
+
+"500-800",
+
+"800-1200"].map((guest) => (
                         <div className="form-check" key={guest}>
                           <input
                             className="form-check-input"
@@ -349,7 +355,7 @@ function VenueDetailPage() {
                   <Accordion.Item eventKey="3">
                     <Accordion.Header>Venue Type</Accordion.Header>
                     <Accordion.Body>
-                      {["Banquet", "Beachfront", "Hotel", "Outdoor"].map((type) => (
+                      {["Banquet", "Beachfront", "Hotel", "Outdoor","Lawn","Garden"].map((type) => (
                         <div className="form-check" key={type}>
                           <input
                             className="form-check-input"
@@ -374,6 +380,7 @@ function VenueDetailPage() {
             {/* Venue Listings */}
             <div className="col-md-8">
               <div className="Results">
+                
                 {venueList
                   .filter((venue) => venue.name.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((venue) => (

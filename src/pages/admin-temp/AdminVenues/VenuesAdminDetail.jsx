@@ -18,6 +18,7 @@ const AdminVenueDetail = () => {
     });
     const [venueDetails, setVenueDetails] = useState({});
     const [bookings, setBookings] = useState([]);
+    const [galary, setgalary] = useState([]);
     const getvenueDetails = async (id) => {
       try {
         const result = await axios.get(`${'http://localhost:9000/api/user/single-venue-detail'}/${id}`)
@@ -26,6 +27,7 @@ const AdminVenueDetail = () => {
           ...result.data.data,
           highlights: result.data.data.highlights?.[0] || {} // flatten the array to a single object
         });
+        setgalary(result.data.data.venue_galleries || []);
       } catch (err) {
         console.log(err)
       }
@@ -81,7 +83,7 @@ const AdminVenueDetail = () => {
 
   const [modal, setModal] = useState(null);
   const [formData, setFormData] = useState({});
-
+ 
   const openModal = (type, data) => {
       setModal(type);
       setFormData(data || {});
@@ -141,7 +143,6 @@ const AdminVenueDetail = () => {
     }
   };
   
-
 
   //fetchAllVenueBookings
   
@@ -229,46 +230,37 @@ const AdminVenueDetail = () => {
         <button onClick={() => openModal("editHighlights", venueData.highlights)}><ArrowRight className="w-6 h-6 text-white" />Edit</button>
       </section>
 
-      {/* Booking Management */}
-      <section className='adminvenue-booking'>
-        <h2>Bookings</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-            <th>Venue</th>
-            <th>Email</th>
-            <th>Event Type</th>
-            <th>Guest Count</th>
-            <th>Duration</th>
-           
-            <th>Booking Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          {bookings.map((booking, index) => (
-            <tr key={booking.id}>
-    <td>{index + 1}</td>
-    <td>{booking.venue?.name || "N/A"}</td> {/* venue name */}
-    <td>{booking.user?.Email || "N/A"}</td>   {/* customer name */}
-    <td>{booking.event_type}</td>
-    <td>{booking.guest_count}</td>
-    <td>{booking.duration}</td>
-    
 
-    <td>{new Date(booking.date).toLocaleDateString()}</td>
-    <td>{booking.message}</td>
-    <td>
-      <button>Edit</button>
-      <button>Delete</button>
-    </td>
-  </tr>
-          ))}
-        </tbody>
-        </table>
-      </section>
+     
+<div className="admin-vendor-detail__section">
+<h2>Gallery</h2>
+<table className="admin-vendor-detail__table">
+    <thead>
+        <tr>
+            <th>Image</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+{galary.map((item) => (
+<tr key={item.id}>
+<td>
+<img
+src={`http://localhost:9000/uploads/${item.image_url}`}
+alt="Portfolio"
+className="admin-vendor-detail__portfolio-img"
+/>
+</td>
+</tr>
+ ))}
+</tbody>
+</table>
+                <button className="edit-idea-btn" onClick={() => openModal("addPortfolio")}>Add Portfolio</button>
+            </div>
+
+
+      {/* Booking Management */}
+      
 
       {/* Modals */}
       {modal && (
@@ -314,11 +306,74 @@ const AdminVenueDetail = () => {
 
   </>
 )}
+{modal === "addPortfolio" && (
+  <>
+    <h2>Add Gallery</h2>
+    <input
+      type="file"
+      multiple
+      className="modal-input"
+      onChange={(e) => setFormData({ ...formData, files: e.target.files })}
+    />
+    <button
+      className="modal-save-btn"
+      onClick={async () => {
+        try {
+          const token = localStorage.getItem("acess_token");
+          const form = new FormData();
+          
+          // Append files to FormData
+          for (let i = 0; i < formData.files.length; i++) {
+            form.append("file", formData.files[i]);
+          }
+          form.append("venue_id", id); // Send venue ID in form data
+
+          // Make the API request
+          const res = await axios.post(
+            "http://localhost:9000/api/admin/add-galary",
+            form,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                acess_token: token,
+              },
+            }
+          );
+
+          // Log the full API response for debugging
+          console.log("API Response:", res.data);
+
+          // Check if gallery data is returned as an array
+          if (res.data.success && Array.isArray(res.data.data.gallery)) {
+            setgalary((prevGallery) => [...prevGallery, ...res.data.data.gallery]);
+
+            // Show a success toast
+            toast.success("Gallery image(s) added successfully!");
+
+            // Close the modal after the image is added
+            setModal(null); // Close the modal (assuming `setModal` is used to manage modal visibility)
+          } else {
+            console.error("Expected an array but got:", res.data.data.gallery);
+            toast.error("Something went wrong with the gallery upload.");
+          }
+
+        } catch (err) {
+          console.error("Upload Error:", err);
+          toast.error("Something went wrong while uploading images.");
+        }
+      }}
+    >
+      Add
+    </button>
+  </>
+)}
 
           </div>
         </div>
       )}
+      
     </div>
+    
   );
 };
 

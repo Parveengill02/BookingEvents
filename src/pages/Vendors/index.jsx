@@ -242,7 +242,7 @@ function Vendorpage() {
 
         const vendorLikes = {};
         favs.forEach((fav) => {
-          if (fav.item_type === "venue") {
+          if (fav.item_type === "vendor") {
             vendorLikes[fav.item_id] = true;
           }
         });

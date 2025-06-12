@@ -42,7 +42,7 @@ const AdminContact = () => {
               <td>{msg.name}</td>
               <td>{msg.email}</td>
               <td>{msg.message}</td>
-              <td>{new Date(msg.createdAt).toLocaleString()}</td>
+              <td>{new Date(msg.created_at).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

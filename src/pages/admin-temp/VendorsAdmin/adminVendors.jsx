@@ -145,7 +145,7 @@ export default function ManageVendors() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [bookings, setBookings] = useState([]);
     const [reloadVendors, setReloadVendors] = useState(false);
-
+ const [actionStatus, setActionStatus] = useState({});
   const [newVendor, setNewVendor] = useState({
     name: "",
     location: "",   
@@ -184,9 +184,32 @@ export default function ManageVendors() {
 
 
 
-  const handleDelete = (id) => {
-    setVendors(vendors.filter((vendor) => vendor.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      // Send DELETE request to backend API
+      const response = await axios.delete(`http://localhost:9000/api/admin/delete-vendor/${id}`, {
+        headers: {
+          acess_token: token, // Ensure the token is passed in the headers
+        },
+      });
+  
+      if (response?.data?.success) {
+        toast.success("Vendor deleted successfully!", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+  
+        // Remove the vendor from the state list
+        setVendors(vendors.filter((vendor) => vendor.id !== id));
+      } else {
+        toast.error("Failed to delete vendor");
+      }
+    } catch (error) {
+      console.error("Error deleting vendor:", error);
+      toast.error("Something went wrong while deleting the vendor");
+    }
   };
+  
 
   // Updated to accept the vendor object instead of id
   const handleEditIdea = (vendor) => {
@@ -194,12 +217,48 @@ export default function ManageVendors() {
     setIsModalOpen(true);
   };
 
+
+  
   // Saves the changes made in the modal
-  const handleSaveEdit = () => {
-    setVendors(vendors.map((v) => (v.id === editingIdea.id ? editingIdea : v)));
-    setEditingIdea(null);
-    setIsModalOpen(false);
+  const handleSaveEdit = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("id", editingIdea.id); // Include the vendor's ID
+      formData.append("name", editingIdea.name);
+      formData.append("location", editingIdea.location);
+      formData.append("category", editingIdea.category);
+      formData.append("available_dates", editingIdea.available_dates);
+      formData.append("price", editingIdea.price);
+      formData.append("about", editingIdea.about);
+  
+      // Only append the image if a new one is selected
+      if (uploadedImage) {
+        formData.append("file", uploadedImage);
+      }
+  
+      const result = await axios.put("http://localhost:9000/api/admin/update-vendor", formData, {
+        headers: {
+          acess_token: token,
+        },
+      });
+  
+      if (result?.data?.success) {
+        toast.success("Vendor updated successfully", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+        setIsModalOpen(false); // Close modal after success
+        setReloadVendors(prev => !prev); // Refresh the vendor list
+      } else {
+        toast.error("Failed to update vendor");
+      }
+    } catch (err) {
+      console.error("Vendor update error:", err);
+      toast.error("Something went wrong while updating the vendor");
+    }
   };
+  
+  
   
   const handleChange = (e) => {
     setNewVendor({ ...newVendor, [e.target.name]: e.target.value });
@@ -244,7 +303,18 @@ export default function ManageVendors() {
           position: "top-right",
           autoClose: 2000,
         });
-        reset();// ✅ Only close after success
+        // ✅ Reset the form fields
+      setNewVendor({
+        name: "",
+        location: "",
+        category: "",
+        available_dates: "",
+        price: "",
+        about: "",
+      });
+
+      // ✅ Reset the uploaded image
+      setUploadedImage(null);
         setReloadVendors(prev => !prev); // ✅ Trigger useEffect to fetch new list
       } else {
         toast.error("Failed to add vendor");
@@ -277,21 +347,77 @@ export default function ManageVendors() {
   // Fetch bookings on page load or token change
   useEffect(() => {
     fetchAllBookings();
-  }, [token]); // Only re
+  }, [token]); 
+
+  const handleApprove = async (id) => {
+    try {
+      setActionStatus(prev => ({ ...prev, [id]: 'approving' }))
+      const result = await axios.post("http://localhost:9000/api/admin/approve-mail", {
+        id, // changed from bookingId
+        status: "Confirmed",
+      }, {
+        headers: {
+          acess_token: token,
+        },
+      });
+  
+      if (result?.data?.success) {
+        toast.success("Booking approved!");
+        fetchAllBookings(); 
+      } else {
+        toast.error("Failed to approve booking.");
+      }
+      setActionStatus(prev => ({ ...prev, [id]: 'approved' }));
+    } catch (err) {
+      console.error("Error approving booking:", err);
+      toast.error("Something went wrong while approving the booking.");
+      setActionStatus(prev => ({ ...prev, [id]: 'error' }));
+    }
+  };
+  
+
+ 
+
+  const handleBookDelete = async (id) => {
+    try {
+      setActionStatus(prev => ({ ...prev, [id]: 'deleting' }));
+      const result = await axios.post(
+        "http://localhost:9000/api/admin/reject-mail",
+        { id }, // sending ID in request body
+        {
+          headers: {
+            acess_token: token,
+          },
+        }
+      );
+  
+      if (result?.data?.success) {
+        toast.success("Booking deleted!");
+        fetchAllBookings(); // no need to sendRejectionEmail separately now
+      } else {
+        toast.error("Failed to delete booking.");
+      }
+      setActionStatus(prev => ({ ...prev, [id]: 'deleted' }));
+    } catch (err) {
+      console.error("Error deleting booking:", err);
+      toast.error("Something went wrong while deleting the booking.");
+      setActionStatus(prev => ({ ...prev, [id]: 'error' }));
+    }
+  };
   return (
     <div className="admin-container">
       
       <h1 className="admin-title">Manage Vendors</h1>
       
-      <input
+      {/* <input
         type="text"
         placeholder="Search Vendors..."
         className="admin-search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-      />
+      /> */}
 
-      <div className="admin-card">
+      {/* <div className="admin-card">
         <h2>Vendor Sales Overview</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={vendors} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -303,7 +429,7 @@ export default function ManageVendors() {
             <Line type="monotone" dataKey="sale" stroke="#8884d8" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </div> */}
 
       <div className="admin-add-form">
         <h2>Add New Vendor</h2>
@@ -354,7 +480,7 @@ export default function ManageVendors() {
               name="file"
               placeholder="upload image"
               accept=".png,.jpeg,.svg,.jpg,.webp"
-              // value={newVenue.image}
+              value={newVendor.image}
               onChange={handleUpload}
             />
         <button className="modal-save-btn" onClick={addVendor}>Add Vendor</button>
@@ -396,47 +522,73 @@ export default function ManageVendors() {
                   Edit
                 </button>
                 <button className="delete-idea-btn" onClick={() => handleDelete(vendor.id)}>
-                  Delete
-                </button>
+  Delete
+</button>
+
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       {isModalOpen && editingIdea && (
-        <div className="modal-backdrop">
-          <div className="modal-box">
-            <h2>Edit Vendor</h2>
-            <input
-              type="text"
-              className="modal-input"
-              value={editingIdea.name}
-              onChange={(e) => setEditingIdea({ ...editingIdea, name: e.target.value })}
+  <div className="modal-backdrop">
+    <div className="modal-box">
+      <h2>Edit Vendor</h2>
+      <input
+        type="text"
+        className="modal-input"
+        value={editingIdea.name}
+        onChange={(e) => setEditingIdea({ ...editingIdea, name: e.target.value })}
+      />
+      <input
+        type="text"
+        className="modal-input"
+        value={editingIdea.category}
+        onChange={(e) => setEditingIdea({ ...editingIdea, category: e.target.value })}
+      />
+      <input
+        type="text"
+        className="modal-input"
+        value={editingIdea.location}
+        onChange={(e) => setEditingIdea({ ...editingIdea, location: e.target.value })}
+      />
+      <input
+        type="text"
+        className="modal-input"
+        value={editingIdea.available_dates}
+        onChange={(e) => setEditingIdea({ ...editingIdea, available_dates: e.target.value })}
+      />
+      <input
+        type="text"
+        className="modal-input"
+        value={editingIdea.price}
+        onChange={(e) => setEditingIdea({ ...editingIdea, price: e.target.value })}
+      />
+      <textarea
+        className="modal-input"
+        value={editingIdea.about}
+        onChange={(e) => setEditingIdea({ ...editingIdea, about: e.target.value })}
+      />
+      <input
+              type="file"
+              name="file"
+              placeholder="upload image"
+              accept=".png,.jpeg,.svg,.jpg,.webp,.avif"
+              //  value={newVendor.image}
+              onChange={handleUpload}
             />
-            <input
-              type="text"
-              className="modal-input"
-              value={editingIdea.image}
-              onChange={(e) => setEditingIdea({ ...editingIdea, image: e.target.value })}
-            />
-            <input
-              type="text"
-              className="modal-input"
-              value={editingIdea.category}
-              onChange={(e) => setEditingIdea({ ...editingIdea, category: e.target.value })}
-            />
-            <div className="modal-buttons-container">
-              <button className="modal-cancel-btn" onClick={() => setIsModalOpen(false)}>
-                Cancel
-              </button>
-              <button className="modal-save-btn" onClick={addVendor}>
-                Save
-              </button>
-            </div>
-          </div>
-         
-        </div>
-      )}
+      <div className="modal-buttons-container">
+        <button className="modal-cancel-btn" onClick={() => setIsModalOpen(false)}>
+          Cancel
+        </button>
+        <button className="modal-save-btn" onClick={handleSaveEdit}>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <ToastContainer autoClose={3000}/>
       <section className='adminvenue-booking' style={{ padding: '24px', marginTop: '30px', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
         <h2 style={{ marginBottom: '16px' }}>Bookings</h2>
@@ -454,30 +606,76 @@ export default function ManageVendors() {
           </thead>
           <tbody>
             {bookings.map((booking, index) => (
-              <tr key={booking.id}>
+             <tr key={booking.id}
+             style={{
+               backgroundColor: booking.status === 'Rejected' ? '#ffe5e5' : 'transparent',
+               color: booking.status === 'Rejected' ? '#b00020' : 'inherit',
+               fontWeight: booking.status === 'Rejected' ? 'bold' : 'normal'
+             }}>
                 <td>{index + 1}</td>
                 <td>{booking.vendor?.name || "N/A"}</td> {/* venue name */}
                 <td>{booking.user?.Email || "N/A"}</td>   {/* customer name */}
-                <td>{booking.phone}</td>
+                <td>{booking.number}</td>
                 <td>{booking.details}</td>
              
 
 
                
                 <td>
-                <button
-                  className="admin-venue-edit-btn"
-                  onClick={() => handleApprove(booking.id, booking.user?.Email)}
-                >
-                  Approve
-                </button>
-                <button
-                  className="admin-venue-delete-btn"
-                  onClick={() => handleBookDelete(booking.id, booking.user?.Email)}
-                >
-                  Delete
-                </button>
-                </td>
+  {/* Approve / Approved */}
+  <button
+    onClick={() => handleApprove(booking.id)}
+    disabled={booking.status === 'Confirmed' || actionStatus[booking.id] === 'approving'}
+    style={{
+      padding: '6px 12px',
+      marginRight: '8px',
+      border: '1px solid #800000',
+      borderRadius: '6px',
+      fontWeight: 'bold',
+      backgroundColor:
+        booking.status === 'Confirmed' ? '#800000' : '#ffffff',
+      color:
+        booking.status === 'Confirmed' ? '#ffffff' : '#800000',
+      cursor:
+        booking.status === 'Confirmed' || actionStatus[booking.id] === 'approving'
+          ? 'not-allowed'
+          : 'pointer',
+    }}
+  >
+    {actionStatus[booking.id] === 'approving'
+      ? 'Approving...'
+      : booking.status === 'Confirmed'
+      ? 'Approved'
+      : 'Approve'}
+  </button>
+
+  {/* Delete / Deleted */}
+  <button
+    onClick={() => handleBookDelete(booking.id)}
+    disabled={booking.status === 'Rejected' || actionStatus[booking.id] === 'deleting'}
+    style={{
+      padding: '6px 12px',
+      border: '1px solid #006400',
+      borderRadius: '6px',
+      fontWeight: 'bold',
+      backgroundColor:
+        booking.status === 'Rejected' ? '#006400' : '#ffffff',
+      color:
+        booking.status === 'Rejected' ? '#ffffff' : '#006400',
+      cursor:
+        booking.status === 'Rejected' || actionStatus[booking.id] === 'deleting'
+          ? 'not-allowed'
+          : 'pointer',
+    }}
+  >
+    {actionStatus[booking.id] === 'deleting'
+      ? 'Deleting...'
+      : booking.status === 'Rejected'
+      ? 'Deleted'
+      : 'Delete'}
+  </button>
+</td>
+
               </tr>
             ))}
           </tbody>

@@ -1,11 +1,29 @@
-import React from 'react';
-import facebook from "/images/icons8-facebook-50.png" 
-import instagram from "/images/icons8-instagram-50.png"
-import twitter from "/images/icons8-twitter-bird-24.png"
-import pinterest from "/images/icons8-pinterest-26.png"
-import { FaFacebookF, FaInstagram, FaTwitter,FaPinterest } from "react-icons/fa";
+import React, { useState } from 'react';
+import { FaFacebookF, FaInstagram, FaTwitter, FaPinterest } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify'; // Import toastify components
+import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
+import { Link } from "react-router-dom";
+
 function Footer() {
-  console.log('Footer is being rendered!');  // Check if it's rendering
+  console.log('Footer is being rendered!'); // Check if it's rendering
+
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate the email (you can add more sophisticated validation)
+    if (email) {
+      // Show toast notification
+      toast.success("Email has been submitted successfully!");
+
+      // You can also reset the form if necessary
+      setEmail("");
+    } else {
+      // Show error toast if no email is entered
+      toast.error("Please enter a valid email.");
+    }
+  };
 
   return (
     <div>
@@ -16,10 +34,19 @@ function Footer() {
               <div className="col-md-8">
                 <h6>Get the Latest Trends</h6>
                 <p>Our team’s top picks and more straight to your inbox.</p>
-                <form className="email1">
+                <form className="email1" onSubmit={handleSubmit}>
                   <div className="mb-3 email">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                     <div id="emailHelp" className="form-text" style={{ color: 'white' }}>
                       We'll never share your email with anyone else.
                     </div>
@@ -38,59 +65,71 @@ function Footer() {
                   </button>
                 </form>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
         <div className="foot2">
           <h6>Follow Us</h6>
-          <div className='foot-img'>
-          <a href="#" className="contact-page-icon"><FaFacebookF /></a>
-              <a href="#" className="contact-page-icon"><FaInstagram /></a>
-              <a href="#" className="contact-page-icon"><FaTwitter /></a>
-              <a href="#" className="contact-page-icon"><FaPinterest /></a>
+          <div className="foot-img">
+            {/* Links to social media pages */}
+            <a href="https://www.facebook.com/parveen_gill02" className="contact-page-icon" target="_blank" rel="noopener noreferrer">
+              <FaFacebookF />
+            </a>
+            <a href="https://www.instagram.com/Parveen" className="contact-page-icon" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </a>
+            <a href="https://twitter.com/yourpage" className="contact-page-icon" target="_blank" rel="noopener noreferrer">
+              <FaTwitter />
+            </a>
+            <a href="https://www.pinterest.com/yourpage" className="contact-page-icon" target="_blank" rel="noopener noreferrer">
+              <FaPinterest />
+            </a>
           </div>
-         
         </div>
       </div>
-  
-    
-    <div class="end">
-  <div class="row">
-    <div class="col-md-4">
+
+      <div className="end">
+  <div className="row">
+    <div className="col-md-4">
       <h6>Get Started</h6>
-      <a href="#">Find Venues</a><br/>
-      <a href="#">Find Vendors</a><br/>
-      <a href="#">Find Ideas</a>
-
+      <Link to="/venues">Find Venues</Link><br />
+      <Link to="/vendors">Find Vendors</Link><br />
+      <Link to="/PageIdea">Find Ideas</Link>
     </div>
-    <div class="col-md-4">
-    <h6>Browse by Event</h6>
-      <a href="#">Weddings</a><br/>
-      <a href="#">Birthdays</a><br/>
-      <a href="#">Baby Showers</a><br/>
-      <a href="#">Corporate Events</a>
-
+    <div className="col-md-4">
+      <h6>Browse by Event</h6>
+      <Link to="/event/Wedding">Wedding</Link><br />
+      <Link to="/event/Birthday Party">Birthday Party</Link><br />
+      <Link to="/event/Baby Showers">Baby Showers</Link><br />
+      <Link to="/event/Corporate Events">Corporate Events</Link>
     </div>
-    <div class="col-md-4">
-    <h6>The Company</h6>
-      <a href="#">About us</a><br/>
-      <a href="#">Contact Gill's Event Elegance</a><br/>
-      <a href="#">Careers</a>
+    <div className="col-md-4">
+      <h6>The Company</h6>
+      <Link to="/aboutus">About Us</Link><br />
 
+      <Link to="/contactPage">Contact Gill's Event Elegance</Link><br />
+      
     </div>
   </div>
 </div>
-<div className="endbanner">
+
+      <div className="endbanner">
   
     
-  <a>Privacy Policy</a>
-  <a>Terms of Service</a>
+      <Link to="/privacy-policy">Privacy Policy</Link>
+<Link to="/terms-of-service">Terms of Service</Link>
+
  <p>© Gill's Event Elegance 2025</p>
   
 </div>
 
-    </div>
 
+
+
+
+      {/* Toast Container (for displaying notifications) */}
+      <ToastContainer />
+    </div>
   );
 }
 

@@ -91,7 +91,7 @@ const FavoritesPage = () => {
     <div>
       <div className="favorites-container">
         {/* Sidebar */}
-        <div className="sidebar-fav">
+        {/* <div className="sidebar-fav">
           <h2>Favorites</h2>
           <ul>
             <li
@@ -112,7 +112,7 @@ const FavoritesPage = () => {
             
           </ul>
           <button className="create-slate">+ Create New Slate</button>
-        </div>
+        </div> */}
 
         {/* Main Content */}
         <div className="main-content-fav">

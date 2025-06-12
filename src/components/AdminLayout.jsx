@@ -37,7 +37,7 @@ const AdminLayout = ({ children }) => {
         <h1 className="panel-title">Admin Panel</h1>
 
         {/* Admin Profile & Notifications */}
-        <div className="admin-profile-container">
+        {/* <div className="admin-profile-container">
           <Link to="/admin/notificationsAdmin">
             <Bell className="icon" />
           </Link>
@@ -57,7 +57,7 @@ const AdminLayout = ({ children }) => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </header>
 
       {/* Admin Sidebar & Content */}
@@ -81,11 +81,11 @@ const AdminLayout = ({ children }) => {
                     <Users className="icon" /> Manage Users
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/admin/Manageideas">
                     <Lightbulb className="icon" /> Manage Ideas
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/admin/adminVenues">
                     <Building className="icon" /> Manage Venues
@@ -97,12 +97,7 @@ const AdminLayout = ({ children }) => {
                   </Link>
 
                 </li>
-                <li>
-                  <Link to="/admin/userbookings">
-                    <FileText className="icon" /> View Bookings
-                  </Link>
-                  
-                </li>
+               
               </ul>
             </nav>
           </div>

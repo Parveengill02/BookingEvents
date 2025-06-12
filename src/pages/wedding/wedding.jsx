@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap';
 const getVenues = (name) => [
@@ -11,15 +11,17 @@ const getVenues = (name) => [
   {
     title: `Outdoor ${name} Venues`,
     image: "/images/w2.avif",
-    type: "Outdoor",
+    type: "Lawn",
   },
   {
     title: `Restaurant ${name} Venues`,
     image: "/images/w3.avif",
+    type: "Banquet",
   },
   {
     title: `${name} Event Spaces`,
     image: "/images/w4.avif",
+    type: "Hotel",
   },
 ];
 
@@ -151,6 +153,107 @@ const birthdayFaqs = [
     answer: "Fun birthday activities include games like scavenger hunts, trivia, karaoke, and dance-offs. For kids, consider crafts, magic shows, or puppet theaters. Adults might enjoy themed photo booths, drink tasting stations, or a movie screening under the stars.",
   }
 ];
+const babyShowerFaqs = [
+  {
+    question: "When should I host a baby shower?",
+    answer: "Baby showers are typically held during the third trimester, around 28 to 36 weeks of pregnancy. This timing ensures the pregnancy is well along, but early enough to avoid last-minute surprises.",
+  },
+  {
+    question: "Who usually hosts a baby shower?",
+    answer: "Traditionally, close friends or family members host the baby shower. However, modern etiquette allows anyone — including siblings, parents, or even the parents-to-be — to organize the celebration.",
+  },
+  {
+    question: "Where can I host a baby shower?",
+    answer: "Popular baby shower venues include private homes, gardens, restaurants, community halls, or event spaces. Outdoor venues like parks are great for casual, picnic-style showers during pleasant weather.",
+  },
+  {
+    question: "What are some popular baby shower themes?",
+    answer: "Favorite baby shower themes include 'Twinkle Twinkle Little Star', 'Boho Baby', 'Woodland Animals', 'Minimalist Neutral', 'Teddy Bear Picnic', or gender-specific themes like 'Little Princess' or 'Little Prince'.",
+  },
+  {
+    question: "What activities should I include at a baby shower?",
+    answer: "Common baby shower activities include gift opening, baby-themed games (like 'Guess the Baby Food' or 'Baby Bingo'), advice cards for parents, and fun photo booths with themed props.",
+  },
+  {
+    question: "Do I need to serve a full meal at a baby shower?",
+    answer: "It’s common to serve light refreshments like finger foods, appetizers, desserts, and drinks. A full meal is optional and depends on the timing and duration of the event.",
+  },
+  {
+    question: "What are good baby shower favors for guests?",
+    answer: "Popular baby shower favors include candles, mini succulents, personalized cookies, bath bombs, or small jars of honey or jam. Practical and thoughtful favors leave a lasting impression.",
+  },
+  {
+    question: "How much should I budget for a baby shower?",
+    answer: "Budgets can vary widely, from $200 for a simple home gathering to over $1,000 for a venue-based event with catering, decorations, and entertainment. Prioritize venue, food, and décor based on your guest list.",
+  },
+  {
+    question: "Should the baby shower have a gift registry?",
+    answer: "Yes, having a baby registry makes it easier for guests to choose gifts the parents actually need. It also helps avoid duplicate gifts and simplifies the shopping process.",
+  },
+  {
+    question: "Can I have a co-ed baby shower?",
+    answer: "Absolutely! Many modern baby showers are co-ed, welcoming both male and female guests. Co-ed showers often focus more on casual games, barbecues, or themed parties everyone can enjoy.",
+  },
+  {
+    question: "What should I write in a baby shower invitation?",
+    answer: "Include essential details: honoree's name, date, time, location, RSVP info, registry details, and any theme or dress code if applicable. A cute rhyme or baby-themed wording adds a nice touch.",
+  },
+  {
+    question: "How long should a baby shower last?",
+    answer: "Most baby showers last between 2 to 4 hours, giving enough time for mingling, games, food, and gift opening without tiring out the parents-to-be or guests.",
+  },
+];
+
+const corporateEventFaqs = [
+  {
+    question: "What types of corporate events can be organized?",
+    answer: "Corporate events can range from conferences, seminars, and team-building retreats to product launches, holiday parties, award ceremonies, and networking events. Each serves a different business goal, from education to celebration.",
+  },
+  {
+    question: "How far in advance should I plan a corporate event?",
+    answer: "It’s best to start planning a corporate event at least 3 to 6 months in advance, especially for larger events. Early planning ensures better venue availability, vendor options, and a smoother overall execution.",
+  },
+  {
+    question: "What are popular venues for corporate events?",
+    answer: "Popular corporate event venues include hotels with conference facilities, convention centers, banquet halls, rooftops for social events, and even offbeat spaces like art galleries, breweries, and outdoor gardens for informal gatherings.",
+  },
+  {
+    question: "What should be included in a corporate event budget?",
+    answer: "A typical corporate event budget should cover venue rental, catering, audio-visual equipment, decor, entertainment, transportation, marketing or promotional materials, and event staffing costs.",
+  },
+  {
+    question: "How do I choose a theme for a corporate event?",
+    answer: "The theme should align with the event’s purpose and audience. Popular themes include 'Casino Night', 'Gala Dinner', 'Innovation and Technology', 'Retro Party', or 'Outdoor Adventure' for team-building retreats.",
+  },
+  {
+    question: "What activities or entertainment work well at corporate events?",
+    answer: "Depending on the event type, you can include keynote speakers, panel discussions, live bands, DJs, interactive workshops, networking mixers, or even fun team-building games and competitions.",
+  },
+  {
+    question: "Do I need a professional event planner for a corporate event?",
+    answer: "Hiring a professional event planner is recommended for medium to large corporate events. They help manage logistics, vendor negotiations, timelines, and ensure the event runs smoothly, allowing you to focus on the attendees.",
+  },
+  {
+    question: "How can I make my corporate event more engaging?",
+    answer: "Incorporate interactive elements like live polls, Q&A sessions, gamification, branded photo booths, hands-on workshops, and creative networking activities to keep attendees involved and energized.",
+  },
+  {
+    question: "What should I include in a corporate event invitation?",
+    answer: "Include the event name, date, time, venue address, agenda highlights, dress code (if any), RSVP instructions, and any required registration links or materials attendees should bring.",
+  },
+  {
+    question: "What’s a good dress code for a corporate event?",
+    answer: "The dress code depends on the event type. Conferences and seminars typically require business formal or business casual, while corporate parties or retreats might allow for cocktail attire or smart casual outfits.",
+  },
+  {
+    question: "How long should a corporate event last?",
+    answer: "Corporate event durations vary: seminars and conferences can run all day, networking mixers often last 2-4 hours, and award ceremonies or galas typically span 3-5 hours including dinner and entertainment.",
+  },
+  {
+    question: "How do I evaluate the success of a corporate event?",
+    answer: "Use post-event surveys, feedback forms, attendee engagement metrics, social media mentions, and business outcomes like leads generated or employee satisfaction to measure the success of your event.",
+  },
+];
 
 function EventPage() {
   const { name } = useParams()
@@ -176,7 +279,7 @@ function EventPage() {
               <ul>
                 <li><a href="#wedding-venue">Find <span>{name}</span> Venues</a></li>
                 <li><a href="#wedding-team">Build Your <span>{name}</span> Team</a></li>
-                <li><a href="#">Browse <span>{name}</span> Ideas</a></li>
+                <li><Link to="/PageIdea">Browse <span>{name}</span> Ideas</Link></li>
               </ul>
             </div>
 
@@ -199,7 +302,7 @@ function EventPage() {
         </p>
         <div id="wedding-venue" className="wedding-venue-grid">
           {venues.map((venue, index) => (
-            <Link to={`/venues/Mumbai?type=${venue?.type}`}>
+            <Link to={`/venues/?type=${venue?.type}`}>
               <div key={index} className="wedding-venue-card">
                 <img
                   src={venue.image}
@@ -216,7 +319,7 @@ function EventPage() {
 
         </div>
         <div className='All-venues'>
-          <Link to="/venues/Mumbai">Browse All {name} Venues</Link>
+          <Link to="/venues">Browse All {name} Venues</Link>
         </div>
       </div>
       <div id="wedding-team" className="wedding-team">
@@ -298,7 +401,7 @@ function EventPage() {
         </p>
         <div id="wedding-venue" className="wedding-venue-grid">
           {venues.map((venue, index) => (
-            <Link to={`/venues/Mumbai?type=${venue?.type}`}>
+            <Link to={`/venues/?type=${venue?.type}`}>
               <div key={index} className="wedding-venue-card">
                 <img
                   src={venue.image}
@@ -315,7 +418,7 @@ function EventPage() {
 
         </div>
         <div className='All-venues'>
-          <Link to="/venues/Mumbai?type=Banquet">Browse All {name} Venues</Link>
+          <Link to="/venues">Browse All {name} Venues</Link>
         </div>
       </div>
       <div id="wedding-team" className="wedding-team">
@@ -325,6 +428,7 @@ function EventPage() {
             </p>
             <div className="wedding-team-grid">
               {weddingServices.map((service, index) => (
+                 <Link to={`/vendors?type=${service?.category}`}>
                 <div key={index} className="wedding-service-card">
 
                   <img src={service.image} alt={service.title} className="wedding-service-image" />
@@ -336,6 +440,7 @@ function EventPage() {
                   </div>
 
                 </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -362,7 +467,7 @@ function EventPage() {
             <div className="wedding-content">
               <h1><span>{name}</span></h1>
               <p>
-                Your <span>{name}</span> should be as unique as you are as a couple. Every venue and
+                Your <span>{name}</span> should be as unique as you. Every venue and
                 location offers a stunning blank canvas for your customized<span>{name}</span>
                 celebration — and Gill's Event Elegance has all of the resources you might need to
                 make it uniquely you.
@@ -379,6 +484,75 @@ function EventPage() {
               <img src="/images/babyshower.jpg" alt="Birthday" />
             </div>
           </div>
+          <div className='Wedding-slogan'>
+        <p>"Planning your dream <span>{name}</span> has never been easier with Gill's Event Elegance! Simply share your guest count and preferences, and we’ll help you discover breathtaking venues you may not have considered. With our seamless messaging and quick responses, booking your perfect venue is stress-free. Let us make your special day truly unforgettable!"</p>
+        <p2>~ Gill's Event Elegance</p2>
+      </div>
+          
+            <div className="wedding2-container">
+        <h1 className="wedding-title">Find Your Dream <span>{name}</span> Venue</h1>
+        <p className="wedding-description">
+          Discover stunning <span>{name}</span> venues that match your style and vision.
+          From elegant ballrooms to scenic outdoor spaces, we have the perfect setting for your big day.
+        </p>
+        <div id="wedding-venue" className="wedding-venue-grid">
+          {venues.map((venue, index) => (
+            <Link to={`/venues/?type=${venue?.type}`}>
+              <div key={index} className="wedding-venue-card">
+                <img
+                  src={venue.image}
+                  alt={venue.title}
+                  className="wedding-venue-image"
+                />
+                <div className="wedding-venue-info">
+                  <h2 className="wedding-venue-title">{venue.title}</h2>
+                </div>
+
+              </div>
+            </Link>
+          ))}
+
+        </div>
+        <div className='All-venues'>
+          <Link to="/venues">Browse All {name} Venues</Link>
+        </div>
+      </div>
+      <div id="wedding-team" className="wedding-team">
+            <h1 className="wedding-team-title">Build Your {name} Team</h1>
+            <p className="wedding-team-description">
+              Hiring a team of <span className="highlightText">top {name}  professionals</span> means you can focus less on the details and more on your celebration. Gill's Event Elegance features the top companies for every {name}  need. Browse photo albums from <span className="highlightText">top {name}  photographers</span> , {name}  cake designs from family-owned bakeries, portfolios from <span className="highlightText">top {name}  makeup artists</span>, and much more.
+            </p>
+            <div className="wedding-team-grid">
+              {weddingServices.map((service, index) => (
+                 <Link to={`/vendors?type=${service?.category}`}>
+                <div key={index} className="wedding-service-card">
+
+                  <img src={service.image} alt={service.title} className="wedding-service-image" />
+                  <div className="wedding-service-content">
+                    <Link to="/vendors">
+                      <h2 className="wedding-service-title">{service.title} &gt;</h2>
+                    </Link>
+                    <p className="wedding-service-text">{service.description}</p>
+                  </div>
+
+                </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="faq-container">
+        <h1 className="faq-title">{name} FAQs</h1>
+        <Accordion className="faq-Accordion" >
+          {babyShowerFaqs.map((babyShowerFaqs, index) => (
+            <Accordion.Item eventKey={index} key={index} className='faq-item'>
+              <Accordion.Header>{`${index + 1}. ${babyShowerFaqs.question}`}</Accordion.Header>
+              <Accordion.Body>
+                <div className="faq-answer">{babyShowerFaqs.answer}</div>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </div>
         </>
       }
       {
@@ -389,7 +563,7 @@ function EventPage() {
             <div className="wedding-content">
               <h1><span>{name}</span></h1>
               <p>
-                Your <span>{name}</span> should be as unique as you are as a couple. Every venue and
+                Your <span>{name}</span> should be as unique . Every venue and
                 location offers a stunning blank canvas for your customized<span>{name}</span>
                 celebration — and Gill's Event Elegance has all of the resources you might need to
                 make it uniquely you.
@@ -406,6 +580,75 @@ function EventPage() {
               <img src="/images/corporate.jpg" alt="corporate" />
             </div>
           </div>
+          <div className='Wedding-slogan'>
+        <p>"Planning your dream <span>{name}</span> has never been easier with Gill's Event Elegance! Simply share your guest count and preferences, and we’ll help you discover breathtaking venues you may not have considered. With our seamless messaging and quick responses, booking your perfect venue is stress-free. Let us make your special day truly unforgettable!"</p>
+        <p2>~ Gill's Event Elegance</p2>
+      </div>
+          
+            <div className="wedding2-container">
+        <h1 className="wedding-title">Find Your Dream <span>{name}</span> Venue</h1>
+        <p className="wedding-description">
+          Discover stunning <span>{name}</span> venues that match your style and vision.
+          From elegant ballrooms to scenic outdoor spaces, we have the perfect setting for your big day.
+        </p>
+        <div id="wedding-venue" className="wedding-venue-grid">
+          {venues.map((venue, index) => (
+            <Link to={`/venues/?type=${venue?.type}`}>
+              <div key={index} className="wedding-venue-card">
+                <img
+                  src={venue.image}
+                  alt={venue.title}
+                  className="wedding-venue-image"
+                />
+                <div className="wedding-venue-info">
+                  <h2 className="wedding-venue-title">{venue.title}</h2>
+                </div>
+
+              </div>
+            </Link>
+          ))}
+
+        </div>
+        <div className='All-venues'>
+          <Link to="/venues">Browse All {name} Venues</Link>
+        </div>
+      </div>
+      <div id="wedding-team" className="wedding-team">
+            <h1 className="wedding-team-title">Build Your {name} Team</h1>
+            <p className="wedding-team-description">
+              Hiring a team of <span className="highlightText">top {name}  professionals</span> means you can focus less on the details and more on your celebration. Gill's Event Elegance features the top companies for every {name}  need. Browse photo albums from <span className="highlightText">top {name}  photographers</span> , {name}  cake designs from family-owned bakeries, portfolios from <span className="highlightText">top {name}  makeup artists</span>, and much more.
+            </p>
+            <div className="wedding-team-grid">
+              {weddingServices.map((service, index) => (
+                 <Link to={`/vendors?type=${service?.category}`}>
+                <div key={index} className="wedding-service-card">
+
+                  <img src={service.image} alt={service.title} className="wedding-service-image" />
+                  <div className="wedding-service-content">
+                    <Link to="/vendors">
+                      <h2 className="wedding-service-title">{service.title} &gt;</h2>
+                    </Link>
+                    <p className="wedding-service-text">{service.description}</p>
+                  </div>
+
+                </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="faq-container">
+        <h1 className="faq-title">{name} FAQs</h1>
+        <Accordion className="faq-Accordion" >
+          {corporateEventFaqs.map((corporateEventFaqs, index) => (
+            <Accordion.Item eventKey={index} key={index} className='faq-item'>
+              <Accordion.Header>{`${index + 1}. ${corporateEventFaqs.question}`}</Accordion.Header>
+              <Accordion.Body>
+                <div className="faq-answer">{corporateEventFaqs.answer}</div>
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </div>
         </>
       }
 
@@ -424,7 +667,7 @@ function EventPage() {
         </p>
         <div id="wedding-venue" className="wedding-venue-grid">
           {venues.map((venue, index) => (
-            <Link to={`/venues/Mumbai?type=${venue?.type}`}>
+            <Link to={`/venues/?type=${venue?.type}`}>
               <div key={index} className="wedding-venue-card">
                 <img
                   src={venue.image}
@@ -441,7 +684,7 @@ function EventPage() {
 
         </div>
         <div className='All-venues'>
-          <Link to="/venues/Mumbai?type=Banquet">Browse All {name} Venues</Link>
+          <Link to="/venues/?type=Banquet">Browse All {name} Venues</Link>
         </div>
       </div> */}
       {/* <div className="faq-container">

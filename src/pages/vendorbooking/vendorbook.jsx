@@ -4,15 +4,17 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { USER } from '../../components/config/endpoints';
 import { useParams } from 'react-router-dom';
+import Login from '../../components/loginContainer';
 import axios from 'axios';
 import { MEDIA_URL } from '../../components/config/endpoints';
 
-const VendorDetail = ({ open, setOpen }) => {
+const VendorDetail = () => {
     const [vendorDetails, setVendorDetails] = useState({});
     const [services, setVendorservices] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [quoteModal, setQuoteModal] = useState(false);
     let token = localStorage.getItem('acess_token')
+    const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -27,6 +29,13 @@ const VendorDetail = ({ open, setOpen }) => {
       };
     
     
+  const handleBookingClick = () => {
+    if (token) {
+      setQuoteModal(true);
+    } else {
+      setOpen(true); // trigger login modal
+    }
+  }
     
     
       const handleSubmit = async (e) => {
@@ -129,10 +138,10 @@ const VendorDetail = ({ open, setOpen }) => {
 </p>
              <div className='Price-banner'>STARTING PRICE ~ ₹{vendorDetails?.price}</div>
                 <p>If you want to book this vendor, click on "Get a Quote" to receive pricing details.Our team will get back to you with the best pricing and package options tailored to your needs!<br/>
-                <button className="vendor-detail__button" onClick={() => setQuoteModal(true)}>Get a Quote</button></p>
+                <button className="vendor-detail__button" onClick={handleBookingClick}>Get a Quote</button></p>
                 
             </div>
-            <div className="vendor-detail__section4">
+            {/* <div className="vendor-detail__section4">
                 
             <div className="section">
                 <h2>Customer Reviews</h2>
@@ -165,7 +174,7 @@ const VendorDetail = ({ open, setOpen }) => {
                     </div>
                 </div>
             </div>                
-            </div>
+            </div> */}
             {quoteModal && (
                 <div className="vendor-detail__modal">
                     <div className="vendor-detail__modal-content">
@@ -186,7 +195,7 @@ const VendorDetail = ({ open, setOpen }) => {
                     </div>
                 </div>
             )}
-            <section class="review-container">
+            {/* <section class="review-container">
         <h2 class="review-heading">Write a Review</h2>
 
         <form class="review-form">
@@ -204,7 +213,8 @@ const VendorDetail = ({ open, setOpen }) => {
 
             <button type="submit" class="review-button">Submit Review</button>
         </form>
-    </section>
+    </section> */}
+    <Login open={open} setOpen={setOpen} />
         </div>
     );
 };

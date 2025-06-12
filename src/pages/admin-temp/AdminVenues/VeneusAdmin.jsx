@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function ManageVenuePage() {
   const [bookings, setBookings] = useState([]);
+  const [actionStatus, setActionStatus] = useState({});
+
   const [venues, setVenues] = useState([
 
 
@@ -99,7 +101,7 @@ function ManageVenuePage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentVenue, setCurrentVenue] = useState(null);
   const [reloadVenues, setReloadVenues] = useState(false);
-   
+
   const [newVenue, setNewVenue] = useState({
     name: "",
     address: "",
@@ -188,7 +190,7 @@ function ManageVenuePage() {
 
   const deleteVenue = async (id) => {
     try {
-      const result = await axios.delete(`http://localhost:9000/api/admin/delete/${id}`, {
+      const result = await axios.delete(`http://localhost:9000/api/admin/delete-venue/${id}`, {
         headers: {
           acess_token: token,
         },
@@ -273,6 +275,7 @@ function ManageVenuePage() {
 
   //Approve-reject booking
   const handleApprove = async (id) => {
+    setActionStatus(prev => ({ ...prev, [id]: 'approving' }))
     try {
       const result = await axios.post("http://localhost:9000/api/admin/update-status", {
         id, // changed from bookingId
@@ -282,24 +285,30 @@ function ManageVenuePage() {
           acess_token: token,
         },
       });
-  
+
       if (result?.data?.success) {
         toast.success("Booking approved!");
-        fetchAllBookings(); 
+        fetchAllBookings();
       } else {
         toast.error("Failed to approve booking.");
       }
-    } catch (err) {
+
+      setActionStatus(prev => ({ ...prev, [id]: 'approved' }));
+    }
+
+    catch (err) {
       console.error("Error approving booking:", err);
       toast.error("Something went wrong while approving the booking.");
+      setActionStatus(prev => ({ ...prev, [id]: 'error' }));
     }
   };
-  
 
- 
+
+
 
   const handleBookDelete = async (id) => {
     try {
+      setActionStatus(prev => ({ ...prev, [id]: 'deleting' }));
       const result = await axios.post(
         "http://localhost:9000/api/admin/reject-booking",
         { id }, // sending ID in request body
@@ -309,21 +318,24 @@ function ManageVenuePage() {
           },
         }
       );
-  
+
       if (result?.data?.success) {
         toast.success("Booking deleted!");
         fetchAllBookings(); // no need to sendRejectionEmail separately now
       } else {
         toast.error("Failed to delete booking.");
       }
+      setActionStatus(prev => ({ ...prev, [id]: 'deleted' }));
+
     } catch (err) {
       console.error("Error deleting booking:", err);
       toast.error("Something went wrong while deleting the booking.");
+      setActionStatus(prev => ({ ...prev, [id]: 'error' }));
     }
   };
-  
 
-  
+
+
 
   return (
     <div className="admin-venue-container">
@@ -405,7 +417,12 @@ function ManageVenuePage() {
           </thead>
           <tbody>
             {bookings.map((booking, index) => (
-              <tr key={booking.id}>
+              <tr key={booking.id}
+                style={{
+                  backgroundColor: booking.status === 'Rejected' ? '#ffe5e5' : 'transparent',
+                  color: booking.status === 'Rejected' ? '#b00020' : 'inherit',
+                  fontWeight: booking.status === 'Rejected' ? 'bold' : 'normal'
+                }}>
                 <td>{index + 1}</td>
                 <td>{booking.venue?.name || "N/A"}</td> {/* venue name */}
                 <td>{booking.user?.Email || "N/A"}</td>   {/* customer name */}
@@ -417,19 +434,62 @@ function ManageVenuePage() {
                 <td>{new Date(booking.date).toLocaleDateString()}</td>
                 <td>{booking.message}</td>
                 <td>
-                <button
-                  className="admin-venue-edit-btn"
-                  onClick={() => handleApprove(booking.id, booking.user?.Email)}
-                >
-                  Approve
-                </button>
-                <button
-                  className="admin-venue-delete-btn"
-                  onClick={() => handleBookDelete(booking.id, booking.user?.Email)}
-                >
-                  Delete
-                </button>
-                </td>
+  {/* Approve / Approved */}
+  <button
+    onClick={() => handleApprove(booking.id)}
+    disabled={booking.status === 'Confirmed' || actionStatus[booking.id] === 'approving'}
+    style={{
+      padding: '6px 12px',
+      marginRight: '8px',
+      border: '1px solid #800000',
+      borderRadius: '6px',
+      fontWeight: 'bold',
+      backgroundColor:
+        booking.status === 'Confirmed' ? '#800000' : '#ffffff',
+      color:
+        booking.status === 'Confirmed' ? '#ffffff' : '#800000',
+      cursor:
+        booking.status === 'Confirmed' || actionStatus[booking.id] === 'approving'
+          ? 'not-allowed'
+          : 'pointer',
+    }}
+  >
+    {actionStatus[booking.id] === 'approving'
+      ? 'Approving...'
+      : booking.status === 'Confirmed'
+      ? 'Approved'
+      : 'Approve'}
+  </button>
+
+  {/* Delete / Deleted */}
+  <button
+    onClick={() => handleBookDelete(booking.id)}
+    disabled={booking.status === 'Rejected' || actionStatus[booking.id] === 'deleting'}
+    style={{
+      padding: '6px 12px',
+      border: '1px solid #006400',
+      borderRadius: '6px',
+      fontWeight: 'bold',
+      backgroundColor:
+        booking.status === 'Rejected' ? '#006400' : '#ffffff',
+      color:
+        booking.status === 'Rejected' ? '#ffffff' : '#006400',
+      cursor:
+        booking.status === 'Rejected' || actionStatus[booking.id] === 'deleting'
+          ? 'not-allowed'
+          : 'pointer',
+    }}
+  >
+    {actionStatus[booking.id] === 'deleting'
+      ? 'Deleting...'
+      : booking.status === 'Rejected'
+      ? 'Deleted'
+      : 'Delete'}
+  </button>
+</td>
+
+
+
               </tr>
             ))}
           </tbody>

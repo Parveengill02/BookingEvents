@@ -42,13 +42,51 @@ const MyBookings = () => {
               {/* <p><strong>Name:</strong> {booking.name}</p>
               <p><strong>Email:</strong> {booking.email}</p>
               <p><strong>Phone:</strong> {booking.number}</p> */}
+             <p>
+  <span
+    style={{
+      backgroundColor: 'rgb(173, 173, 119)',
+    
+      color: '#ffffff',              // maroon text
+      padding: '4px 12px',
+      borderRadius: '12px',
+      fontWeight: 'bold',
+      fontSize: '0.95rem',
+      display: 'inline-block',
+      marginBottom: '0.5rem',
+      textTransform: 'capitalize'
+    }}
+  >
+    Venue: {booking.venue?.name || 'N/A'}
+  </span>
+</p>
               <p><strong>Event Type:</strong> {booking.event_type}</p>
               <p><strong>Date:</strong> {booking.date}</p>
               <p><strong>Guests:</strong> {booking.guest_count}</p>
               <p><strong>Duration:</strong> {booking.duration}</p>
-              <p><strong>Payment Method:</strong> {booking.payment_method}</p>
+             
               <p><strong>Message:</strong> {booking.message}</p>
-              <p><strong>Status:</strong> {booking.status || 'Pending'}</p>
+              <p>
+  <strong>Status:</strong>{' '}
+  <span style={{
+    backgroundColor: booking.status === 'Confirmed' 
+      ? '#d4edda' 
+      : booking.status === 'Rejected' 
+      ? '#f8d7da' 
+      : '#fff3cd',
+    color: booking.status === 'Confirmed' 
+      ? '#155724' 
+      : booking.status === 'Rejected' 
+      ? '#721c24' 
+      : '#856404',
+    padding: '2px 10px',
+    borderRadius: '8px',
+    fontWeight: 'bold'
+  }}>
+    {booking.status || 'Pending'}
+  </span>
+</p>
+
             </div>
           ))
         ) : (
@@ -64,20 +102,45 @@ const MyBookings = () => {
             <div key={i} className="booking-card">
               {/* <p><strong>Name:</strong> {request.name}</p>
               <p><strong>Email:</strong> {request.email}</p> */}
-              <p><strong>Phone:</strong> {request.number}</p>
+            <p>
+  <span
+    style={{
+      backgroundColor: 'rgb(173, 173, 119)',
+    
+      color: '#ffffff',      
+      padding: '4px 12px',
+      borderRadius: '12px',
+      fontWeight: 'bold',
+      fontSize: '0.95rem',
+      display: 'inline-block',
+      marginBottom: '0.5rem',
+      textTransform: 'capitalize'
+    }}
+  >
+    Vendor: {request.vendor?.name || 'N/A'}
+  </span>
+</p>
+
               <p><strong>Details:</strong> {request.details}</p>
-              <p><strong>Status:</strong> {request.status || 'Pending'}</p>
-              <p role='button' onClick={() => alert("cancel")} style={{
-    marginTop: '1rem',
-    display: 'inline-block',
-    backgroundColor: '#dc3545',
-    color: 'white',
-    border: 'none',
-    padding: '0.5rem 1rem',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease'
-  }}> Cancel</p>
+              <p><strong>Status:</strong>{' '}
+  <span style={{
+    backgroundColor: request.status === 'Confirmed' 
+      ? '#d4edda' 
+      : request.status === 'Rejected' 
+      ? '#f8d7da' 
+      : '#fff3cd',
+    color: request.status === 'Confirmed' 
+      ? '#155724' 
+      : request.status === 'Rejected' 
+      ? '#721c24' 
+      : '#856404',
+    padding: '2px 10px',
+    borderRadius: '8px',
+    fontWeight: 'bold'
+  }}>
+    {request.status || 'Pending'}
+  </span></p>
+              
             </div>
           ))
         ) : (
